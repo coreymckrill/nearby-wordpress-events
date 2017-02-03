@@ -45,7 +45,7 @@ function nearbywp_render_dashboard_events() {
                 </li>
             <# } #>
 		</ul>
-		<p class="nearbywp-footer"><?php esc_html_e( 'Looking for something closer?' ); ?></p>
+		<p class="nearbywp-footer"><?php esc_html_e( 'Looking for something closer? Search for more ' ); ?><a href="<?php esc_html_e( 'https://www.meetup.com/pro/wordpress/' ); ?>"><?php esc_html_e( 'Meetups' ); ?></a> <?php esc_html_e('or'); ?> <a href="<?php esc_html_e( 'https://central.wordcamp.org/schedule/' ); ?>"><?php esc_html_e( 'WordCamps' ); ?></a>.</p>
 	</script>
 
 	<?php

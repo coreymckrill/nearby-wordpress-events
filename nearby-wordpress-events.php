@@ -16,16 +16,22 @@ defined( 'WPINC' ) or die();
 if ( ! is_admin() ) {
 	return;
 }
+
 require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
 
+/**
+ * Initialize widget functionality
+ */
 function nearbywp_init() {
 	add_action( 'wp_dashboard_setup', 'nearbywp_register_dashboard_widgets' );
 	add_action( 'admin_print_scripts-index.php', 'nearbywp_enqueue_scripts' );
 }
 
 add_action( 'load-index.php', 'nearbywp_init' );
-add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
 
+/**
+ * Register Dashboard widget
+ */
 function nearbywp_register_dashboard_widgets() {
 	wp_add_dashboard_widget(
 		'nearbywp_dashboard_events',
@@ -34,6 +40,9 @@ function nearbywp_register_dashboard_widgets() {
 	);
 }
 
+/**
+ * Enqueue widget scripts and styles
+ */
 function nearbywp_enqueue_scripts() {
 	wp_enqueue_script( 'nearbywp', plugins_url( 'js/dashboard.js', __FILE__ ), array( 'wp-util' ), 1, true );
 	wp_localize_script( 'nearbywp', 'nearbyWP', array(
@@ -47,25 +56,11 @@ function nearbywp_enqueue_scripts() {
 	wp_enqueue_style( 'nearbywp', plugins_url( 'css/dashboard.css', __FILE__ ), array(), 1 );
 }
 
+/**
+ * Ajax handler for fetching widget events
+ */
 function nearbywp_get_events() {
 	check_ajax_referer( 'nearbywp_events' );
-
-	// Dummy data
-	// TODO remove this
-	/*
-	wp_send_json_success( array(
-		'location' => 'Ventura, CA',
-		'events' => array(
-			array(
-				'title' => 'WordCamp Ventura',
-				'type' => 'wordcamp',
-				'date' => date( get_option( 'date_format' ) ),
-				'city' => 'Ventura, CA',
-				'url' => 'http://2014.ventura.wordcamp.org/',
-			),
-		),
-	) );
-	*/
 
 	$user_id = get_current_user_id();
 
@@ -115,6 +110,8 @@ function nearbywp_get_events() {
 
 	wp_send_json_success( $events );
 }
+
+add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
 
 /**
  * Given a HTTP Accept-Language header $header

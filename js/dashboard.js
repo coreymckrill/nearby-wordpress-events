@@ -30,6 +30,11 @@ jQuery( function( $ ) {
 				} );
 		},
 
+		/**
+		 * Send Ajax request to fetch events for the widget
+		 *
+		 * @param data
+		 */
 		getEvents : function( data ) {
 			data = data || {};
 			data._wpnonce = nearbyWP.nonce;

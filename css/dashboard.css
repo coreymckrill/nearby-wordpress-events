@@ -3,13 +3,25 @@
 	padding-top: 0;
 }
 
-.nearbywp-toggle {
+#nearbywp .nearbywp-toggle {
 	color: #0073aa;
+	margin: 5px 0;
+	height: 28px;
 }
 
 .nearbywp-toggle:hover,
 .nearbywp-toggle:active {
 	color: #00a0d2;
+}
+
+#nearbywp-form {
+	margin: 5px 0;
+	height: 28px;
+}
+
+#nearbywp-form .regular-text {
+	margin-top: 2px;
+	width: 50%;
 }
 
 .nearbywp ul {

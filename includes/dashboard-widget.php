@@ -22,7 +22,7 @@ function nearbywp_render_dashboard_events() {
 				<?php printf( __( 'Attend an upcoming event near %s' ), '<strong>{{{ data.location }}}</strong>' ); ?>
 			</h2>
 			<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
-				<?php esc_html_e( 'Not your location?' ); ?>
+				<?php esc_html_e( 'Change location?' ); ?>
 			</button>
 		</div>
 		<ul class="activity-block">

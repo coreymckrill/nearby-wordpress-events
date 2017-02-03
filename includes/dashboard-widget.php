@@ -17,7 +17,7 @@ function nearbywp_render_dashboard_events() {
 			<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
 				<?php esc_html_e( 'Change location?' ); ?>
 			</button>
-            <form id="nearbywp-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
+            <form id="nearbywp-form" class="nearbywp-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
                 <input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" />
 				<?php submit_button( __( 'Submit' ), 'primary', 'nearbywp-submit', false ); ?>
                 <button id="nearbywp-cancel" class="button-secondary"><?php esc_html_e( 'Cancel' ); ?></button>

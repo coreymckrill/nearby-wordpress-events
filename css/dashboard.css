@@ -26,12 +26,6 @@
 	margin: 5px 0;
 }
 
-@media (min-width: 420px) {
-	#nearbywp-form {
-		height: 28px;
-	}
-}
-
 #nearbywp-form .regular-text {
 	margin-top: 2px;
 	width: 50%;

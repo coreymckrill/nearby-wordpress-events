@@ -67,7 +67,7 @@ function nearbywp_get_events() {
 	// cached results
 	$events = get_transient( "nearbywp-{$user_id}" );
 
-	if ( empty( $events ) || isset( $_POST['location'] ) || true ) {
+	if ( empty( $events ) || isset( $_POST['location'] ) ) {
 		$args = array(
 			'locale'      => get_user_locale( $user_id ),
 			'coordinates' => get_user_meta( $user_id, 'nearbywp', true ),

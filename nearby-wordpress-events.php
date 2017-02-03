@@ -13,18 +13,19 @@ License:     GPL2
 
 defined( 'WPINC' ) or die();
 
-function nearbywp_bootstrap() {
-	if ( is_admin() ) {
-		require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
-	}
-
-	require_once( dirname( __FILE__ ) . '/includes/front-end-widget.php' );
-
-	add_action( 'wp_dashboard_setup',    'nearbywp_register_dashboard_widgets' );
-	add_action( 'widgets_init',          'nearbywp_register_front_end_widgets' );
-	add_action( 'admin_enqueue_scripts', 'nearbywp_enqueue_scripts' );
-	add_action( 'wp_enqueue_scripts',    'nearbywp_enqueue_scripts' );
+if ( ! is_admin() ) {
+	return;
 }
+require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
+
+function nearbywp_init() {
+	add_action( 'wp_dashboard_setup', 'nearbywp_register_dashboard_widgets' );
+	add_action( 'admin_print_scripts-index.php', 'nearbywp_enqueue_scripts' );
+
+}
+add_action( 'load-index.php', 'nearbywp_init' );
+add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
+
 
 function nearbywp_register_dashboard_widgets() {
 	wp_add_dashboard_widget(
@@ -34,66 +35,65 @@ function nearbywp_register_dashboard_widgets() {
 	);
 }
 
-function nearbywp_register_front_end_widgets() {
-	register_widget( 'NearbyWP_Front_End_Widget' );
-}
-
 function nearbywp_enqueue_scripts() {
-	wp_register_script(
-		'nearbywp-common-script',
-		plugins_url( 'js/common.js', __FILE__ ),
-		array(),
-		1,
-		true
-	);
+	wp_enqueue_script( 'nearbywp', plugins_url( 'js/dashboard.js', __FILE__ ), array( 'wp-util' ), 1, true );
+	wp_localize_script( 'nearbywp', 'nearbyWP', array(
+		'nonce' => wp_create_nonce( 'nearbywp_events' ),
+	) );
 
-	wp_register_script(
-		'nearbywp-dashboard-script',
-		plugins_url( 'js/dashboard.js', __FILE__ ),
-		array(),
-		1,
-		true
-	);
+	wp_register_style( 'nearbywp', plugins_url( 'css/dashboard.css', __FILE__ ), array(), 1 );
+}
 
-	wp_register_script(
-		'nearbywp-front-end-script',
-		plugins_url( 'js/front-end.js', __FILE__ ),
-		array(),
-		1,
-		true
-	);
+function nearbywp_get_events() {
+	check_ajax_referer( 'nearbywp_events' );
+	wp_send_json_success( array(
+		'location' => 'Ventura, CA',
+		'events' => array(
+			array(
+				'title' => 'WordCamp Ventura',
+				'type' => 'wordcamp',
+				'date' => date( get_option( 'date_format' ) ),
+				'city' => 'Ventura, CA',
+				'url' => 'http://2014.ventura.wordcamp.org/',
+			),
+		),
+	) );
 
-	wp_register_style(
-		'nearbywp-dashboard-style',
-		plugins_url( 'css/dashboard.css', __FILE__ ),
-		array(),
-		1
-	);
+	$user_id = get_current_user_id();
 
-	wp_register_style(
-		'nearbywp-front-end-style',
-		plugins_url( 'css/front-end.css', __FILE__ ),
-		array(),
-		1
-	);
+	// cached results
+	$events = get_transient( "nearbywp-{$user_id}" );
 
-	wp_enqueue_script( 'nearbywp-common-script' );
+	if ( empty( $events ) || isset( $_POST['location'] ) ) {
+		$args = array(
+			'locale'      => get_user_locale( $user_id ),
+			'coordinates' => get_user_meta( $user_id, 'nearbywp', true ),
+		);
 
-	if ( is_admin() ) {
-		// todo only enqueue on Dashboard screen
+		// no location
+		if ( empty( $args['coordinates'] ) ) {
+			if ( ! empty( $_POST['nearbywp-location'] ) ) {
+				$args['location'] = wp_unslash( $_POST['location'] );
+			} else {
+				$args['ip']           = $_SERVER['REMOTE_ADDR'];
+				$args['browser_lang'] = '';
+				$args['timezone']     = '';
+			}
+		}
 
-		wp_enqueue_script( 'nearbywp-dashboard-script' );
-		wp_enqueue_style(  'nearbywp-dashboard-style'  );
-	} else {
-		wp_enqueue_script( 'nearbywp-front-end-script' );
-		wp_enqueue_style(  'nearbywp-front-end-style'  );
+		$response = wp_remote_get( 'https://api.wordpress.org/events/1.0/', $args );
+
+		if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
+			$events = json_decode( wp_remote_retrieve_body( $response ), true );
+
+			set_transient( "nearbywp-{$user_id}", $events, DAY_IN_SECONDS );
+			update_user_meta( $user_id, 'nearbywp', $events['coordinates'] );
+		} else {
+			wp_send_json_error( array(
+				'message' => __( 'Unable to get events.' ),
+			) );
+		}
 	}
+
+	wp_send_json_success( $events );
 }
-
-function nearbywp_get_events( $location ) {
-	$events = array();  // remote_get api.wordpress.org/core/widgets/nearby-events/1.0/?location=$location
-
-	return $events;
-}
-
-nearbywp_bootstrap();

@@ -99,7 +99,7 @@ function nearbywp_get_events() {
 			update_user_meta( $user_id, 'nearbywp', $events['coordinates'] );
 		} else {
 			wp_send_json_error( array(
-				'message' => __( 'API Error: No response received.' ),
+				'message' => __( '<strong>API Error</strong>: No response received.' ),
 			) );
 		}
 	}

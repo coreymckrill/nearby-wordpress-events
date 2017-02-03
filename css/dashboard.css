@@ -33,7 +33,20 @@
 
 .nearbywp ul {
 	background-color: #fafafa;
+	padding-left: 0;
+	padding-right: 0;
+}
 
+.nearbywp li {
+	margin: 0;
+	padding: 8px 12px;
+}
+.nearbywp li:first-child {
+	padding-top: 0;
+}
+
+.nearbywp li ~ li {
+	border-top: 1px solid #eee;
 }
 
 .event-icon {

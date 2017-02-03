@@ -51,6 +51,12 @@
 	height: 36px;
 	margin-right: 10px;
 	width: 36px;
+	display: none; /* Hide on smaller screens */
+}
+@media screen and (min-width: 355px) {
+	.event-icon {
+		display: inline-block;
+	}
 }
 
 .event-icon:before {
@@ -73,6 +79,7 @@
 
 .nearbywp .event-info {
 	display: inline-block;
+	max-width: 50%;
 }
 
 .nearbywp .event-date {

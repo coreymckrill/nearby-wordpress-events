@@ -35,11 +35,11 @@ function nearbywp_render_dashboard_events() {
                 <# _.each( data.events, function( event ) { #>
                     <li class="event-{{ event.type }}">
                         <div class="dashicons event-icon"></div>
+                        <div class="event-date">{{ event.date }}</div>
                         <div class="event-info">
                             <a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
                             <span class="event-city">{{ event.city }}</span>
                         </div>
-                        <div class="event-date">{{ event.date }}</div>
                     </li>
                 <# } ) #>
             <# } else { #>

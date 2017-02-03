@@ -1,0 +1,54 @@
+.inside .activity-block:first-child,
+.inside .nearbywp h2 {
+	padding-top: 0;
+}
+
+.nearbywp-toggle {
+	color: #0073aa;
+}
+
+.nearbywp-toggle:hover,
+.nearbywp-toggle:active {
+	color: #00a0d2;
+}
+
+.nearbywp ul {
+	background-color: #fafafa;
+
+}
+
+.event-icon {
+	height: 36px;
+	margin-right: 10px;
+	width: 36px;
+}
+
+.event-icon:before {
+	color: #0073aa;
+	font-size: 36px;
+}
+
+.event-meetup .event-icon:before {
+	content: "\f484";
+}
+
+.event-wordcamp .event-icon:before {
+	content: "\f486";
+}
+
+.nearbywp .event-title {
+	display: block;
+	font-weight: 600;
+}
+
+.nearbywp .event-info {
+	display: inline-block;
+}
+
+.nearbywp .event-date {
+	float: right;
+}
+
+.nearbywp-footer {
+	margin-bottom: 0;
+}

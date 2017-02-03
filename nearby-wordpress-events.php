@@ -41,7 +41,7 @@ function nearbywp_enqueue_scripts() {
 		'nonce' => wp_create_nonce( 'nearbywp_events' ),
 	) );
 
-	wp_register_style( 'nearbywp', plugins_url( 'css/dashboard.css', __FILE__ ), array(), 1 );
+	wp_enqueue_style( 'nearbywp', plugins_url( 'css/dashboard.css', __FILE__ ), array(), 1 );
 }
 
 function nearbywp_get_events() {
@@ -90,7 +90,7 @@ function nearbywp_get_events() {
 			update_user_meta( $user_id, 'nearbywp', $events['coordinates'] );
 		} else {
 			wp_send_json_error( array(
-				'message' => __( 'Unable to get events.' ),
+				'message' => __( 'API Error: No response received.' ),
 			) );
 		}
 	}

@@ -38,7 +38,7 @@ function nearbywp_render_dashboard_events() {
                         <div class="event-date">{{ event.date }}</div>
                         <div class="event-info">
                             <a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
-                            <span class="event-city">{{ event.city }}</span>
+                            <span class="event-city">{{ event.location.location }}</span>
                         </div>
                     </li>
                 <# } ) #>

@@ -34,7 +34,7 @@ jQuery( function( $ ) {
 		getEvents : function( data ) {
 			data = data || {};
 			data._wpnonce = nearbyWP.nonce;
-			data.tz = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
+			data.tz = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
 
 			$( '#nearbywp-form .spinner' ).addClass( 'is-active' );
 

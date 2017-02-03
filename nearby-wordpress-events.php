@@ -50,6 +50,10 @@ function nearbywp_enqueue_scripts() {
 
 function nearbywp_get_events() {
 	check_ajax_referer( 'nearbywp_events' );
+
+	// Dummy data
+	// TODO remove this
+	/*
 	wp_send_json_success( array(
 		'location' => 'Ventura, CA',
 		'events' => array(
@@ -62,6 +66,7 @@ function nearbywp_get_events() {
 			),
 		),
 	) );
+	*/
 
 	$user_id = get_current_user_id();
 

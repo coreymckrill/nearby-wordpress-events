@@ -13,25 +13,12 @@ jQuery( function( $ ) {
 
 			$( '#nearbywp' )
 				.on( 'click', '#nearbywp-toggle', function() {
-					$( this )
-						.replaceWith( $( '#nearbywp-form' ) )
-						.show();
-
-					if ( window.navigator.geolocation ) {
-						$( '#nearbywp-form' ).append( $( '<button id="nearbywp-geolocate" class="button-link nearbywp-geolocate">' ).text( nearbyWP.l10n.geolocate ) );
-					}
+					$( this ).hide();
+					$( '#nearbywp-form' ).show();
 				} )
-				.on( 'click', '#nearbywp-geolocate', function() {
-					navigator.geolocation.getCurrentPosition(
-						function( position ) {
-							app.getEvents( {
-								coordinates: position.coords
-							} );
-						},
-						function() {
-							$( this ).replaceWith( $( '<span>' ).text( nearbyWP.l10n.geolocateError ) );
-						}
-					);
+				.on( 'click', '#nearbywp-cancel', function() {
+					$( '#nearbywp-form' ).hide();
+					$( '#nearbywp-toggle' ).show();
 				} )
 				.on( 'submit', '#nearbywp-form', function( event ) {
 					event.preventDefault();
@@ -46,7 +33,12 @@ jQuery( function( $ ) {
 			data = data || {};
 			data._wpnonce = nearbyWP.nonce;
 
+			$( '#nearbywp-form .spinner' ).addClass( 'is-active' );
+
 			wp.ajax.post( 'nearbywp_get_events', data )
+				.always( function() {
+					$( '#nearbywp-form .spinner' ).removeClass( 'is-active' );
+				} )
 				.done( function( events ) {
 					var template = wp.template( 'nearbywp' );
 

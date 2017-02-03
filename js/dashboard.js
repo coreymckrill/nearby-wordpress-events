@@ -18,7 +18,7 @@ jQuery( function( $ ) {
 						.show();
 
 					if ( window.navigator.geolocation ) {
-						$( '#nearbywp-form' ).append( $( '<button id="nearbywp-geolocate" class="button-secondary">' ).text( nearbyWP.l10n.geolocate ) );
+						$( '#nearbywp-form' ).append( $( '<button id="nearbywp-geolocate" class="button-link nearbywp-geolocate">' ).text( nearbyWP.l10n.geolocate ) );
 					}
 				} )
 				.on( 'click', '#nearbywp-geolocate', function() {

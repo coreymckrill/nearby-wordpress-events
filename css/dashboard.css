@@ -3,20 +3,31 @@
 	padding-top: 0;
 }
 
-#nearbywp .nearbywp-toggle {
+#nearbywp .nearbywp-toggle,
+#nearbywp .nearbywp-geolocate {
 	color: #0073aa;
 	margin: 5px 0;
+}
+
+#nearbywp .nearbywp-geolocate {
+	margin-left: 10px;
+}
+
+#nearbywp .nearbywp-toggle {
 	height: 28px;
 }
 
-#nearbywp .nearbywp-toggle:hover,
-#nearbywp .nearbywp-toggle:active {
+#nearbywp .button-link:hover,
+#nearbywp .button-link:active {
 	color: #00a0d2;
 }
 
 #nearbywp-form {
 	margin: 5px 0;
-	height: 28px;
+
+	@media (min-width: 420px) {
+		height: 28px;
+	}
 }
 
 #nearbywp-form .regular-text {

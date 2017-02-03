@@ -24,8 +24,10 @@
 
 #nearbywp-form {
 	margin: 5px 0;
+}
 
-	@media (min-width: 420px) {
+@media (min-width: 420px) {
+	#nearbywp-form {
 		height: 28px;
 	}
 }

@@ -21,11 +21,10 @@ require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
 function nearbywp_init() {
 	add_action( 'wp_dashboard_setup', 'nearbywp_register_dashboard_widgets' );
 	add_action( 'admin_print_scripts-index.php', 'nearbywp_enqueue_scripts' );
-
 }
+
 add_action( 'load-index.php', 'nearbywp_init' );
 add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
-
 
 function nearbywp_register_dashboard_widgets() {
 	wp_add_dashboard_widget(
@@ -42,7 +41,7 @@ function nearbywp_enqueue_scripts() {
 		'l10n'  => array(
 			'geolocate'      => __( 'Get location' ),
 			'geolocateError' => __( 'Unable to retrieve current location' ),
-		)
+		),
 	) );
 
 	wp_enqueue_style( 'nearbywp', plugins_url( 'css/dashboard.css', __FILE__ ), array(), 1 );
@@ -85,7 +84,7 @@ function nearbywp_get_events() {
 				$args['location'] = wp_unslash( $_POST['location'] );
 			} else {
 				$args['ip']           = $_SERVER['REMOTE_ADDR'];
-				$args['browser_lang'] = '';
+				$args['browser_lang'] = nearbywp_get_http_locales();
 				$args['timezone']     = '';
 			}
 		}
@@ -105,4 +104,23 @@ function nearbywp_get_events() {
 	}
 
 	wp_send_json_success( $events );
+}
+
+/**
+ * Given a HTTP Accept-Language header $header
+ * returns all the locales in it.
+ *
+ * @return array Matched locales.
+ */
+function nearbywp_get_http_locales() {
+	if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+		$locale_part_re = '[a-z]{2,}';
+		$locale_re      = "($locale_part_re(\-$locale_part_re)?)";
+
+		if ( preg_match_all( "/$locale_re/i", $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches ) ) {
+			return $matches[0];
+		}
+	}
+
+	return array();
 }

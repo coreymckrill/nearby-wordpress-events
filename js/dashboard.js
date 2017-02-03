@@ -32,6 +32,7 @@ jQuery( function( $ ) {
 		getEvents : function( data ) {
 			data = data || {};
 			data._wpnonce = nearbyWP.nonce;
+			data.tz = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
 
 			$( '#nearbywp-form .spinner' ).addClass( 'is-active' );
 
@@ -46,7 +47,7 @@ jQuery( function( $ ) {
 
 				} )
 				.fail( function( error ) {
-					$( '#nearbywp' ).text( error.message );
+					$( '#nearbywp' ).html( error.message );
 				} );
 		}
 	};

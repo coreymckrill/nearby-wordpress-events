@@ -85,7 +85,7 @@ function nearbywp_get_events() {
 			} else {
 				$args['ip']           = $_SERVER['REMOTE_ADDR'];
 				$args['browser_lang'] = nearbywp_get_http_locales();
-				$args['timezone']     = '';
+				$args['timezone']     = wp_unslash( $_POST['tz'] );
 			}
 		}
 

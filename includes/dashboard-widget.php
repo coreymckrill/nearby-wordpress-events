@@ -4,6 +4,9 @@ defined( 'WPINC' ) or die();
 
 function nearbywp_render_dashboard_events() {
 	?>
+    <div class="hide-if-js">
+        <?php esc_html_e( 'This widget requires JavaScript.' ); ?>
+    </div>
 	<div id="nearbywp" class="hide-if-no-js nearbywp">
 		<span class="spinner is-active"></span>
 		<?php esc_html_e( 'Loading&hellip;' ); ?>

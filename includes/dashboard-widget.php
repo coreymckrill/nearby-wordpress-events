@@ -6,7 +6,7 @@ function nearbywp_render_dashboard_events() {
 	?>
 
 	<div class="hide-if-js">
-		<form id="nearbywp-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
+		<form id="nearbywp-form" class="nearbywp-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
 			<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" />
 			<?php submit_button( __( 'Submit' ), 'primary', 'nearbywp-submit', false ); ?>
 		</form>

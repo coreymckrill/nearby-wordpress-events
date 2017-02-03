@@ -3,30 +3,27 @@
 	padding-top: 0;
 }
 
-#nearbywp .nearbywp-toggle,
-#nearbywp .nearbywp-geolocate {
+.nearbywp .nearbywp-toggle {
 	color: #0073aa;
+	height: 28px;
 	margin: 5px 0;
 }
-
-#nearbywp .nearbywp-geolocate {
-	margin-left: 10px;
+@media screen and (max-width: 782px) {
+	.nearbywp .nearbywp-toggle {
+		height: 38px;
+	}
 }
 
-#nearbywp .nearbywp-toggle {
-	height: 28px;
-}
-
-#nearbywp .button-link:hover,
-#nearbywp .button-link:active {
+.button-link:hover,
+.button-link:active {
 	color: #00a0d2;
 }
 
-#nearbywp-form {
+.nearbywp-form {
 	margin: 5px 0;
 }
 
-#nearbywp-form .regular-text {
+.nearbywp-form .regular-text {
 	margin-top: 2px;
 	width: 50%;
 }

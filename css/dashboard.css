@@ -9,8 +9,8 @@
 	height: 28px;
 }
 
-.nearbywp-toggle:hover,
-.nearbywp-toggle:active {
+#nearbywp .nearbywp-toggle:hover,
+#nearbywp .nearbywp-toggle:active {
 	color: #00a0d2;
 }
 

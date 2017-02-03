@@ -94,11 +94,21 @@ function nearbywp_get_events() {
 		if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 			$events = json_decode( wp_remote_retrieve_body( $response ), true );
 
+			if ( ! isset( $events['location'], $events['events'] ) ) {
+				wp_send_json_error( array(
+					'message' => esc_html__( 'API Error: Invalid response.' ),
+				) );
+			}
+
+			foreach ( $events['events'] as $key => $event ) {
+				$events['events'][ $key ]['date'] = date_i18n( get_option( 'date_format' ), strtotime( $event['date'] ) );
+			}
+
 			set_transient( "nearbywp-{$user_id}", $events, DAY_IN_SECONDS );
 			update_user_meta( $user_id, 'nearbywp', $events['coordinates'] );
 		} else {
 			wp_send_json_error( array(
-				'message' => esc_html__( '<strong>API Error</strong>: No response received.' ),
+				'message' => esc_html__( 'API Error: No response received.' ),
 			) );
 		}
 	}

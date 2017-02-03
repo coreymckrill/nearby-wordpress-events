@@ -15,6 +15,7 @@ jQuery( function( $ ) {
 				.on( 'click', '#nearbywp-toggle', function() {
 					$( this ).hide();
 					$( '#nearbywp-form' ).show();
+					$('#nearbywp-location').focus();
 				} )
 				.on( 'click', '#nearbywp-cancel', function( event ) {
 					$( '#nearbywp-form' ).hide();

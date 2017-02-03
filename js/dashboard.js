@@ -13,20 +13,25 @@ jQuery( function( $ ) {
 
 			$( '#nearbywp' )
 				.on( 'click', '#nearbywp-toggle', function() {
-					if ( window.navigator.geolocation ) {
-						navigator.geolocation.getCurrentPosition(
-							function( position ) {
-								app.getEvents( {
-									coordinates: position.coords
-								} )
-							},
-							function() {
-								alert( "Unable to retrieve your location" );
-							}
-						);
-					}
+					$( this )
+						.replaceWith( $( '#nearbywp-form' ) )
+						.show();
 
-					$( this ).replaceWith( $( '#nearbywp-form' ) ).show();
+					if ( window.navigator.geolocation ) {
+						$( '#nearbywp-form' ).append( $( '<button id="nearbywp-geolocate" class="button-secondary">' ).text( nearbyWP.l10n.geolocate ) );
+					}
+				} )
+				.on( 'click', '#nearbywp-geolocate', function() {
+					navigator.geolocation.getCurrentPosition(
+						function( position ) {
+							app.getEvents( {
+								coordinates: position.coords
+							} );
+						},
+						function() {
+							$( this ).replaceWith( $( '<span>' ).text( nearbyWP.l10n.geolocateError ) );
+						}
+					);
 				} )
 				.on( 'submit', '#nearbywp-form', function( event ) {
 					event.preventDefault();

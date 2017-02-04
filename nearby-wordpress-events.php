@@ -76,7 +76,7 @@ function nearbywp_get_events() {
 		// no location
 		if ( empty( $args['coordinates'] ) ) {
 			if ( ! empty( $_POST['nearbywp-location'] ) ) {
-				$args['location'] = wp_unslash( $_POST['location'] );
+				$args['location'] = wp_unslash( $_POST['nearbywp-location'] );
 			} else {
 				$args['ip']           = $_SERVER['REMOTE_ADDR'];
 				$args['browser_lang'] = nearbywp_get_http_locales();

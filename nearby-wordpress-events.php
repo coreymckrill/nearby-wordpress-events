@@ -69,7 +69,7 @@ function nearbywp_get_events() {
 
 	if ( empty( $events ) || isset( $_POST['location'] ) ) {
 		$args = array(
-			'locale'      => ( function_exists( 'get_user_locale' ) ) ? get_user_locale( $user_id ) : 'en_US',
+			'locale'      => ( function_exists( 'get_user_locale' ) ) ? get_user_locale( $user_id ) : get_locale(),
 			'coordinates' => get_user_meta( $user_id, 'nearbywp', true ),
 		);
 

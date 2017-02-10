@@ -35,7 +35,7 @@ add_action( 'load-index.php', 'nearbywp_init' );
 function nearbywp_register_dashboard_widgets() {
 	wp_add_dashboard_widget(
 		'nearbywp_dashboard_events',
-		esc_html__( 'Nearby WordPress Events', 'nearbywp' ),
+		esc_html__( 'WordPress Events and News', 'nearbywp' ),
 		'nearbywp_render_dashboard_events'
 	);
 }

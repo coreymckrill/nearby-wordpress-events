@@ -36,7 +36,7 @@ function nearbywp_register_dashboard_widgets() {
 	wp_add_dashboard_widget(
 		'nearbywp_dashboard_events',
 		esc_html__( 'WordPress Events and News', 'nearbywp' ),
-		'nearbywp_render_dashboard_events'
+		'nearbywp_render_dashboard_widget'
 	);
 
 	// Remove WordPress News

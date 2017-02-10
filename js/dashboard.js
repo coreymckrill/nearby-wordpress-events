@@ -59,4 +59,7 @@ jQuery( function( $ ) {
 	};
 
 	app.init();
+
+	// todo Maybe incorporate the ajaxWidgets stuff related to `dashboard_primary`
+	// found in wp-admin/js/dashboard.js
 } );

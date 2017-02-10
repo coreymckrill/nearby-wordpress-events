@@ -38,6 +38,9 @@ function nearbywp_register_dashboard_widgets() {
 		esc_html__( 'WordPress Events and News', 'nearbywp' ),
 		'nearbywp_render_dashboard_events'
 	);
+
+	// Remove WordPress News
+	remove_meta_box( 'dashboard_primary', get_current_screen(), 'side' );
 }
 
 /**

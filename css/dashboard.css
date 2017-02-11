@@ -1,3 +1,7 @@
+.nearbywp {
+	margin-bottom: 12px;
+}
+
 .inside .activity-block:first-child,
 .inside .nearbywp h2 {
 	padding-top: 0;
@@ -27,6 +31,10 @@
 .nearbywp-form .regular-text {
 	margin-top: 2px;
 	width: 50%;
+}
+
+.nearbywp .activity-block > p {
+	margin-bottom: 0;
 }
 
 .nearbywp ul {
@@ -79,13 +87,12 @@
 }
 
 .nearbywp .event-title {
-	display: block;
 	font-weight: 600;
 }
 
 .nearbywp .event-info {
 	display: inline-block;
-	max-width: 50%;
+	max-width: 60%;
 }
 
 .nearbywp .event-date {
@@ -94,4 +101,25 @@
 
 .nearbywp-footer {
 	margin-bottom: 0;
+	margin-left: -12px;
+	width: 100%;
+	padding: 12px 12px 0;
+	border-top: 1px solid #eee;
+	color: #ddd;
 }
+
+
+/* News styles */
+
+.dashboard-news-plugin,
+.rssSummary,
+.rss-date {
+	display: none;
+}
+
+.postbox .inside>p:last-child, .rss-widget ul li:last-child {
+	margin-bottom: 12px !important;
+}
+
+
+

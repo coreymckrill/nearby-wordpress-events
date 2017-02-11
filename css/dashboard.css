@@ -33,11 +33,13 @@
 	background-color: #fafafa;
 	padding-left: 0;
 	padding-right: 0;
+	padding-bottom: 0;
 }
 
 .nearbywp li {
 	margin: 0;
 	padding: 8px 12px;
+	color: #72777c;
 }
 .nearbywp li:first-child {
 	padding-top: 0;
@@ -47,10 +49,14 @@
 	border-top: 1px solid #eee;
 }
 
+.nearbywp li:last-child {
+	border-bottom: 1px solid #eee;
+}
+
 .event-icon {
-	height: 36px;
+	height: 18px;
 	margin-right: 10px;
-	width: 36px;
+	width: 18px;
 	display: none; /* Hide on smaller screens */
 }
 @media screen and (min-width: 355px) {
@@ -60,8 +66,8 @@
 }
 
 .event-icon:before {
-	color: #0073aa;
-	font-size: 36px;
+	color: #82878C;
+	font-size: 18px;
 }
 
 .event-meetup .event-icon:before {

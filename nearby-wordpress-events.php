@@ -95,7 +95,8 @@ function nearbywp_get_events() {
 			}
 
 			foreach ( $events['events'] as $key => $event ) {
-				$events['events'][ $key ]['date'] = date_i18n( get_option( 'date_format' ), strtotime( $event['date'] ) );
+				/* translators: date and time format for upcoming events on the dashboard, see https://secure.php.net/date */
+				$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
 			}
 
 			set_transient( "nearbywp-{$user_id}", $events, DAY_IN_SECONDS );

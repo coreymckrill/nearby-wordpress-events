@@ -5,12 +5,15 @@
 .inside .activity-block:first-child,
 .inside .nearbywp h2 {
 	padding-top: 0;
+	padding-bottom: 10px;
 }
 
 .nearbywp .nearbywp-toggle {
 	color: #0073aa;
-	height: 28px;
-	margin: 5px 0;
+	/* height: 28px;
+	margin: 5px 0; */
+	position: relative;
+	top: -2px;
 }
 @media screen and (max-width: 782px) {
 	.nearbywp .nearbywp-toggle {
@@ -30,11 +33,16 @@
 
 .nearbywp-form .regular-text {
 	margin-top: 2px;
-	width: 50%;
+	width: 40%;
 }
 
 .nearbywp .activity-block > p {
 	margin-bottom: 0;
+	display: inline;
+}
+
+.nearbywp .activity-block > p > strong {
+	color: #0073aa;
 }
 
 .nearbywp ul {
@@ -88,6 +96,7 @@
 
 .nearbywp .event-title {
 	font-weight: 600;
+	display: block;
 }
 
 .nearbywp .event-info {
@@ -117,7 +126,7 @@
 	display: none;
 }
 
-.postbox .inside>p:last-child, .rss-widget ul li:last-child {
+.rss-widget ul li:last-child {
 	margin-bottom: 12px !important;
 }
 

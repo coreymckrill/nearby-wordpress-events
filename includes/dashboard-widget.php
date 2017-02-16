@@ -31,13 +31,15 @@ function nearbywp_render_js_templates() {
 	<script id="tmpl-nearbywp" type="text/template">
 		<div class="activity-block">
 			<p>
-				<?php printf( __( 'Attend an upcoming event near %s' ), '<strong>{{{ data.location.description }}}</strong>' ); ?>
+				<?php printf( __( 'Attend an upcoming event near %s' ), '<strong>{{{ data.location.description }}}</strong> ' ); ?>
 			</p>
 			<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
-				<?php esc_html_e( 'Change location?' ); ?>
+				<!-- <?php esc_html_e( 'Not your location?' ); ?> -->
+				<span class="dashicons dashicons-edit"></span>
 			</button>
 			<form id="nearbywp-form" class="nearbywp-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
-				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" />
+				<!-- <label>Edit location</label> -->
+				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="Edit location" />
 				<?php submit_button( __( 'Submit' ), 'primary', 'nearbywp-submit', false ); ?>
 				<button id="nearbywp-cancel" class="button button-secondary" type="button"><?php esc_html_e( 'Cancel' ); ?></button>
 				<span class="spinner"></span>
@@ -50,7 +52,7 @@ function nearbywp_render_js_templates() {
 						<div class="dashicons event-icon"></div>
 						<div class="event-date">{{ event.date }}</div>
 						<div class="event-info">
-							<a class="event-title" href="{{ event.url }}">{{ event.title }}</a> &nbsp;|&nbsp;&nbsp;
+							<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
 							<span class="event-city">{{ event.location.location }}</span>
 						</div>
 					</li>

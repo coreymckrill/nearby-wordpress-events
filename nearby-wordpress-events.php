@@ -13,6 +13,8 @@ License:     GPL2
 
 defined( 'WPINC' ) or die();
 
+define( 'NEARBYWP_VERSION', '0.1' );
+
 if ( ! is_admin() ) {
 	return;
 }
@@ -47,12 +49,24 @@ function nearbywp_register_dashboard_widgets() {
  * Enqueue widget scripts and styles
  */
 function nearbywp_enqueue_scripts() {
-	wp_enqueue_script( 'nearbywp', plugins_url( 'js/dashboard.js', __FILE__ ), array( 'wp-util' ), 1, true );
+	wp_enqueue_style(
+		'nearbywp',
+		plugins_url( 'css/dashboard.css', __FILE__ ),
+		array(),
+		NEARBYWP_VERSION
+	);
+
+	wp_enqueue_script(
+		'nearbywp',
+		plugins_url( 'js/dashboard.js', __FILE__ ),
+		array( 'wp-util' ),
+		NEARBYWP_VERSION,
+		true
+	);
+
 	wp_localize_script( 'nearbywp', 'nearbyWP', array(
 		'nonce' => wp_create_nonce( 'nearbywp_events' ),
 	) );
-
-	wp_enqueue_style( 'nearbywp', plugins_url( 'css/dashboard.css', __FILE__ ), array(), 1 );
 }
 
 /**

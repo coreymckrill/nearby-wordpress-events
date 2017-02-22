@@ -127,16 +127,21 @@
 	display: none;
 }
 
-.nearbywp ~ .rss-widget > ul > li {
+#dashboard_primary .rss-widget {
+	padding: 0;
+	border-bottom: none;
+}
+
+#dashboard_primary .rss-widget > ul > li {
 	padding: 6px 0;
 	margin: 0;
 }
 
-.nearbywp ~ .rss-widget > ul > li:nth-child(3n) {
+#dashboard_primary .rss-widget > ul > li:nth-child(3n) {
 	padding-bottom: 12px;
 }
 
-.nearbywp ~ .rss-widget a.rsswidget {
+#dashboard_primary .rss-widget a.rsswidget {
 	font-size: 13px;
 	line-height: 1.4;
 }

@@ -18,7 +18,7 @@ function nearbywp_render_dashboard_widget() {
 	<?php wp_dashboard_primary(); ?>
 
 	<p class="nearbywp-footer">
-		<a href="<?php esc_html_e( 'https://www.meetup.com/pro/wordpress/' ); ?>"><?php esc_html_e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span></a> | <a href="<?php esc_html_e( 'https://central.wordcamp.org/schedule/' ); ?>"><?php esc_html_e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span></a> | <a href="<?php esc_html_e( 'https://https://wordpress.org/news/' ); ?>"><?php esc_html_e( 'News' ); ?> <span class="dashicons dashicons-external"></span></a>
+		<a href="<?php esc_html_e( 'https://www.meetup.com/pro/wordpress/' ); ?>"><?php esc_html_e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span></a> | <a href="<?php esc_html_e( 'https://central.wordcamp.org/schedule/' ); ?>"><?php esc_html_e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span></a> | <a href="<?php esc_html_e( 'https://wordpress.org/news/' ); ?>"><?php esc_html_e( 'News' ); ?> <span class="dashicons dashicons-external"></span></a>
 	</p>
 	<?php
 }

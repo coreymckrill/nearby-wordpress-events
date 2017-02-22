@@ -61,36 +61,46 @@ function nearbywp_enqueue_scripts() {
 function nearbywp_get_events() {
 	check_ajax_referer( 'nearbywp_events' );
 
+	$api_url = 'https://api.wordpress.org/events/1.0/';
+
 	$user_id = get_current_user_id();
+	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
+	$transient_key = 'nearbywp-' . md5( maybe_serialize( $user_location ) );
 
 	// cached results
-	$events = get_transient( "nearbywp-{$user_id}" );
+	$events = get_transient( $transient_key );
 
 	if ( empty( $events ) || isset( $_POST['location'] ) ) {
 		$args = array(
-			'locale'      => ( function_exists( 'get_user_locale' ) ) ? get_user_locale( $user_id ) : get_locale(),
-			'coordinates' => get_user_meta( $user_id, 'nearbywp', true ),
+			'number' => 3,
+			'ip'     => $_SERVER['REMOTE_ADDR'],
+			'locale' => ( function_exists( 'get_user_locale' ) ) ? get_user_locale( $user_id ) : get_locale(),
 		);
 
-		// no location
-		if ( empty( $args['coordinates'] ) ) {
-			if ( ! empty( $_POST['nearbywp-location'] ) ) {
-				$args['location'] = wp_unslash( $_POST['nearbywp-location'] );
-			} else {
-				$args['ip']           = $_SERVER['REMOTE_ADDR'];
-				$args['browser_lang'] = nearbywp_get_http_locales();
-				$args['timezone']     = wp_unslash( $_POST['tz'] );
-			}
+		if ( isset( $_POST['tz'] ) ) {
+			$args['timezone'] = wp_unslash( $_POST['tz'] );
 		}
 
-		$response = wp_remote_get( 'https://api.wordpress.org/events/1.0/', $args );
+		if ( isset( $_POST['location'] ) ) {
+			$args['location'] = wp_unslash( $_POST['location'] );
+		} else if ( isset( $user_location['latitude'], $user_location['longitude'] ) ) {
+			// Send pre-determined location
+			$args['latitude']  = $user_location['latitude'];
+			$args['longitude'] = $user_location['longitude'];
+		}
 
-		if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
+		$request_url = add_query_arg( $args, $api_url );
+		$response = wp_remote_get( $request_url );
+		$response_code = wp_remote_retrieve_response_code( $response );
+
+		if ( 200 === $response_code ) {
 			$events = json_decode( wp_remote_retrieve_body( $response ), true );
 
 			if ( ! isset( $events['location'], $events['events'] ) ) {
+				$message = ( isset( $events['error'] ) ) ? $events['error'] : __( 'API Error: Invalid response.' );
+
 				wp_send_json_error( array(
-					'message' => esc_html__( 'API Error: Invalid response.' ),
+					'message' => esc_html( $message ),
 				) );
 			}
 
@@ -99,11 +109,19 @@ function nearbywp_get_events() {
 				$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
 			}
 
-			set_transient( "nearbywp-{$user_id}", $events, DAY_IN_SECONDS );
-			update_user_meta( $user_id, 'nearbywp', $events['coordinates'] );
+			$cache_expiration = ( isset( $events['ttl'] ) ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
+
+			set_transient( $transient_key, $events, $cache_expiration );
+
+			if ( isset( $_POST['location'] ) || ! $user_location ) {
+				update_user_meta( $user_id, 'nearbywp-location', $events['location'] );
+			}
 		} else {
 			wp_send_json_error( array(
-				'message' => esc_html__( 'API Error: No response received.' ),
+				'message' => esc_html( sprintf(
+					__( 'API Error: %s' ),
+					$response_code
+				) ),
 			) );
 		}
 	}
@@ -112,22 +130,3 @@ function nearbywp_get_events() {
 }
 
 add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
-
-/**
- * Given a HTTP Accept-Language header $header
- * returns all the locales in it.
- *
- * @return array Matched locales.
- */
-function nearbywp_get_http_locales() {
-	if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
-		$locale_part_re = '[a-z]{2,}';
-		$locale_re      = "($locale_part_re(\-$locale_part_re)?)";
-
-		if ( preg_match_all( "/$locale_re/i", $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches ) ) {
-			return $matches[0];
-		}
-	}
-
-	return array();
-}

@@ -3,7 +3,7 @@
 /*
 Plugin Name: Nearby WordPress Events
 Plugin URI:  http://wordpress.org/plugins/neraby-wordpress-events/
-Description: Shows the current user a list of nearby WordPress events via a Dashboard widget and/or a front-end widget
+Description: Shows the current user a list of nearby WordPress events via a Dashboard widget.
 Version:     0.1
 Author:      WordPress
 Author URI:  https://wordpress.org

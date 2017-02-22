@@ -31,11 +31,17 @@ function nearbywp_render_js_templates() {
 	<script id="tmpl-nearbywp" type="text/template">
 		<div class="activity-block">
 			<p>
+                <# if ( data.events.length >= 1 ) { #>
 				<?php printf( __( 'Attend an upcoming event near %s' ), '<strong>{{{ data.location.description }}}</strong> ' ); ?>
+                <# } #>
 			</p>
 			<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
-				<!-- <?php esc_html_e( 'Not your location?' ); ?> -->
-				<span class="dashicons dashicons-edit"></span>
+                <# if ( data.events.length < 1 ) { #>
+	                <?php esc_html_e( 'Find nearby events' ); ?>
+                <# } else { #>
+                    <span class="screen-reader-text"><?php esc_html_e( 'Change location' ); ?></span>
+                <# } #>
+                <span class="dashicons dashicons-edit" aria-hidden="true"></span>
 			</button>
 			<form id="nearbywp-form" class="nearbywp-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
 				<!-- <label>Edit location</label> -->
@@ -45,7 +51,7 @@ function nearbywp_render_js_templates() {
 				<span class="spinner"></span>
 			</form>
 		</div>
-		<ul class="activity-block">
+		<ul id="nearbywp-results" class="activity-block">
 			<# if ( data.events.length ) { #>
 				<# _.each( data.events, function( event ) { #>
 					<li class="event-{{ event.type }}">

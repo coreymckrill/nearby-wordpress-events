@@ -15,7 +15,7 @@ jQuery( function( $ ) {
 				.on( 'click', '#nearbywp-toggle', function() {
 					$( this ).hide();
 					$( '#nearbywp-form' ).show();
-					$('#nearbywp-location').focus();
+					$( '#nearbywp-location' ).focus();
 				} )
 				.on( 'click', '#nearbywp-cancel', function( event ) {
 					$( '#nearbywp-form' ).hide();
@@ -50,7 +50,6 @@ jQuery( function( $ ) {
 					var template = wp.template( 'nearbywp' );
 
 					$( '#nearbywp' ).html( template( events ) );
-
 				} )
 				.fail( function( error ) {
 					$( '#nearbywp' ).html( error.message );

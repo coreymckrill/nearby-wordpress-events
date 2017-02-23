@@ -148,5 +148,9 @@
 	line-height: 1.4;
 }
 
+#dashboard_primary .rss-widget:last-child {
+	padding: 0;
+}
+
 
 

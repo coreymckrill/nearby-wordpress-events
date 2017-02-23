@@ -18,7 +18,7 @@ jQuery( function( $ ) {
 			app.getEvents();
 
 			$( '#nearbywp' )
-				.on( 'click', '#nearbywp-toggle, #nearbywp-description', function() {
+				.on( 'click', '#nearbywp-toggle', function() {
 					$( '#nearbywp-form' ).removeClass( 'hide' );
 					$( '#nearbywp-location' ).focus();
 				} )

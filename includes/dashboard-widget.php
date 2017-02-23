@@ -33,7 +33,7 @@ function nearbywp_render_dashboard_widget() {
 function nearbywp_render_js_templates() {
 	?>
 	<script id="tmpl-nearbywp" type="text/template">
-		<div class="activity-block">
+		<div class="activity-block <# if ( ! data.location.description ) print( 'last' ) #>">
             <# if ( data.location.description ) { #>
                 <p><?php printf( __( 'Attend an upcoming event near %s' ), '<strong>{{{ data.location.description }}}</strong> ' ); ?></p>
                 <button id="nearbywp-toggle" class="button-link nearbywp-toggle">
@@ -52,7 +52,7 @@ function nearbywp_render_js_templates() {
 			</form>
 		</div>
         <# if ( data.location.description ) { #>
-            <ul id="nearbywp-results" class="activity-block">
+            <ul id="nearbywp-results" class="activity-block last">
                 <# if ( data.events.length ) { #>
                     <# _.each( data.events, function( event ) { #>
                         <li class="event-{{ event.type }}">

@@ -43,8 +43,9 @@
 	display: inline;
 }
 
-.nearbywp .activity-block > p > strong {
+.nearbywp-description {
 	color: #0073aa;
+	cursor: pointer;
 }
 
 .nearbywp ul {

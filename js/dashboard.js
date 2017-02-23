@@ -18,14 +18,12 @@ jQuery( function( $ ) {
 			app.getEvents();
 
 			$( '#nearbywp' )
-				.on( 'click', '#nearbywp-toggle', function() {
-					$( this ).addClass( 'hide' );
+				.on( 'click', '#nearbywp-toggle, #nearbywp-description', function() {
 					$( '#nearbywp-form' ).removeClass( 'hide' );
 					$( '#nearbywp-location' ).focus();
 				} )
 				.on( 'click', '#nearbywp-cancel', function() {
 					$( '#nearbywp-form' ).addClass( 'hide' );
-					$( '#nearbywp-toggle' ).removeClass( 'hide' );
 				} )
 				.on( 'submit', '#nearbywp-form', function( event ) {
 					event.preventDefault();

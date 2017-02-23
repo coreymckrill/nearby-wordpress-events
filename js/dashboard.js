@@ -5,10 +5,16 @@ jQuery( function( $ ) {
 
 	var app = wp.NearbyWP.Dashboard = {
 
+		initialized: false,
+
 		/**
 		 * Main entry point
 		 */
 		init : function() {
+			if ( app.initialized ) {
+				return;
+			}
+
 			app.getEvents();
 
 			$( '#nearbywp' )
@@ -28,6 +34,8 @@ jQuery( function( $ ) {
 						location: $( '#nearbywp-location' ).val()
 					} )
 				} );
+
+			app.initialized = true;
 		},
 
 		/**
@@ -57,7 +65,16 @@ jQuery( function( $ ) {
 		}
 	};
 
-	app.init();
+	if ( $( '#nearbywp' ).is( ':visible' ) ) {
+		app.init();
+	} else {
+		$( document ).on( 'postbox-toggled', function( event, postbox ) {
+			var $postbox = $( postbox );
+			if ( 'nearbywp_dashboard_events' === $postbox.attr( 'id' ) && $postbox.is( ':visible' ) ) {
+				app.init();
+			}
+		});
+	}
 
 	// todo Maybe incorporate the ajaxWidgets stuff related to `dashboard_primary`
 	// found in wp-admin/js/dashboard.js

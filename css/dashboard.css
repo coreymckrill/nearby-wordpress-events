@@ -1,6 +1,9 @@
 .nearbywp {
 	margin-bottom: 6px;
 }
+.nearbywp .hide {
+	display: none;
+}
 
 .inside .activity-block:first-child,
 .inside .nearbywp h2 {
@@ -27,7 +30,6 @@
 }
 
 .nearbywp-form {
-	display: none;
 	margin: 5px 0;
 }
 

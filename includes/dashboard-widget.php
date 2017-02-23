@@ -34,45 +34,41 @@ function nearbywp_render_js_templates() {
 	?>
 	<script id="tmpl-nearbywp" type="text/template">
 		<div class="activity-block">
-			<p>
-                <# if ( data.events.length >= 1 ) { #>
-				<?php printf( __( 'Attend an upcoming event near %s' ), '<strong>{{{ data.location.description }}}</strong> ' ); ?>
-                <# } #>
-			</p>
-			<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
-                <# if ( data.events.length < 1 ) { #>
-	                <?php esc_html_e( 'Find nearby events' ); ?>
-                <# } else { #>
+            <# if ( data.location.description ) { #>
+                <p><?php printf( __( 'Attend an upcoming event near %s' ), '<strong>{{{ data.location.description }}}</strong> ' ); ?></p>
+                <button id="nearbywp-toggle" class="button-link nearbywp-toggle">
                     <span class="screen-reader-text"><?php esc_html_e( 'Change location' ); ?></span>
-                <# } #>
-                <span class="dashicons dashicons-edit" aria-hidden="true"></span>
-			</button>
-			<form id="nearbywp-form" class="nearbywp-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
-				<!-- <label>Edit location</label> -->
-				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="Edit location" />
+                    <span class="dashicons dashicons-edit" aria-hidden="true"></span>
+                </button>
+            <# } else { #>
+                <p><?php esc_html_e( 'Enter your location to find nearby events' ); ?></p>
+            <# } #>
+			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
+				<label for="nearbywp-location" class="screen-reader-text"><?php esc_html_e( 'Enter a location' ); ?></label>
+				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'Location' ); ?>" />
 				<?php submit_button( __( 'Submit' ), 'primary', 'nearbywp-submit', false ); ?>
-				<button id="nearbywp-cancel" class="button button-secondary" type="button"><?php esc_html_e( 'Cancel' ); ?></button>
+				<button id="nearbywp-cancel" class="button button-secondary <# if ( ! data.location.description ) print( 'hide' ) #>" type="button"><?php esc_html_e( 'Cancel' ); ?></button>
 				<span class="spinner"></span>
 			</form>
 		</div>
-		<ul id="nearbywp-results" class="activity-block">
-			<# if ( data.events.length ) { #>
-				<# _.each( data.events, function( event ) { #>
-					<li class="event-{{ event.type }}">
-						<div class="dashicons event-icon"></div>
-						<div class="event-date">{{ event.date }}</div>
-						<div class="event-info">
-							<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
-							<span class="event-city">{{ event.location.location }}</span>
-						</div>
-					</li>
-				<# } ) #>
-			<# } else { #>
-				<li class="event-none">
-					<?php esc_html_e( 'No events found.' ); ?>
-				</li>
-			<# } #>
-		</ul>
+        <# if ( data.location.description ) { #>
+            <ul id="nearbywp-results" class="activity-block">
+                <# if ( data.events.length ) { #>
+                    <# _.each( data.events, function( event ) { #>
+                        <li class="event-{{ event.type }}">
+                            <div class="dashicons event-icon" aria-hidden="true"></div>
+                            <div class="event-date">{{ event.date }}</div>
+                            <div class="event-info">
+                                <a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
+                                <span class="event-city">{{ event.location.location }}</span>
+                            </div>
+                        </li>
+                    <# } ) #>
+                <# } else { #>
+                    <li class="event-none"><?php esc_html_e( 'No events found.' ); ?></li>
+                <# } #>
+            </ul>
+        <# } #>
 	</script>
 <?php
 }

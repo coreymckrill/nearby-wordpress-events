@@ -13,13 +13,13 @@ jQuery( function( $ ) {
 
 			$( '#nearbywp' )
 				.on( 'click', '#nearbywp-toggle', function() {
-					$( this ).hide();
-					$( '#nearbywp-form' ).show();
+					$( this ).addClass( 'hide' );
+					$( '#nearbywp-form' ).removeClass( 'hide' );
 					$( '#nearbywp-location' ).focus();
 				} )
-				.on( 'click', '#nearbywp-cancel', function( event ) {
-					$( '#nearbywp-form' ).hide();
-					$( '#nearbywp-toggle' ).show();
+				.on( 'click', '#nearbywp-cancel', function() {
+					$( '#nearbywp-form' ).addClass( 'hide' );
+					$( '#nearbywp-toggle' ).removeClass( 'hide' );
 				} )
 				.on( 'submit', '#nearbywp-form', function( event ) {
 					event.preventDefault();

@@ -115,6 +115,7 @@ function nearbywp_get_events() {
 
 				wp_send_json_error( array(
 					'message' => esc_html( $message ),
+					'api_request_info' => compact( 'request_url', 'response_code', 'events' ),    // @todo remove this during merge to Core
 				) );
 			}
 
@@ -136,10 +137,12 @@ function nearbywp_get_events() {
 					__( 'API Error: %s' ),
 					$response_code
 				) ),
+				'api_request_info' => compact( 'request_url', 'response_code', 'events' ),    // @todo remove this during merge to Core
 			) );
 		}
 	}
 
+	$events['api_request_info'] = compact( 'request_url', 'response_code' );    // @todo remove this during merge to Core
 	wp_send_json_success( $events );
 }
 

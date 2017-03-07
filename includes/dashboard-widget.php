@@ -43,11 +43,11 @@ function nearbywp_render_js_templates() {
                     </button>
                 </p>
             <# } else { #>
-                <p><?php esc_html_e( 'Enter your location to find nearby events' ); ?></p>
+                <p><?php esc_html_e( 'Enter your closest city to find nearby events' ); ?></p>
             <# } #>
 			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
-				<label for="nearbywp-location" class="screen-reader-text"><?php esc_html_e( 'Enter a location' ); ?></label>
-				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'Location' ); ?>" />
+				<label for="nearbywp-location" class="screen-reader-text"><?php esc_html_e( 'Enter a nearby city' ); ?></label>
+				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'City' ); ?>" />
 				<?php submit_button( __( 'Submit' ), 'primary', 'nearbywp-submit', false ); ?>
 				<button id="nearbywp-cancel" class="button button-secondary <# if ( ! data.location.description ) print( 'hide' ) #>" type="button"><?php esc_html_e( 'Cancel' ); ?></button>
 				<span class="spinner"></span>

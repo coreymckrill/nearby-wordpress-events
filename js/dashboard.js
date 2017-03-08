@@ -4,34 +4,36 @@ jQuery( function( $ ) {
 	'use strict';
 
 	var app = wp.NearbyWP.Dashboard = {
-
 		initialized: false,
 
 		/**
 		 * Main entry point
 		 */
-		init : function() {
+		init: function() {
 			if ( app.initialized ) {
 				return;
 			}
 
+			var $container = $( '#nearbywp' );
+
 			app.getEvents();
 
-			$( '#nearbywp' )
-				.on( 'click', '#nearbywp-toggle', function() {
-					$( '#nearbywp-form' ).removeClass( 'hide' );
-					$( '#nearbywp-location' ).focus();
-				} )
-				.on( 'click', '#nearbywp-cancel', function() {
-					$( '#nearbywp-form' ).addClass( 'hide' );
-				} )
-				.on( 'submit', '#nearbywp-form', function( event ) {
-					event.preventDefault();
+			$container.on( 'click', '#nearbywp-toggle', function() {
+				$( '#nearbywp-form' ).removeClass( 'hide' );
+				$( '#nearbywp-location' ).focus();
+			});
 
-					app.getEvents( {
-						location: $( '#nearbywp-location' ).val()
-					} )
-				} );
+			$container.on( 'click', '#nearbywp-cancel', function() {
+				$( '#nearbywp-form' ).addClass( 'hide' );
+			});
+
+			$container.on( 'submit', '#nearbywp-form', function( event ) {
+				event.preventDefault();
+
+				app.getEvents( {
+					location: $( '#nearbywp-location' ).val()
+				} )
+			});
 
 			app.initialized = true;
 		},
@@ -41,25 +43,27 @@ jQuery( function( $ ) {
 		 *
 		 * @param data
 		 */
-		getEvents : function( data ) {
-			data = data || {};
-			data._wpnonce = nearbyWP.nonce;
-			data.tz = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+		getEvents: function( data ) {
+			var $spinner = $( '#nearbywp-form .spinner' );
 
-			$( '#nearbywp-form .spinner' ).addClass( 'is-active' );
+			data          = data || {};
+			data._wpnonce = nearbyWP.nonce;
+			data.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+
+			$spinner.addClass( 'is-active' );
 
 			wp.ajax.post( 'nearbywp_get_events', data )
 				.always( function() {
-					$( '#nearbywp-form .spinner' ).removeClass( 'is-active' );
-				} )
+					$spinner.removeClass( 'is-active' );
+				})
 				.done( function( events ) {
 					var template = wp.template( 'nearbywp' );
 
 					$( '#nearbywp' ).html( template( events ) );
-				} )
+				})
 				.fail( function( error ) {
 					$( '#nearbywp' ).html( error.message );
-				} );
+				});
 		}
 	};
 
@@ -68,12 +72,10 @@ jQuery( function( $ ) {
 	} else {
 		$( document ).on( 'postbox-toggled', function( event, postbox ) {
 			var $postbox = $( postbox );
+
 			if ( 'nearbywp_dashboard_events' === $postbox.attr( 'id' ) && $postbox.is( ':visible' ) ) {
 				app.init();
 			}
 		});
 	}
-
-	// todo Maybe incorporate the ajaxWidgets stuff related to `dashboard_primary`
-	// found in wp-admin/js/dashboard.js
-} );
+});

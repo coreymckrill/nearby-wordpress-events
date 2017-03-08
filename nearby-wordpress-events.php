@@ -28,7 +28,6 @@ function nearbywp_init() {
 	add_action( 'wp_dashboard_setup', 'nearbywp_register_dashboard_widgets' );
 	add_action( 'admin_print_scripts-index.php', 'nearbywp_enqueue_scripts' );
 }
-
 add_action( 'load-index.php', 'nearbywp_init' );
 
 /**
@@ -41,7 +40,7 @@ function nearbywp_register_dashboard_widgets() {
 		'nearbywp_render_dashboard_widget'
 	);
 
-	// Remove WordPress News
+	// Remove WordPress News because we'll incorporate its contents into the new widget
 	remove_meta_box( 'dashboard_primary', get_current_screen(), 'side' );
 }
 
@@ -75,24 +74,21 @@ function nearbywp_enqueue_scripts() {
 function nearbywp_get_events() {
 	check_ajax_referer( 'nearbywp_events' );
 
-	$api_url = 'https://api.wordpress.org/events/1.0/';
-
-	$user_id = get_current_user_id();
+	$api_url       = 'https://api.wordpress.org/events/1.0/';
+	$user_id       = get_current_user_id();
 	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
 	$transient_key = 'nearbywp-' . md5( maybe_serialize( $user_location ) );
-
-	// cached results
-	$events = get_transient( $transient_key );
+	$events        = get_transient( $transient_key );
 
 	if ( empty( $events ) || isset( $_POST['location'] ) ) {
 		$args = array(
 			'number' => 3,
 			'ip'     => nearbywp_get_unsafe_client_ip(),
-			'locale' => ( function_exists( 'get_user_locale' ) ) ? get_user_locale( $user_id ) : get_locale(),
+			'locale' => get_user_locale( $user_id )
 		);
 
-		if ( isset( $_POST['tz'] ) ) {
-			$args['timezone'] = wp_unslash( $_POST['tz'] );
+		if ( isset( $_POST['timezone'] ) ) {
+			$args['timezone'] = wp_unslash( $_POST['timezone'] );
 		}
 
 		if ( isset( $_POST['location'] ) ) {
@@ -103,15 +99,15 @@ function nearbywp_get_events() {
 			$args['longitude'] = $user_location['longitude'];
 		}
 
-		$request_url = add_query_arg( $args, $api_url );
-		$response = wp_remote_get( $request_url );
+		$request_url   = add_query_arg( $args, $api_url );
+		$response      = wp_remote_get( $request_url );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( 200 === $response_code ) {
 			$events = json_decode( wp_remote_retrieve_body( $response ), true );
 
 			if ( ! isset( $events['location'], $events['events'] ) ) {
-				$message = ( isset( $events['error'] ) ) ? $events['error'] : __( 'API Error: Invalid response.' );
+				$message = isset( $events['error'] ) ? $events['error'] : __( 'API Error: Invalid response.' );
 
 				wp_send_json_error( array(
 					'message' => esc_html( $message ),
@@ -124,7 +120,7 @@ function nearbywp_get_events() {
 				$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
 			}
 
-			$cache_expiration = ( isset( $events['ttl'] ) ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
+			$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
 
 			set_transient( $transient_key, $events, $cache_expiration );
 
@@ -133,10 +129,7 @@ function nearbywp_get_events() {
 			}
 		} else {
 			wp_send_json_error( array(
-				'message' => esc_html( sprintf(
-					__( 'API Error: %s' ),
-					$response_code
-				) ),
+				'message' => esc_html( sprintf( __( 'API Error: %s' ), $response_code ) ),
 				'api_request_info' => compact( 'request_url', 'response_code', 'events' ),    // @todo remove this during merge to Core
 			) );
 		}
@@ -152,7 +145,7 @@ add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
  *
  * If the user is making their request through a proxy, or if the web server
  * is behind a proxy, then $_SERVER['REMOTE_ADDR'] will be the proxy address
- * rather than the user.
+ * rather than the user's actual address.
  *
  * Modified from http://stackoverflow.com/a/2031935/450127
  *

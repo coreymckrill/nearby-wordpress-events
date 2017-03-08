@@ -13,8 +13,6 @@
 
 .nearbywp .nearbywp-toggle {
 	color: #0073aa;
-	/* height: 28px;
-	margin: 5px 0; */
 	position: relative;
 }
 @media screen and (max-width: 782px) {
@@ -146,6 +144,3 @@
 #dashboard_primary .rss-widget:last-child {
 	padding: 0;
 }
-
-
-

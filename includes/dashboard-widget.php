@@ -7,10 +7,12 @@ defined( 'WPINC' ) or die();
  */
 function nearbywp_render_dashboard_widget() {
 	?>
+
 	<div id="nearbywp" class="hide-if-no-js nearbywp">
 		<span class="spinner is-active"></span>
 		<?php esc_html_e( 'Loading&hellip;' ); ?>
 	</div>
+
 	<div class="hide-if-js">
 		<?php esc_html_e( 'This widget requires JavaScript.' ); ?>
 	</div>
@@ -22,8 +24,23 @@ function nearbywp_render_dashboard_widget() {
 	</div>
 
 	<p class="nearbywp-footer">
-		<a href="<?php esc_html_e( 'https://www.meetup.com/pro/wordpress/' ); ?>"><?php esc_html_e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span></a> | <a href="<?php esc_html_e( 'https://central.wordcamp.org/schedule/' ); ?>"><?php esc_html_e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span></a> | <a href="<?php esc_html_e( 'https://wordpress.org/news/' ); ?>"><?php esc_html_e( 'News' ); ?> <span class="dashicons dashicons-external"></span></a>
+		<a href="<?php esc_html_e( 'https://www.meetup.com/pro/wordpress/' ); ?>">
+			<?php esc_html_e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span>
+		</a>
+
+		|
+
+		<a href="<?php esc_html_e( 'https://central.wordcamp.org/schedule/' ); ?>">
+			<?php esc_html_e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span>
+		</a>
+
+		|
+
+		<a href="<?php esc_html_e( 'https://wordpress.org/news/' ); ?>">
+			<?php esc_html_e( 'News' ); ?> <span class="dashicons dashicons-external"></span>
+		</a>
 	</p>
+
 	<?php
 }
 
@@ -32,6 +49,7 @@ function nearbywp_render_dashboard_widget() {
  */
 function nearbywp_render_js_templates() {
 	?>
+
 	<script id="tmpl-nearbywp" type="text/template">
 		<div class="activity-block <# if ( ! data.location.description ) print( 'last' ) #>">
             <# if ( data.location.description ) { #>
@@ -45,14 +63,23 @@ function nearbywp_render_js_templates() {
             <# } else { #>
                 <p><?php esc_html_e( 'Enter your closest city to find nearby events' ); ?></p>
             <# } #>
+
 			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
-				<label for="nearbywp-location" class="screen-reader-text"><?php esc_html_e( 'Enter a nearby city' ); ?></label>
+				<label for="nearbywp-location" class="screen-reader-text">
+					<?php esc_html_e( 'Enter a nearby city' ); ?>
+				</label>
 				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'City' ); ?>" />
+
 				<?php submit_button( __( 'Submit' ), 'primary', 'nearbywp-submit', false ); ?>
-				<button id="nearbywp-cancel" class="button button-secondary <# if ( ! data.location.description ) print( 'hide' ) #>" type="button"><?php esc_html_e( 'Cancel' ); ?></button>
+
+				<button id="nearbywp-cancel" class="button button-secondary <# if ( ! data.location.description ) print( 'hide' ) #>" type="button">
+					<?php esc_html_e( 'Cancel' ); ?>
+				</button>
+
 				<span class="spinner"></span>
 			</form>
 		</div>
+
         <# if ( data.location.description ) { #>
             <ul id="nearbywp-results" class="activity-block last">
                 <# if ( data.events.length ) { #>
@@ -72,7 +99,8 @@ function nearbywp_render_js_templates() {
             </ul>
         <# } #>
 	</script>
-<?php
+
+	<?php
 }
 
 add_action( 'admin_print_footer_scripts-index.php', 'nearbywp_render_js_templates' );

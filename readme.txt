@@ -1,5 +1,5 @@
 === Nearby WordPress Events ===
-Contributors:      obenland, coreymckrill, mapk
+Contributors:      azaozz, coreymckrill, dd32, iandunn, iseulde, mapk, obenland, samuelsidler, stephdau, tellyworth
 Tags:              meetup, wordcamp, widget
 Requires at least: 4.7
 Tested up to:      4.7

@@ -87,7 +87,7 @@ function nearbywp_get_events() {
 	if ( empty( $events ) || isset( $_POST['location'] ) ) {
 		$args = array(
 			'number' => 3,
-			'ip'     => $_SERVER['REMOTE_ADDR'],
+			'ip'     => nearbywp_get_unsafe_client_ip(),
 			'locale' => ( function_exists( 'get_user_locale' ) ) ? get_user_locale( $user_id ) : get_locale(),
 		);
 
@@ -145,5 +145,49 @@ function nearbywp_get_events() {
 	$events['api_request_info'] = compact( 'request_url', 'response_code' );    // @todo remove this during merge to Core
 	wp_send_json_success( $events );
 }
-
 add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
+
+/**
+ * Determine the user's actual IP if possible
+ *
+ * If the user is making their request through a proxy, or if the web server
+ * is behind a proxy, then $_SERVER['REMOTE_ADDR'] will be the proxy address
+ * rather than the user.
+ *
+ * Modified from http://stackoverflow.com/a/2031935/450127
+ *
+ * SECURITY WARNING: This function is _NOT_ intended to be used in
+ * circumstances where the authenticity of the IP address matters. This does
+ * _NOT_ guarantee that the returned address is valid or accurate, and it can
+ * be easily spoofed.
+ *
+ * @return false|string `false` on failure, the `string` address on success
+ */
+function nearbywp_get_unsafe_client_ip() {
+	$client_ip = false;
+
+	// In order of preference, with the best ones for this purpose first
+	$address_headers = array(
+		'HTTP_CLIENT_IP',
+		'HTTP_X_FORWARDED_FOR',
+		'HTTP_X_FORWARDED',
+		'HTTP_X_CLUSTER_CLIENT_IP',
+		'HTTP_FORWARDED_FOR',
+		'HTTP_FORWARDED',
+		'REMOTE_ADDR'
+	);
+
+	foreach ( $address_headers as $header ) {
+		if ( array_key_exists( $header, $_SERVER ) ) {
+			// HTTP_X_FORWARDED_FOR can contain a chain of comma-separated
+			// addresses. The first one is the original client. It can't be
+			// trusted for authenticity, but we don't need to for this purpose.
+			$address_chain = explode( ',', $_SERVER[ $header ] );
+			$client_ip     = trim( $address_chain[0] );
+
+			break;
+		}
+	}
+
+	return $client_ip;
+}

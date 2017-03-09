@@ -24,7 +24,7 @@ function nearbywp_render_dashboard_widget() {
 	</div>
 
 	<p class="nearbywp-footer">
-		<a href="<?php esc_html_e( 'https://www.meetup.com/pro/wordpress/' ); ?>">
+		<a href="<?php esc_html_e( 'https://make.wordpress.org/community/meetups-landing-page' ); ?>">
 			<?php esc_html_e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 

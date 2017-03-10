@@ -74,33 +74,17 @@ function nearbywp_enqueue_scripts() {
 function nearbywp_get_events() {
 	check_ajax_referer( 'nearbywp_events' );
 
-	$api_url       = 'https://api.wordpress.org/events/1.0/';
 	$user_id       = get_current_user_id();
 	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
 	$transient_key = 'nearbywp-' . md5( maybe_serialize( $user_location ) );
 	$events        = get_transient( $transient_key );
 
 	if ( empty( $events ) || isset( $_POST['location'] ) ) {
-		$args = array(
-			'number' => 3,
-			'ip'     => nearbywp_get_unsafe_client_ip(),
-			'locale' => get_user_locale( $user_id )
-		);
+		$request_url      = nearbywp_build_api_request_url( $user_id, $user_location );
+		$response         = wp_remote_get( $request_url );
 
-		if ( isset( $_POST['timezone'] ) ) {
-			$args['timezone'] = wp_unslash( $_POST['timezone'] );
 		}
 
-		if ( isset( $_POST['location'] ) ) {
-			$args['location'] = wp_unslash( $_POST['location'] );
-		} else if ( isset( $user_location['latitude'], $user_location['longitude'] ) ) {
-			// Send pre-determined location
-			$args['latitude']  = $user_location['latitude'];
-			$args['longitude'] = $user_location['longitude'];
-		}
-
-		$request_url   = add_query_arg( $args, $api_url );
-		$response      = wp_remote_get( $request_url );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( 200 === $response_code ) {
@@ -139,6 +123,38 @@ function nearbywp_get_events() {
 	wp_send_json_success( $events );
 }
 add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
+
+/**
+ * Build a URL for requests to the Events API
+ *
+ * @param int   $user_id       The ID of the user to build a request for
+ * @param array $user_location The user's location
+ *
+ * @return string
+ */
+function nearbywp_build_api_request_url( $user_id, $user_location ) {
+	$api_url = 'https://api.wordpress.org/events/1.0/';
+
+	$args = array(
+		'number' => 3,
+		'ip'     => nearbywp_get_unsafe_client_ip(),
+		'locale' => get_user_locale( $user_id )
+	);
+
+	if ( isset( $_POST['timezone'] ) ) {
+		$args['timezone'] = wp_unslash( $_POST['timezone'] );
+	}
+
+	if ( isset( $_POST['location'] ) ) {
+		$args['location'] = wp_unslash( $_POST['location'] );
+	} else if ( isset( $user_location['latitude'], $user_location['longitude'] ) ) {
+		// Send pre-determined location
+		$args['latitude']  = $user_location['latitude'];
+		$args['longitude'] = $user_location['longitude'];
+	}
+
+	return add_query_arg( $args, $api_url );
+}
 
 /**
  * Determine the user's actual IP if possible

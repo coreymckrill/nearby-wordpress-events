@@ -82,12 +82,15 @@ function nearbywp_get_events() {
 	if ( empty( $events ) || isset( $_POST['location'] ) ) {
 		$request_url      = nearbywp_build_api_request_url( $user_id, $user_location );
 		$response         = wp_remote_get( $request_url );
+		$response_code    = wp_remote_retrieve_response_code( $response );
 
+		if ( 200 !== $response_code ) {
+			wp_send_json_error( array(
+				'message' => esc_html( sprintf( __( 'API Error: %s' ), $response_code ) ),
+				'api_request_info' => compact( 'request_url', 'response_code', 'events' ),  // @todo remove this during merge to Core
+			) );
 		}
 
-		$response_code = wp_remote_retrieve_response_code( $response );
-
-		if ( 200 === $response_code ) {
 			$events = json_decode( wp_remote_retrieve_body( $response ), true );
 
 			if ( ! isset( $events['location'], $events['events'] ) ) {
@@ -111,11 +114,6 @@ function nearbywp_get_events() {
 			if ( isset( $_POST['location'] ) || ! $user_location ) {
 				update_user_meta( $user_id, 'nearbywp-location', $events['location'] );
 			}
-		} else {
-			wp_send_json_error( array(
-				'message' => esc_html( sprintf( __( 'API Error: %s' ), $response_code ) ),
-				'api_request_info' => compact( 'request_url', 'response_code', 'events' ),    // @todo remove this during merge to Core
-			) );
 		}
 	}
 

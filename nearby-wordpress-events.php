@@ -93,27 +93,25 @@ function nearbywp_get_events() {
 			) );
 		}
 
+		if ( ! isset( $events['location'], $events['events'] ) ) {
+			$message = isset( $events['error'] ) ? $events['error'] : __( 'API Error: Invalid response.' );
 
-			if ( ! isset( $events['location'], $events['events'] ) ) {
-				$message = isset( $events['error'] ) ? $events['error'] : __( 'API Error: Invalid response.' );
+			wp_send_json_error( array(
+				'message' => esc_html( $message ),
+				'api_request_info' => compact( 'request_url', 'response_code', 'events' ),    // @todo remove this during merge to Core
+			) );
+		}
 
-				wp_send_json_error( array(
-					'message' => esc_html( $message ),
-					'api_request_info' => compact( 'request_url', 'response_code', 'events' ),    // @todo remove this during merge to Core
-				) );
-			}
-
-			foreach ( $events['events'] as $key => $event ) {
-				/* translators: date and time format for upcoming events on the dashboard, see https://secure.php.net/date */
-				$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
-			}
+		foreach ( $events['events'] as $key => $event ) {
+			/* translators: date and time format for upcoming events on the dashboard, see https://secure.php.net/date */
+			$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
+		}
 
 
-			set_transient( $transient_key, $events, $cache_expiration );
+		set_transient( $transient_key, $events, $cache_expiration );
 
-			if ( isset( $_POST['location'] ) || ! $user_location ) {
-				update_user_meta( $user_id, 'nearbywp-location', $events['location'] );
-			}
+		if ( isset( $_POST['location'] ) || ! $user_location ) {
+			update_user_meta( $user_id, 'nearbywp-location', $events['location'] );
 		}
 	}
 

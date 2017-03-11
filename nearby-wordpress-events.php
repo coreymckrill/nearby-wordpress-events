@@ -76,7 +76,7 @@ function nearbywp_get_events() {
 
 	$user_id       = get_current_user_id();
 	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
-	$transient_key = 'nearbywp-' . md5( maybe_serialize( $user_location ) );
+	$transient_key = nearbywp_get_events_transient_key( $user_location );
 	$events        = get_transient( $transient_key );
 
 	if ( empty( $events ) || isset( $_POST['location'] ) ) {
@@ -107,7 +107,7 @@ function nearbywp_get_events() {
 			$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
 		}
 
-
+		$transient_key = nearbywp_get_events_transient_key( $events['location'] );
 		set_transient( $transient_key, $events, $cache_expiration );
 
 		if ( isset( $_POST['location'] ) || ! $user_location ) {
@@ -119,6 +119,21 @@ function nearbywp_get_events() {
 	wp_send_json_success( $events );
 }
 add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_get_events' );
+
+/**
+ * Generate a transient key based on user location
+ *
+ * This is only one line, but it's a separate function because it's used multiple
+ * times, and having it abstracted keeps the logic consistent and DRY, which is
+ * less prone to errors.
+ *
+ * @param array $user_location
+ *
+ * @return string
+ */
+function nearbywp_get_events_transient_key( $user_location ) {
+	return 'nearbywp-' . md5( wp_json_encode( $user_location ) );
+}
 
 /**
  * Build a URL for requests to the Events API

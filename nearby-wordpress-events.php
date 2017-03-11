@@ -83,6 +83,8 @@ function nearbywp_get_events() {
 		$request_url      = nearbywp_build_api_request_url( $user_id, $user_location );
 		$response         = wp_remote_get( $request_url );
 		$response_code    = wp_remote_retrieve_response_code( $response );
+		$events           = json_decode( wp_remote_retrieve_body( $response ), true );
+		$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
 
 		if ( 200 !== $response_code ) {
 			wp_send_json_error( array(
@@ -91,7 +93,6 @@ function nearbywp_get_events() {
 			) );
 		}
 
-			$events = json_decode( wp_remote_retrieve_body( $response ), true );
 
 			if ( ! isset( $events['location'], $events['events'] ) ) {
 				$message = isset( $events['error'] ) ? $events['error'] : __( 'API Error: Invalid response.' );
@@ -107,7 +108,6 @@ function nearbywp_get_events() {
 				$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
 			}
 
-			$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
 
 			set_transient( $transient_key, $events, $cache_expiration );
 

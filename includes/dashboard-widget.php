@@ -52,17 +52,21 @@ function nearbywp_render_js_templates() {
 
 	<script id="tmpl-nearbywp" type="text/template">
 		<div class="activity-block <# if ( ! data.location.description ) print( 'last' ) #>">
-            <# if ( data.location.description ) { #>
-                <p>
-                    <?php esc_html_e( 'Attend an upcoming event near' ); ?>
-                    <button id="nearbywp-toggle" class="button-link nearbywp-toggle">
-                        <strong>{{{ data.location.description }}}</strong>
-                        <span class="dashicons dashicons-edit" aria-hidden="true"></span>
-                    </button>
-                </p>
-            <# } else { #>
-                <p><?php esc_html_e( 'Enter your closest city to find nearby events' ); ?></p>
-            <# } #>
+			<# if ( data.location.description ) { #>
+
+				<p>
+					<?php esc_html_e( 'Attend an upcoming event near' ); ?>
+					<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
+						<strong>{{{ data.location.description }}}</strong>
+						<span class="dashicons dashicons-edit" aria-hidden="true"></span>
+					</button>
+				</p>
+
+			<# } else { #>
+
+				<p><?php esc_html_e( 'Enter your closest city to find nearby events' ); ?></p>
+
+			<# } #>
 
 			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
 				<label for="nearbywp-location" class="screen-reader-text">
@@ -80,20 +84,23 @@ function nearbywp_render_js_templates() {
 			</form>
 		</div>
 
-        <# if ( data.location.description ) { #>
-            <ul id="nearbywp-results" class="activity-block last">
-                <# if ( data.events.length ) { #>
-                    <# _.each( data.events, function( event ) { #>
-                        <li class="event-{{ event.type }}">
-                            <div class="dashicons event-icon" aria-hidden="true"></div>
-                            <div class="event-date">{{ event.date }}</div>
-                            <div class="event-info">
-                                <a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
-                                <span class="event-city">{{ event.location.location }}</span>
-                            </div>
-                        </li>
-                    <# } ) #>
-                <# } else { #>
+		<# if ( data.location.description ) { #>
+			<ul id="nearbywp-results" class="activity-block last">
+				<# if ( data.events.length ) { #>
+
+					<# _.each( data.events, function( event ) { #>
+						<li class="event-{{ event.type }}">
+							<div class="dashicons event-icon" aria-hidden="true"></div>
+							<div class="event-date">{{ event.date }}</div>
+							<div class="event-info">
+								<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
+								<span class="event-city">{{ event.location.location }}</span>
+							</div>
+						</li>
+					<# } ) #>
+
+				<# } else { #>
+
 					<li class="event-none">
 						<?php printf(
 							__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="%s">organize one</a>?' ),
@@ -101,12 +108,12 @@ function nearbywp_render_js_templates() {
 							'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/'
 						); ?>
 					</li>
-                <# } #>
-            </ul>
-        <# } #>
+
+				<# } #>
+			</ul>
+		<# } #>
 	</script>
 
 	<?php
 }
-
 add_action( 'admin_print_footer_scripts-index.php', 'nearbywp_render_js_templates' );

@@ -94,7 +94,13 @@ function nearbywp_render_js_templates() {
                         </li>
                     <# } ) #>
                 <# } else { #>
-                    <li class="event-none"><?php esc_html_e( 'No events found.' ); ?></li>
+					<li class="event-none">
+						<?php printf(
+							__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="%s">organize one</a>?' ),
+							'{{data.location.description}}',
+							'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/'
+						); ?>
+					</li>
                 <# } #>
             </ul>
         <# } #>

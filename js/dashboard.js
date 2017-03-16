@@ -59,6 +59,10 @@ jQuery( function( $ ) {
 				.done( function( events ) {
 					var template = wp.template( 'nearbywp' );
 
+					if ( events.hasOwnProperty( 'error' ) && 'no_location_available' === events.error ) {
+						events.unknown_city = data.location;
+					}
+
 					$( '#nearbywp' ).html( template( events ) );
 				})
 				.fail( function( error ) {

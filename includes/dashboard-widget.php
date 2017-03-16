@@ -62,6 +62,15 @@ function nearbywp_render_js_templates() {
 					</button>
 				</p>
 
+			<# } else if ( data.unknown_city ) { #>
+
+				<p>
+					<?php printf(
+						__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city." ),
+						'{{data.unknown_city}}'
+					); ?>
+				</p>
+
 			<# } else { #>
 
 				<p><?php esc_html_e( 'Enter your closest city to find nearby events' ); ?></p>

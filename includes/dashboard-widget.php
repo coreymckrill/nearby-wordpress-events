@@ -15,11 +15,11 @@ function nearbywp_render_dashboard_widget() {
 
 	<div id="nearbywp" class="hide-if-no-js nearbywp">
 		<span class="spinner is-active"></span>
-		<?php esc_html_e( 'Loading&hellip;' ); ?>
+		<?php esc_html_e( 'Loading&hellip;', 'nearby-wordpress-events' ); ?>
 	</div>
 
 	<div class="hide-if-js">
-		<?php esc_html_e( 'This widget requires JavaScript.' ); ?>
+		<?php esc_html_e( 'This widget requires JavaScript.', 'nearby-wordpress-events' ); ?>
 	</div>
 
 	<div id="dashboard_primary">
@@ -29,20 +29,21 @@ function nearbywp_render_dashboard_widget() {
 	</div>
 
 	<p class="nearbywp-footer">
-		<a href="<?php esc_html_e( 'https://make.wordpress.org/community/meetups-landing-page' ); ?>">
-			<?php esc_html_e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span>
+		<a href="https://make.wordpress.org/community/meetups-landing-page">
+			<?php esc_html_e( 'Meetups', 'nearby-wordpress-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 
 		|
 
-		<a href="<?php esc_html_e( 'https://central.wordcamp.org/schedule/' ); ?>">
-			<?php esc_html_e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span>
+		<a href="https://central.wordcamp.org/schedule/">
+			<?php esc_html_e( 'WordCamps', 'nearby-wordpress-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 
 		|
 
+		<?php // translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. ?>
 		<a href="<?php esc_html_e( 'https://wordpress.org/news/' ); ?>">
-			<?php esc_html_e( 'News' ); ?> <span class="dashicons dashicons-external"></span>
+			<?php esc_html_e( 'News', 'nearby-wordpress-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 	</p>
 
@@ -66,38 +67,41 @@ function nearbywp_render_js_templates() {
 			<# if ( data.location.description ) { #>
 
 				<p>
-					<?php esc_html_e( 'Attend an upcoming event near' ); ?>
-					<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
-						<strong>{{{ data.location.description }}}</strong>
-						<span class="dashicons dashicons-edit" aria-hidden="true"></span>
-					</button>
+					<?php // translators: %s is the name of a city ?>
+					<?php printf(
+						__( 'Attend an upcoming event near %s', 'nearby-wordpress-events' ),
+						'<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
+							<strong>{{{ data.location.description }}}</strong>
+							<span class="dashicons dashicons-edit" aria-hidden="true"></span>
+						</button>'
+					); ?>
 				</p>
 
 			<# } else if ( data.unknown_city ) { #>
 
 				<p>
 					<?php printf(
-						__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city." ),
+						__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city.", 'nearby-wordpress-events' ),
 						'{{data.unknown_city}}'
 					); ?>
 				</p>
 
 			<# } else { #>
 
-				<p><?php esc_html_e( 'Enter your closest city to find nearby events:' ); ?></p>
+				<p><?php esc_html_e( 'Enter your closest city to find nearby events:', 'nearby-wordpress-events' ); ?></p>
 
 			<# } #>
 
 			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
 				<label for="nearbywp-location" class="screen-reader-text">
-					<?php esc_html_e( 'Enter a nearby city' ); ?>
+					<?php esc_html_e( 'Enter a nearby city', 'nearby-wordpress-events' ); ?>
 				</label>
-				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'City' ); ?>" />
+				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'City', 'nearby-wordpress-events' ); ?>" />
 
-				<?php submit_button( __( 'Submit' ), 'primary', 'nearbywp-submit', false ); ?>
+				<?php submit_button( __( 'Submit', 'nearby-wordpress-events' ), 'primary', 'nearbywp-submit', false ); ?>
 
 				<button id="nearbywp-cancel" class="button button-secondary <# if ( ! data.location.description ) print( 'hide' ) #>" type="button">
-					<?php esc_html_e( 'Cancel' ); ?>
+					<?php esc_html_e( 'Cancel', 'nearby-wordpress-events' ); ?>
 				</button>
 
 				<span class="spinner"></span>
@@ -123,7 +127,7 @@ function nearbywp_render_js_templates() {
 
 					<li class="event-none">
 						<?php printf(
-							__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="%s">organize one</a>?' ),
+							__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="%s">organize one</a>?', 'nearby-wordpress-events' ),
 							'{{data.location.description}}',
 							'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/'
 						); ?>

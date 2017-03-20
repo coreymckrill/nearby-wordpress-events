@@ -61,7 +61,7 @@ class WP_Nearby_Events {
 		if ( 200 !== $response_code ) {
 			return new WP_Error(
 				'api-error',
-				esc_html( sprintf( __( 'API Error: %s' ), $response_code ) ),
+				esc_html( sprintf( __( 'API Error: %s', 'nearby-wordpress-events' ), $response_code ) ),
 				compact( 'request_url', 'response_code', 'events' ) // @todo remove this during merge to Core
 			);
 		}
@@ -69,14 +69,14 @@ class WP_Nearby_Events {
 		if ( ! isset( $response_body['location'], $response_body['events'] ) ) {
 			return new WP_Error(
 				'api-invalid-response',
-				isset( $response_body['error'] ) ? $response_body['error'] : __( 'API Error: Invalid response.' ),
+				isset( $response_body['error'] ) ? $response_body['error'] : __( 'API Error: Invalid response.', 'nearby-wordpress-events' ),
 				compact( 'request_url', 'response_code', 'events' ) // @todo remove this during merge to Core
 			);
 		}
 
 		foreach ( $response_body['events'] as $key => $event ) {
 			/* translators: date and time format for upcoming events on the dashboard, see https://secure.php.net/date */
-			$response_body['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
+			$response_body['events'][ $key ]['date'] = date_i18n( __( 'M j, Y', 'nearby-wordpress-events' ), strtotime( $event['date'] ) );
 		}
 
 		$this->cache_events( $response_body );

@@ -7,7 +7,7 @@ Description: Shows the current user a list of nearby WordPress events via a Dash
 Version:     0.1
 Author:      WordPress
 Author URI:  https://wordpress.org
-Text Domain: nearbywp
+Text Domain: nearby-wordpress-events
 License:     GPL2
 */
 
@@ -38,7 +38,7 @@ add_action( 'load-index.php', 'nearbywp_init' );
 function nearbywp_register_dashboard_widgets() {
 	wp_add_dashboard_widget(
 		'nearbywp_dashboard_events',
-		esc_html__( 'WordPress Events and News', 'nearbywp' ),
+		esc_html__( 'WordPress Events and News', 'nearby-wordpress-events' ),
 		'nearbywp_render_dashboard_widget'
 	);
 

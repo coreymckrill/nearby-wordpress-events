@@ -50,6 +50,10 @@ function nearbywp_register_dashboard_widgets() {
  * Enqueue dashboard widget scripts and styles
  */
 function nearbywp_enqueue_scripts() {
+	$user_id       = get_current_user_id();
+	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
+	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
+
 	wp_enqueue_style(
 		'nearbywp',
 		plugins_url( 'css/dashboard.css', __FILE__ ),
@@ -67,6 +71,7 @@ function nearbywp_enqueue_scripts() {
 
 	wp_localize_script( 'nearbywp', 'nearbyWP', array(
 		'nonce' => wp_create_nonce( 'nearbywp_events' ),
+		'cachedData' => $nearby_events->get_cached_events()
 	) );
 }
 

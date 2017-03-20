@@ -6,11 +6,6 @@ defined( 'WPINC' ) or die();
  * Render callback for the Dashboard widget
  */
 function nearbywp_render_dashboard_widget() {
-	$user_id       = get_current_user_id();
-	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
-	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
-	$cached_events = $nearby_events->get_cached_events();
-
 	?>
 
 	<div id="nearbywp" class="hide-if-no-js nearbywp">
@@ -46,12 +41,6 @@ function nearbywp_render_dashboard_widget() {
 			<?php esc_html_e( 'News', 'nearby-wp-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 	</p>
-
-	<script>
-		wp = window.wp || {};
-		wp.NearbyWP = wp.NearbyWP || {};
-		wp.NearbyWP.cachedData = '<?php echo wp_json_encode( $cached_events ); ?>';
-	</script>
 
 	<?php
 }

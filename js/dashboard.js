@@ -14,14 +14,10 @@ jQuery( function( $ ) {
 				return;
 			}
 
-			var $container = $( '#nearbywp' ),
-			    cachedData = JSON.parse( wp.NearbyWP.cachedData );
+			var $container = $( '#nearbywp' );
 
-			// Remove raw cached data from memory now that its no longer needed
-			wp.NearbyWP.cachedData = null;
-
-			if ( cachedData.hasOwnProperty( 'location' ) && cachedData.hasOwnProperty( 'events' ) ) {
-				app.renderEventsTemplate( cachedData );
+			if ( nearbyWP.cachedData.hasOwnProperty( 'location' ) && nearbyWP.cachedData.hasOwnProperty( 'events' ) ) {
+				app.renderEventsTemplate( nearbyWP.cachedData );
 			} else {
 				app.getEvents();
 			}

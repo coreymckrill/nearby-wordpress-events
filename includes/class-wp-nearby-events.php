@@ -56,7 +56,7 @@ class WP_Nearby_Events {
 
 		$response      = wp_remote_get( $request_url );
 		$response_code = wp_remote_retrieve_response_code( $response );
-		$events        = json_decode( wp_remote_retrieve_body( $response ), true );
+		$response_body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( 200 !== $response_code ) {
 			return new WP_Error(
@@ -66,22 +66,22 @@ class WP_Nearby_Events {
 			);
 		}
 
-		if ( ! isset( $events['location'], $events['events'] ) ) {
+		if ( ! isset( $response_body['location'], $response_body['events'] ) ) {
 			return new WP_Error(
 				'api-invalid-response',
-				isset( $events['error'] ) ? $events['error'] : __( 'API Error: Invalid response.' ),
+				isset( $response_body['error'] ) ? $response_body['error'] : __( 'API Error: Invalid response.' ),
 				compact( 'request_url', 'response_code', 'events' ) // @todo remove this during merge to Core
 			);
 		}
 
-		foreach ( $events['events'] as $key => $event ) {
+		foreach ( $response_body['events'] as $key => $event ) {
 			/* translators: date and time format for upcoming events on the dashboard, see https://secure.php.net/date */
-			$events['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
+			$response_body['events'][ $key ]['date'] = date_i18n( __( 'M j, Y' ), strtotime( $event['date'] ) );
 		}
 
-		$this->cache_events( $events );
+		$this->cache_events( $response_body );
 
-		return $events;
+		return $response_body;
 	}
 
 	/**

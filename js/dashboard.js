@@ -57,17 +57,26 @@ jQuery( function( $ ) {
 					$spinner.removeClass( 'is-active' );
 				})
 				.done( function( events ) {
-					var template = wp.template( 'nearbywp' );
-
 					if ( events.hasOwnProperty( 'error' ) && 'no_location_available' === events.error ) {
 						events.unknown_city = data.location;
 					}
 
-					$( '#nearbywp' ).html( template( events ) );
+					app.renderEventsTemplate( events );
 				})
 				.fail( function( error ) {
 					$( '#nearbywp' ).html( error.message );
 				});
+		},
+
+		/**
+		 * Render the template for the Events section of the Events & News widget
+		 *
+		 * @param {Object} data
+		 */
+		renderEventsTemplate : function( data ) {
+			var template = wp.template( 'nearbywp' );
+
+			$( '#nearbywp' ).html( template( data ) );
 		}
 	};
 

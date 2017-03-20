@@ -44,7 +44,7 @@ jQuery( function( $ ) {
 		 * @param data
 		 */
 		getEvents: function( data ) {
-			var $spinner = $( '#nearbywp-form .spinner' );
+			var $spinner = $( '#nearbywp-form' ).children( '.spinner' );
 
 			data          = data || {};
 			data._wpnonce = nearbyWP.nonce;

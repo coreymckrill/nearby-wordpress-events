@@ -14,9 +14,17 @@ jQuery( function( $ ) {
 				return;
 			}
 
-			var $container = $( '#nearbywp' );
+			var $container = $( '#nearbywp' ),
+			    cachedData = JSON.parse( wp.NearbyWP.cachedData );
 
-			app.getEvents();
+			// Remove raw cached data from memory now that its no longer needed
+			wp.NearbyWP.cachedData = null;
+
+			if ( cachedData.hasOwnProperty( 'location' ) && cachedData.hasOwnProperty( 'events' ) ) {
+				app.renderEventsTemplate( cachedData );
+			} else {
+				app.getEvents();
+			}
 
 			$container.on( 'click', '#nearbywp-toggle', function() {
 				$( '#nearbywp-form' ).removeClass( 'hide' );

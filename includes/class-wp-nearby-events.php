@@ -46,7 +46,7 @@ class WP_Nearby_Events {
 	 * @return array|WP_Error
 	 */
 	public function get_events( $location_search = '', $timezone = '' ) {
-		$cached_events = get_transient( $this->get_events_transient_key() );
+		$cached_events = $this->get_cached_events();
 
 		if ( ! $location_search && $cached_events ) {
 			return $cached_events;
@@ -190,5 +190,15 @@ class WP_Nearby_Events {
 		$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
 
 		return set_transient( $transient_key, $events, $cache_expiration );
+	}
+
+	/**
+	 * Get cached events
+	 *
+	 * @return false|array `false` on failure; an array containing `location`
+	 *                     and `events` items on success
+	 */
+	public function get_cached_events() {
+		return get_transient( $this->get_events_transient_key() );
 	}
 }

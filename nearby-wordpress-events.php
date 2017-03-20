@@ -2,12 +2,12 @@
 
 /*
 Plugin Name: Nearby WordPress Events
-Plugin URI:  http://wordpress.org/plugins/neraby-wordpress-events/
+Plugin URI:  https://wordpress.org/plugins/nearby-wp-events/
 Description: Shows the current user a list of nearby WordPress events via a Dashboard widget.
 Version:     0.1
-Author:      WordPress
-Author URI:  https://wordpress.org
-Text Domain: nearby-wordpress-events
+Author:      WordPress Meta Team
+Author URI:  https://make.wordpress.org/meta
+Text Domain: nearby-wp-events
 License:     GPL2
 */
 
@@ -38,7 +38,7 @@ add_action( 'load-index.php', 'nearbywp_init' );
 function nearbywp_register_dashboard_widgets() {
 	wp_add_dashboard_widget(
 		'nearbywp_dashboard_events',
-		esc_html__( 'WordPress Events and News', 'nearby-wordpress-events' ),
+		esc_html__( 'WordPress Events and News', 'nearby-wp-events' ),
 		'nearbywp_render_dashboard_widget'
 	);
 

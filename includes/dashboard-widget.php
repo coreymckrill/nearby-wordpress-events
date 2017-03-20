@@ -73,7 +73,7 @@ function nearbywp_render_js_templates() {
 
 			<# } else { #>
 
-				<p><?php esc_html_e( 'Enter your closest city to find nearby events' ); ?></p>
+				<p><?php esc_html_e( 'Enter your closest city to find nearby events:' ); ?></p>
 
 			<# } #>
 

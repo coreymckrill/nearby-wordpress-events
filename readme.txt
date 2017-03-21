@@ -1,5 +1,5 @@
 === Nearby WordPress Events ===
-Contributors:      azaozz, coreymckrill, dd32, iandunn, iseulde, mapk, obenland, samuelsidler, stephdau, tellyworth
+Contributors:      andreamiddleton, azaozz, camikaos, coreymckrill, chanthaboune, courtneypk, dd32, iandunn, iseulde, mapk, obenland, pento, samuelsidler, stephdau, tellyworth
 Donate link:       https://eff.org
 Tags:              meetup, wordcamp, events, dashboard widget
 Requires at least: 4.7

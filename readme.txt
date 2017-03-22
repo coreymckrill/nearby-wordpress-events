@@ -13,10 +13,10 @@ Shows you upcoming local WordPress events in your wp-admin Dashboard
 
 == Description ==
 
-This plugin updates the existing News dashboard widget to also include upcoming WordCamps and WordPress meetups in
-your area. If you have multiple users on your site, each one will be shown the events that are close to their
-individual location. The widget will try to automatically detect your location, but you'll also be able to enter
-any city you'd like.
+The plugin updates the existing WordPress News dashboard widget to also include upcoming meetup events and
+WordCamps near the current user's location. If you have multiple users on your site, each one will be shown the
+events that are close to their individual location. The dashboard widget will try to automatically detect their
+location, but they'll also be able to enter any city they like.
 
 
 ### Why?
@@ -28,9 +28,9 @@ resources that it makes available to them.
 Inviting more people to join the community will help to increase its overall health, diversity, and effectiveness,
 which in turn helps to ensure that WordPress will continue to thrive in the years to come.
 
-wp-admin is the perfect place to show these events, since that's the place where virtually all WordPress users
-already visit. Instead of expecting them to come to us, we can bring relevant information directly to them.
-
+wp-admin is the perfect place to display these events, because that’s the place where almost all WordPress users
+are visiting already. Instead of expecting them to come to us, we can bring the relevant information directly to
+them.
 
 
 == Frequently Asked Questions ==

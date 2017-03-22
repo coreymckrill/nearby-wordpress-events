@@ -58,7 +58,10 @@ function nearbywp_render_js_templates() {
 				<p>
 					<?php // translators: %s is the name of a city ?>
 					<?php printf(
-						__( 'Attend an upcoming event near %s', 'nearby-wp-events' ),
+						wp_kses(
+							__( 'Attend an upcoming event near %s', 'nearby-wp-events' ),
+							wp_kses_allowed_html( 'data' )
+						),
 						'<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
 							<strong>{{{ data.location.description }}}</strong>
 							<span class="dashicons dashicons-edit" aria-hidden="true"></span>
@@ -70,7 +73,10 @@ function nearbywp_render_js_templates() {
 
 				<p>
 					<?php printf(
-						__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city.", 'nearby-wp-events' ),
+						wp_kses(
+							__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city.", 'nearby-wp-events' ),
+							wp_kses_allowed_html( 'data' )
+						),
 						'{{data.unknown_city}}'
 					); ?>
 				</p>
@@ -116,7 +122,10 @@ function nearbywp_render_js_templates() {
 
 					<li class="event-none">
 						<?php printf(
-							__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="%s">organize one</a>?', 'nearby-wp-events' ),
+							wp_kses(
+								__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="%s">organize one</a>?', 'nearby-wp-events' ),
+								wp_kses_allowed_html( 'data' )
+							),
 							'{{data.location.description}}',
 							'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/'
 						); ?>

@@ -70,8 +70,8 @@ function nearbywp_enqueue_scripts() {
 	);
 
 	wp_localize_script( 'nearbywp', 'nearbyWP', array(
-		'nonce' => wp_create_nonce( 'nearbywp_events' ),
-		'cachedData' => $nearby_events->get_cached_events()
+		'nonce'      => wp_create_nonce( 'nearbywp_events' ),
+		'cachedData' => $nearby_events->get_cached_events(),
 	) );
 }
 
@@ -93,9 +93,7 @@ function nearbywp_ajax_get_events() {
 	if ( is_wp_error( $events ) ) {
 		wp_send_json_error( array(
 			'message' => $events->get_error_message(),
-
-			// @todo remove this during merge to Core
-			'api_request_info' => $events->get_error_data(),
+			'api_request_info' => $events->get_error_data(), // @todo remove this during merge to Core
 		) );
 	}
 

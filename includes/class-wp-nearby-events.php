@@ -98,7 +98,7 @@ class WP_Nearby_Events {
 		$args = array(
 			'number' => 3,
 			'ip'     => $this->get_unsafe_client_ip(),
-			'locale' => get_user_locale( $this->user_id )
+			'locale' => get_user_locale( $this->user_id ),
 		);
 
 		if ( $timezone ) {
@@ -143,7 +143,7 @@ class WP_Nearby_Events {
 			'HTTP_X_CLUSTER_CLIENT_IP',
 			'HTTP_FORWARDED_FOR',
 			'HTTP_FORWARDED',
-			'REMOTE_ADDR'
+			'REMOTE_ADDR',
 		);
 
 		foreach ( $address_headers as $header ) {

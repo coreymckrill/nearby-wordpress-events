@@ -23,7 +23,7 @@ function manually_load_plugin() {
 	$_SERVER['PHP_SELF'] = admin_url();
 
 	// Defining WP_ADMIN is so that nearby-wp-events/bootstrap.php will load the dashboard-widgets.php files
- 	define( 'WP_ADMIN', true );
+	define( 'WP_ADMIN', true );
 
 	require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/nearby-wordpress-events.php' );
 }

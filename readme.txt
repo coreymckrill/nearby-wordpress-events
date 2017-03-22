@@ -48,7 +48,7 @@ shared with anyone outside of WordPress.org, with the exception of any condition
 == Screenshots ==
 
 1. The new combined Events and News widget when a location and events are available
-2. The widget when no location is no location is available
+2. The widget when no location is available
 3. The widget when a location is available, but there are no upcoming events nearby
 
 

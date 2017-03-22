@@ -13,35 +13,23 @@ Shows you upcoming local WordPress events in your wp-admin Dashboard
 
 == Description ==
 
-The plugin updates the existing WordPress News dashboard widget to also include upcoming meetup events and
-WordCamps near the current user's location. If you have multiple users on your site, each one will be shown the
-events that are close to their individual location. The dashboard widget will try to automatically detect their
-location, but they'll also be able to enter any city they like.
+The plugin updates the existing WordPress News dashboard widget to also include upcoming meetup events and WordCamps near the current user's location. If you have multiple users on your site, each one will be shown the events that are close to their individual location. The dashboard widget will try to automatically detect their location, but they'll also be able to enter any city they like.
 
 
 ### Why?
 
-The community that has been created around WordPress is one of its best features, and one of the primary reasons
-for its success, but many users are still unaware that it exists, and aren't taking advantage of all of the
-resources that it makes available to them.
+The community that has been created around WordPress is one of its best features, and one of the primary reasons for its success, but many users are still unaware that it exists, and aren't taking advantage of all of the resources that it makes available to them.
 
-Inviting more people to join the community will help to increase its overall health, diversity, and effectiveness,
-which in turn helps to ensure that WordPress will continue to thrive in the years to come.
+Inviting more people to join the community will help to increase its overall health, diversity, and effectiveness, which in turn helps to ensure that WordPress will continue to thrive in the years to come.
 
-wp-admin is the perfect place to display these events, because that’s the place where almost all WordPress users
-are visiting already. Instead of expecting them to come to us, we can bring the relevant information directly to
-them.
+wp-admin is the perfect place to display these events, because that’s the place where almost all WordPress users are visiting already. Instead of expecting them to come to us, we can bring the relevant information directly to them.
 
 
 == Frequently Asked Questions ==
 
 = What information is collected, and what is it used for? =
 
-The plugin sends each user's timezone, locale, and IP address to `api.wordpress.org`, in order to determine their
-location, so that they can be shown events that are close to that location. If the user requests events near a
-specific city, then that is also sent. The data is not stored permenantly, not used for any other purpose, and not
-shared with anyone outside of WordPress.org, with the exception of any conditions covered in the
-[WordPress.org privacy policy](https://wordpress.org/about/privacy/).
+The plugin sends each user's timezone, locale, and IP address to `api.wordpress.org`, in order to determine their location, so that they can be shown events that are close to that location. If the user requests events near a specific city, then that is also sent. The data is not stored permenantly, not used for any other purpose, and not shared with anyone outside of WordPress.org, with the exception of any conditions covered in the [WordPress.org privacy policy](https://wordpress.org/about/privacy/).
 
 
 
@@ -54,8 +42,7 @@ shared with anyone outside of WordPress.org, with the exception of any condition
 
 == Installation ==
 
-For help installing this (or any other) WordPress plugin, please read the
-[Managing Plugins](http://codex.wordpress.org/Managing_Plugins) article on the Codex.
+For help installing this (or any other) WordPress plugin, please read the [Managing Plugins](http://codex.wordpress.org/Managing_Plugins) article on the Codex.
 
 
 == Changelog ==

@@ -37,7 +37,7 @@ function nearbywp_render_dashboard_widget() {
 		|
 
 		<?php // translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. ?>
-		<a href="<?php esc_html_e( 'https://wordpress.org/news/' ); ?>">
+		<a href="<?php esc_html_e( 'https://wordpress.org/news/', 'nearby-wp-events' ); ?>">
 			<?php esc_html_e( 'News', 'nearby-wp-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 	</p>

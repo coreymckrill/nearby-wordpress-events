@@ -89,9 +89,9 @@ function nearbywp_render_js_templates() {
 
 			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
 				<label for="nearbywp-location" class="screen-reader-text">
-					<?php esc_html_e( 'Enter a nearby city', 'nearby-wp-events' ); ?>
+					<?php /* translators: Enter a nearby city name in English. */  esc_html_e( 'Enter a nearby city name', 'nearby-wp-events' ); ?>
 				</label>
-				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'City', 'nearby-wp-events' ); ?>" />
+				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php /* translators: City name in English. */ esc_attr_e( 'City name', 'nearby-wp-events' ); ?>" />
 
 				<?php submit_button( __( 'Submit', 'nearby-wp-events' ), 'primary', 'nearbywp-submit', false ); ?>
 

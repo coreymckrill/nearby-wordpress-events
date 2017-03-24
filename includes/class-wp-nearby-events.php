@@ -164,20 +164,23 @@ class WP_Nearby_Events {
 	/**
 	 * Generate a transient key based on user location
 	 *
-	 * This is only one line, but it's a separate function because it's used multiple
-	 * times, and having it abstracted keeps the logic consistent and DRY, which is
-	 * less prone to errors.
+	 * This could be reduced to a one-liner in the calling functions, but it's
+	 * intentionally a separate function because it's called from multiple
+	 * locations, and having it abstracted keeps the logic consistent and DRY,
+	 * which is less prone to errors.
 	 *
-	 * @param bool|array $location
+	 * @param array $location Should contain 'latitude' and 'longitude' indexes
 	 *
-	 * @return string
+	 * @return bool|string `false` on failure, or a string on success
 	 */
-	private function get_events_transient_key( $location = false ) {
-		$data = false === $location ?
-			$this->user_location['latitude'] . $this->user_location['longitude'] :
-			$location['latitude'] . $location['longitude'];
+	private function get_events_transient_key( $location ) {
+		$key = false;
 
-		return 'nearbywp-' . md5( $data );
+		if ( isset( $location['latitude'], $location['longitude'] ) ) {
+			$key = 'nearbywp-' . md5( $location['latitude'] . $location['longitude'] );
+		}
+
+		return $key;
 	}
 
 	/**
@@ -201,6 +204,6 @@ class WP_Nearby_Events {
 	 *                     and `events` items on success
 	 */
 	public function get_cached_events() {
-		return get_transient( $this->get_events_transient_key() );
+		return get_transient( $this->get_events_transient_key( $this->user_location ) );
 	}
 }

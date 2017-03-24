@@ -101,9 +101,6 @@ function nearbywp_ajax_get_events() {
 		update_user_meta( $user_id, 'nearbywp-location', $events['location'] );
 	}
 
-	// @todo remove this during merge to Core
-	$events['api_request_info'] = compact( 'request_url', 'response_code' );
-
 	wp_send_json_success( $events );
 }
 

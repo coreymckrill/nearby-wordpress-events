@@ -81,6 +81,8 @@ class WP_Nearby_Events {
 
 		$this->cache_events( $response_body );
 
+		$response_body['api_request_info'] = compact( 'request_url', 'response_code' ); // @todo remove this during merge to Core
+
 		return $response_body;
 	}
 

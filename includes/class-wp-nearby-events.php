@@ -173,9 +173,11 @@ class WP_Nearby_Events {
 	 * @return string
 	 */
 	private function get_events_transient_key( $location = false ) {
-		$data = ( false === $location ) ? $this->user_location : $location;
+		$data = false === $location ?
+			$this->user_location['latitude'] . $this->user_location['longitude'] :
+			$location['latitude'] . $location['longitude'];
 
-		return 'nearbywp-' . md5( wp_json_encode( $data ) );
+		return 'nearbywp-' . md5( $data );
 	}
 
 	/**

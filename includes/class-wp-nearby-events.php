@@ -62,7 +62,11 @@ class WP_Nearby_Events {
 			return new WP_Error(
 				'api-error',
 				esc_html( sprintf( __( 'API Error: %s', 'nearby-wp-events' ), $response_code ) ),
-				compact( 'request_url', 'response_code', 'events' ) // @todo remove this during merge to Core
+				array(
+					'request_url'   => $request_url,
+					'response_code' => $response_code,
+					'events'        => $response_body['events']
+				) // @todo remove this during merge to Core
 			);
 		}
 
@@ -70,7 +74,11 @@ class WP_Nearby_Events {
 			return new WP_Error(
 				'api-invalid-response',
 				isset( $response_body['error'] ) ? $response_body['error'] : __( 'API Error: Invalid response.', 'nearby-wp-events' ),
-				compact( 'request_url', 'response_code', 'events' ) // @todo remove this during merge to Core
+				array(
+					'request_url'   => $request_url,
+					'response_code' => $response_code,
+					'events'        => $response_body['events']
+				) // @todo remove this during merge to Core
 			);
 		}
 

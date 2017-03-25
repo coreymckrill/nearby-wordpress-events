@@ -37,7 +37,7 @@ class WP_Nearby_Events {
 	 * location, these will be immediately returned.
 	 *
 	 * If not, this method will send a request to the Events API with location data.
-	 * The API will send back a recongized location based on the data, along with
+	 * The API will send back a recognized location based on the data, along with
 	 * nearby events.
 	 *
 	 * @param string $location_search Optional search string to help determine the location.
@@ -201,10 +201,15 @@ class WP_Nearby_Events {
 	 * @return bool
 	 */
 	private function cache_events( $events ) {
+		$set              = false;
 		$transient_key    = $this->get_events_transient_key( $events['location'] );
 		$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
 
-		return set_transient( $transient_key, $events, $cache_expiration );
+		if ( $transient_key ) {
+			$set = set_transient( $transient_key, $events, $cache_expiration );
+		}
+
+		return $set;
 	}
 
 	/**

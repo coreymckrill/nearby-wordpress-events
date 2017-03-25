@@ -1,10 +1,10 @@
 === Nearby WordPress Events ===
-Contributors:      andreamiddleton, azaozz, camikaos, coreymckrill, chanthaboune, courtneypk, dd32, iandunn, iseulde, mapk, obenland, pento, samuelsidler, stephdau, tellyworth
+Contributors:      andreamiddleton, azaozz, camikaos, coreymckrill, chanthaboune, courtneypk, dd32, iandunn, iseulde, mapk, mayukojpn, obenland, pento, samuelsidler, stephdau, tellyworth
 Donate link:       https://eff.org
 Tags:              meetup, wordcamp, events, dashboard widget
 Requires at least: 4.7
 Tested up to:      4.7
-Stable tag:        0.1
+Stable tag:        0.2
 License:           GPL2
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,8 +47,15 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 == Changelog ==
 
+= 0.2 (2017-03-24) =
+* [FIX] Fix a bug that prevented events from being cached. The widget loads much faster now.
+* [FIX] Fix a bug that prevented debugging info from being added to AJAX responses.
+
 = 0.1 (2017-03-20) =
 * First version
 
 
 == Upgrade Notice ==
+
+= 0.2 =
+This version has a few minor bugs fixes and user-experience improvements.

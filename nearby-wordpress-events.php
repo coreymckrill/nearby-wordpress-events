@@ -27,6 +27,7 @@ require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
  */
 function nearbywp_init() {
 	add_action( 'wp_dashboard_setup', 'nearbywp_register_dashboard_widgets' );
+	add_action( 'wp_network_dashboard_setup',    'nearbywp_register_dashboard_widgets' );
 	add_action( 'admin_print_scripts-index.php', 'nearbywp_enqueue_scripts' );
 }
 

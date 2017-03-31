@@ -54,6 +54,11 @@ function nearbywp_enqueue_scripts() {
 	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
 	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
 
+	$inline_script_data = array(
+		'nonce'      => wp_create_nonce( 'nearbywp_events' ),
+		'cachedData' => $nearby_events->get_cached_events(),
+	);
+
 	wp_enqueue_style(
 		'nearbywp',
 		plugins_url( 'css/dashboard.css', __FILE__ ),
@@ -69,10 +74,10 @@ function nearbywp_enqueue_scripts() {
 		true
 	);
 
-	wp_localize_script( 'nearbywp', 'nearbyWP', array(
-		'nonce'      => wp_create_nonce( 'nearbywp_events' ),
-		'cachedData' => $nearby_events->get_cached_events(),
-	) );
+	wp_add_inline_script(
+		'nearbywp',
+		sprintf( 'var nearbyWP = %s;', wp_json_encode( $inline_script_data ), 'before' )
+	);
 }
 
 /**

@@ -98,7 +98,7 @@ function nearbywp_ajax_get_events() {
 
 	if ( is_wp_error( $events ) ) {
 		wp_send_json_error( array(
-			'message' => $events->get_error_message(),
+			'error' => $events->get_error_message(),
 			'api_request_info' => $events->get_error_data(), // @todo remove this during merge to Core
 		) );
 	}

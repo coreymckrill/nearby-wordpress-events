@@ -81,6 +81,19 @@ function nearbywp_render_js_templates() {
 					); ?>
 				</p>
 
+			<# } else if ( data.error ) { #>
+
+				<p>
+					<?php printf(
+						wp_kses(
+							// translators: %s is the detailed error message
+							__( "An error occured while trying to retrieve events. Please try again. <code>[%s]</code>", 'nearby-wp-events' ),
+							wp_kses_allowed_html( 'data' )
+						),
+						'{{data.error}}'
+					); ?>
+				</p>
+
 			<# } else { #>
 
 				<p><?php esc_html_e( 'Enter your closest city name to find nearby events:', 'nearby-wp-events' ); ?></p>

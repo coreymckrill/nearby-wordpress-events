@@ -61,7 +61,8 @@ class WP_Nearby_Events {
 		if ( 200 !== $response_code ) {
 			return new WP_Error(
 				'api-error',
-				esc_html( sprintf( __( 'API Error: %s', 'nearby-wp-events' ), $response_code ) ),
+				// translators: %s is a numeric HTTP status code; e.g., 400, 403, 500, 504, etc
+				esc_html( sprintf( __( 'Invalid API response code (%s)', 'nearby-wp-events' ), $response_code ) ),
 				array(
 					'request_url'   => $request_url,
 					'response_code' => $response_code,
@@ -73,7 +74,7 @@ class WP_Nearby_Events {
 		if ( ! isset( $response_body['location'], $response_body['events'] ) ) {
 			return new WP_Error(
 				'api-invalid-response',
-				isset( $response_body['error'] ) ? $response_body['error'] : __( 'API Error: Invalid response.', 'nearby-wp-events' ),
+				isset( $response_body['error'] ) ? $response_body['error'] : __( 'Unknown API error.', 'nearby-wp-events' ),
 				array(
 					'request_url'   => $request_url,
 					'response_code' => $response_code,

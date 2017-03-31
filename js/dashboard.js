@@ -68,7 +68,8 @@ jQuery( function( $ ) {
 					app.renderEventsTemplate( events );
 				})
 				.fail( function( error ) {
-					$( '#nearbywp' ).html( error.message );
+					error.location = false;
+					app.renderEventsTemplate( error );
 				});
 		},
 

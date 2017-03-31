@@ -4,7 +4,7 @@ Donate link:       https://eff.org
 Tags:              meetup, wordcamp, events, dashboard widget
 Requires at least: 4.7
 Tested up to:      4.7
-Stable tag:        0.2
+Stable tag:        0.3
 License:           GPL2
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,8 +47,11 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 == Changelog ==
 
-= 0.3 (2017--) =
-* [FIX] Locations are now saved network-wide in Multisite installs. Unfortunately, you may need to re-save your location the first time you visit wp-admin because of this.
+= 0.3 (2017-03-31) =
+* [SECURITY] Harden the error message handling against a theoretical cross-site scripting attack.
+* [FIX] Locations are now saved network-wide in Multisite installs, so you no longer have to set your location on each site. Unfortunately, you may need to re-save your location the first time you visit wp-admin because of this.
+* [FIX] Events are now cached network-wide in Multisite installs, to improve performance.
+* [FIX] Events are now shown on the Network Dashboard in Multisite installs.
 
 = 0.2 (2017-03-24) =
 * [FIX] Fix a bug that prevented events from being cached. The widget loads much faster now.
@@ -59,6 +62,9 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 
 == Upgrade Notice ==
+
+= 0.3 =
+This version fixes a few bugs in Multisite installs, and protects against a theoretical security vulnerability.
 
 = 0.2 =
 This version has a few minor bugs fixes and user-experience improvements.

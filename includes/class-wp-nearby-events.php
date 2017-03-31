@@ -206,7 +206,7 @@ class WP_Nearby_Events {
 		$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
 
 		if ( $transient_key ) {
-			$set = set_transient( $transient_key, $events, $cache_expiration );
+			$set = set_site_transient( $transient_key, $events, $cache_expiration );
 		}
 
 		return $set;
@@ -219,6 +219,6 @@ class WP_Nearby_Events {
 	 *                     and `events` items on success
 	 */
 	public function get_cached_events() {
-		return get_transient( $this->get_events_transient_key( $this->user_location ) );
+		return get_site_transient( $this->get_events_transient_key( $this->user_location ) );
 	}
 }

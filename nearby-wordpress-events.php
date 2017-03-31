@@ -52,7 +52,7 @@ function nearbywp_register_dashboard_widgets() {
  */
 function nearbywp_enqueue_scripts() {
 	$user_id       = get_current_user_id();
-	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
+	$user_location = get_user_option( 'nearbywp-location', $user_id );
 	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
 
 	$inline_script_data = array(
@@ -91,7 +91,7 @@ function nearbywp_ajax_get_events() {
 	$timezone = isset( $_POST['timezone'] ) ? $_POST['timezone'] : '';
 
 	$user_id       = get_current_user_id();
-	$user_location = get_user_meta( $user_id, 'nearbywp-location', true );
+	$user_location = get_user_option( 'nearbywp-location', $user_id );
 
 	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
 	$events        = $nearby_events->get_events( $search, $timezone );
@@ -104,7 +104,8 @@ function nearbywp_ajax_get_events() {
 	}
 
 	if ( isset( $events['location'] ) && ( $search || ! $user_location ) ) {
-		update_user_meta( $user_id, 'nearbywp-location', $events['location'] );
+		// Store the location network-wide, so the user doesn't have to set it on each site
+		update_user_option( $user_id, 'nearbywp-location', $events['location'], true );
 	}
 
 	wp_send_json_success( $events );

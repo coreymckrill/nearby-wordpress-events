@@ -47,6 +47,9 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 == Changelog ==
 
+= 0.3 (2017--) =
+* [FIX] Locations are now saved network-wide in Multisite installs. Unfortunately, you may need to re-save your location the first time you visit wp-admin because of this.
+
 = 0.2 (2017-03-24) =
 * [FIX] Fix a bug that prevented events from being cached. The widget loads much faster now.
 * [FIX] Fix a bug that prevented debugging info from being added to AJAX responses.

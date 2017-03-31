@@ -77,7 +77,7 @@ function nearbywp_enqueue_scripts() {
 
 	wp_add_inline_script(
 		'nearbywp',
-		sprintf( 'var nearbyWP = %s;', wp_json_encode( $inline_script_data ), 'before' )
+		sprintf( 'var nearbyWPData = %s;', wp_json_encode( $inline_script_data ), 'before' )
 	);
 }
 

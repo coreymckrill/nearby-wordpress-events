@@ -16,8 +16,8 @@ jQuery( function( $ ) {
 
 			var $container = $( '#nearbywp' );
 
-			if ( nearbyWP.cachedData.hasOwnProperty( 'location' ) && nearbyWP.cachedData.hasOwnProperty( 'events' ) ) {
-				app.renderEventsTemplate( nearbyWP.cachedData );
+			if ( nearbyWPData.cachedData.hasOwnProperty( 'location' ) && nearbyWPData.cachedData.hasOwnProperty( 'events' ) ) {
+				app.renderEventsTemplate( nearbyWPData.cachedData );
 			} else {
 				app.getEvents();
 			}
@@ -51,7 +51,7 @@ jQuery( function( $ ) {
 			var $spinner = $( '#nearbywp-form' ).children( '.spinner' );
 
 			data          = data || {};
-			data._wpnonce = nearbyWP.nonce;
+			data._wpnonce = nearbyWPData.nonce;
 			data.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
 
 			$spinner.addClass( 'is-active' );

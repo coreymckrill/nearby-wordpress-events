@@ -83,16 +83,9 @@ class WP_Nearby_Events {
 			);
 		}
 
-		foreach ( $response_body['events'] as $key => $event ) {
-			/* translators: date format for upcoming events on the dashboard, see https://secure.php.net/date */
-			$response_body['events'][ $key ]['date'] = date_i18n( __( 'l, M j, Y', 'nearby-wp-events' ), strtotime( $event['date'] ) );
-
-			/* translators: time format for upcoming events on the dashboard, see https://secure.php.net/date */
-			$response_body['events'][ $key ]['time'] = date_i18n( __( 'g:i a', 'nearby-wp-events' ), strtotime( $event['date'] ) );
-		}
-
 		$this->cache_events( $response_body );
 
+		$response_body = $this->format_event_data_time( $response_body );
 		$response_body['api_request_info'] = compact( 'request_url', 'response_code' ); // @todo remove this during merge to Core
 
 		return $response_body;
@@ -223,6 +216,36 @@ class WP_Nearby_Events {
 	 *                     and `events` items on success
 	 */
 	public function get_cached_events() {
-		return get_site_transient( $this->get_events_transient_key( $this->user_location ) );
+		$cached_response = get_site_transient( $this->get_events_transient_key( $this->user_location ) );
+
+		return $this->format_event_data_time( $cached_response );
+	}
+
+	/**
+	 * Add formatted date and time items for each event in an API response
+	 *
+	 * This has to be called after the data is pulled from the cache, because
+	 * the cached events are shared by all users. If it was called before storing
+	 * the cache, then all users would see the events in the localized data/time
+	 * of the user who triggered the cache refresh, rather than their own.
+	 *
+	 * @param array $response_body The response which contains the events
+	 *
+	 * @return array
+	 */
+	protected function format_event_data_time( $response_body ) {
+		if ( isset( $response_body['events'] ) ) {
+			foreach ( $response_body['events'] as $key => $event ) {
+				$timestamp = strtotime( $event['date'] );
+
+				// translators: date format for upcoming events on the dashboard, see https://secure.php.net/date
+				$response_body['events'][ $key ]['formatted_date'] = date_i18n( __( 'l, M j, Y', 'nearby-wp-events' ), $timestamp );
+
+				// translators: time format for upcoming events on the dashboard, see https://secure.php.net/date
+				$response_body['events'][ $key ]['formatted_time'] = date_i18n( __( 'g:i a', 'nearby-wp-events' ), $timestamp );
+			}
+		}
+
+		return $response_body;
 	}
 }

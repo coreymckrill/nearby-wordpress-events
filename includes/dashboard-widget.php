@@ -124,8 +124,8 @@ function nearbywp_render_js_templates() {
 						<li class="event-{{ event.type }}">
 							<div class="dashicons event-icon" aria-hidden="true"></div>
 							<div class="event-date-time">
-								<span class="event-date">{{ event.date }}</span>
-								<span class="event-time">{{ event.time }}</span>
+								<span class="event-date">{{ event.formatted_date }}</span>
+								<span class="event-time">{{ event.formatted_time }}</span>
 							</div>
 							<div class="event-info">
 								<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>

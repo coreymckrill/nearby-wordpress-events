@@ -84,8 +84,11 @@ class WP_Nearby_Events {
 		}
 
 		foreach ( $response_body['events'] as $key => $event ) {
-			/* translators: date and time format for upcoming events on the dashboard, see https://secure.php.net/date */
-			$response_body['events'][ $key ]['date'] = date_i18n( __( 'M j, Y', 'nearby-wp-events' ), strtotime( $event['date'] ) );
+			/* translators: date format for upcoming events on the dashboard, see https://secure.php.net/date */
+			$response_body['events'][ $key ]['date'] = date_i18n( __( 'l, M j, Y', 'nearby-wp-events' ), strtotime( $event['date'] ) );
+
+			/* translators: time format for upcoming events on the dashboard, see https://secure.php.net/date */
+			$response_body['events'][ $key ]['time'] = date_i18n( __( 'g:i a', 'nearby-wp-events' ), strtotime( $event['date'] ) );
 		}
 
 		$this->cache_events( $response_body );

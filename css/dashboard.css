@@ -99,8 +99,14 @@
 	max-width: 60%;
 }
 
-.nearbywp .event-date {
+.nearbywp .event-date-time {
 	float: right;
+}
+
+.nearbywp .event-date,
+.nearbywp .event-time {
+	display: block;
+	text-align: right;
 }
 
 .nearbywp-footer {

@@ -29,7 +29,7 @@ wp-admin is the perfect place to display these events, because that’s the plac
 
 = What information is collected, and what is it used for? =
 
-The plugin sends each user's timezone, locale, and IP address to `api.wordpress.org`, in order to determine their location, so that they can be shown events that are close to that location. If the user requests events near a specific city, then that is also sent. The data is not stored permenantly, not used for any other purpose, and not shared with anyone outside of WordPress.org, with the exception of any conditions covered in the [WordPress.org privacy policy](https://wordpress.org/about/privacy/).
+The plugin sends each user's timezone, locale, and IP address to `api.wordpress.org`, in order to determine their location, so that they can be shown events that are close to that location. If the user requests events near a specific city, then that is also sent. The data is not stored permanently, not used for any other purpose, and not shared with anyone outside of WordPress.org, with the exception of any conditions covered in the [WordPress.org privacy policy](https://wordpress.org/about/privacy/).
 
 
 

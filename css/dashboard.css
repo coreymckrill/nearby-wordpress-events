@@ -73,6 +73,9 @@
 		float: left;
 		max-width: 59%;
 	}
+	.rtl .nearbywp .event-info {
+		float: right;
+	}
 }
 
 .event-icon {
@@ -80,6 +83,10 @@
 	padding-right: 10px;
 	width: 18px;
 	display: none; /* Hide on smaller screens */
+}
+.rtl .event-icon {
+	padding-right: 0;
+	padding-left: 10px;
 }
 @media screen and (min-width: 355px) {
 	.event-icon {
@@ -114,6 +121,9 @@
 		float: right;
 		max-width: 39%;
 	}
+	.rtl .nearbywp .event-date-time {
+		float: left;
+	}
 }
 
 .nearbywp .event-date,
@@ -125,6 +135,10 @@
 	.nearbywp .event-time {
 		text-align: right;
 	}
+	.rtl .nearbywp .event-date,
+	.rtl .nearbywp .event-time {
+		text-align: left;
+	}
 }
 
 .nearbywp-footer {
@@ -135,6 +149,9 @@
 	padding: 12px 12px 0;
 	border-top: 1px solid #eee;
 	color: #ddd;
+}
+.rtl .nearbywp-footer {
+	margin-right: -12px;
 }
 
 

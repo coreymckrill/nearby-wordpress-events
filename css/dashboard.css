@@ -64,15 +64,26 @@
 	border-bottom: 1px solid #eee;
 }
 
+.nearbywp .event-info {
+	display: block;
+}
+@media screen and (min-width: 355px) {
+	.nearbywp .event-info {
+		display: table-row;
+		float: left;
+		max-width: 59%;
+	}
+}
+
 .event-icon {
 	height: 18px;
-	margin-right: 10px;
+	padding-right: 10px;
 	width: 18px;
 	display: none; /* Hide on smaller screens */
 }
 @media screen and (min-width: 355px) {
 	.event-icon {
-		display: inline-block;
+		display: table-cell;
 	}
 }
 
@@ -80,13 +91,17 @@
 	color: #82878C;
 	font-size: 18px;
 }
-
 .event-meetup .event-icon:before {
 	content: "\f484";
 }
-
 .event-wordcamp .event-icon:before {
 	content: "\f486";
+}
+
+@media screen and (min-width: 355px) {
+	.event-info-inner {
+		display: table-cell;
+	}
 }
 
 .nearbywp .event-title {
@@ -94,19 +109,22 @@
 	display: block;
 }
 
-.nearbywp .event-info {
-	display: inline-block;
-	max-width: 60%;
-}
-
-.nearbywp .event-date-time {
-	float: right;
+@media screen and (min-width: 355px) {
+	.nearbywp .event-date-time {
+		float: right;
+		max-width: 39%;
+	}
 }
 
 .nearbywp .event-date,
 .nearbywp .event-time {
 	display: block;
-	text-align: right;
+}
+@media screen and (min-width: 355px) {
+	.nearbywp .event-date,
+	.nearbywp .event-time {
+		text-align: right;
+	}
 }
 
 .nearbywp-footer {

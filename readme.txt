@@ -4,7 +4,7 @@ Donate link:       https://eff.org
 Tags:              meetup, wordcamp, events, dashboard widget
 Requires at least: 4.7
 Tested up to:      4.7
-Stable tag:        0.3
+Stable tag:        0.4
 License:           GPL2
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,11 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 == Changelog ==
 
+= 0.4 (2017-04-11) =
+* [FIX] Improved the layout on mobile devices.
+* [FIX] Added styles for right-to-left languages.
+* [NEW] Added the event's time and day of the week, so that users don't have to open the event link to see if it fits their schedule.
+
 = 0.3 (2017-03-31) =
 * [SECURITY] Harden the error message handling against a theoretical cross-site scripting attack.
 * [FIX] Locations are now saved network-wide in Multisite installs, so you no longer have to set your location on each site. Unfortunately, you may need to re-save your location the first time you visit wp-admin because of this.
@@ -62,6 +67,9 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 
 == Upgrade Notice ==
+
+= 0.4 =
+This version displays the event time and day of the week, and fixes a few small bugs.
 
 = 0.3 =
 This version fixes a few bugs in Multisite installs, and protects against a theoretical security vulnerability.

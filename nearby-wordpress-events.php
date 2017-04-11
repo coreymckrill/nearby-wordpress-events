@@ -4,7 +4,7 @@
 Plugin Name: Nearby WordPress Events
 Plugin URI:  https://wordpress.org/plugins/nearby-wp-events/
 Description: Shows the current user a list of nearby WordPress events via a Dashboard widget.
-Version:     0.3
+Version:     0.4
 Author:      WordPress Meta Team
 Author URI:  https://make.wordpress.org/meta
 Text Domain: nearby-wp-events
@@ -13,7 +13,7 @@ License:     GPL2
 
 defined( 'WPINC' ) or die();
 
-define( 'NEARBYWP_VERSION', '0.3' );
+define( 'NEARBYWP_VERSION', '0.4' );
 
 if ( ! is_admin() ) {
 	return;

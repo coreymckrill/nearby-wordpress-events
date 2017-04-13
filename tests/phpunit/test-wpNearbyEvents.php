@@ -1,15 +1,35 @@
 <?php
+/**
+ * Unit tests for methods in WP_Nearby_Events.
+ *
+ * @package Nearby WordPress Events
+ */
 
+/**
+ * Class Test_WP_Nearby_Events.
+ */
 class Test_WP_Nearby_Events extends WP_UnitTestCase {
-
+	/**
+	 * An instance of the class to test.
+	 *
+	 * @var WP_Nearby_Events
+	 */
 	private $instance;
 
+	/**
+	 * Perform for every test.
+	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->instance = new WP_Nearby_Events( 1, $this->get_user_location() );
 	}
 
+	/**
+	 * Simulate a stored user location.
+	 *
+	 * @return array
+	 */
 	private function get_user_location() {
 		return array(
 			'description' => 'San Francisco',
@@ -19,48 +39,95 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Test: `get_events()` should return an instance of WP_Error if the response code is not 200.
+	 */
 	public function test_get_events_bad_response_code() {
-		add_filter( 'pre_http_request', array( $this, 'http_request_bad_response_code' ) );
+		add_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
 
 		$this->assertWPError( $this->instance->get_events() );
 
-		remove_filter( 'pre_http_request', array( $this, 'http_request_bad_response_code' ) );
+		remove_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
 	}
 
-	public function http_request_bad_response_code() {
+	/**
+	 * Test: The response body should not be cached if the response code is not 200.
+	 */
+	public function test_get_cached_events_bad_response_code() {
+		add_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
+
+		$this->instance->get_events();
+
+		$this->assertFalse( $this->instance->get_cached_events() );
+
+		remove_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
+	}
+
+	/**
+	 * Simulate an HTTP response with a non-200 response code.
+	 *
+	 * @return array
+	 */
+	public function _http_request_bad_response_code() {
 		return array(
 			'headers'  => '',
 			'body'     => '',
 			'response' => array(
-				'code' => 404
+				'code' => 404,
 			),
 			'cookies'  => '',
 			'filename' => '',
 		);
 	}
 
+	/**
+	 * Test: `get_events()` should return an instance of WP_Error if the response body does not have
+	 * the required properties.
+	 */
 	public function test_get_events_invalid_response() {
-		add_filter( 'pre_http_request', array( $this, 'http_request_invalid_response' ) );
+		add_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
 
 		$this->assertWPError( $this->instance->get_events() );
 
-		remove_filter( 'pre_http_request', array( $this, 'http_request_invalid_response' ) );
+		remove_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
 	}
 
-	public function http_request_invalid_response() {
+	/**
+	 * Test: The response body should not be cached if it does not have the required properties.
+	 */
+	public function test_get_cached_events_invalid_response() {
+		add_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
+
+		$this->instance->get_events();
+
+		$this->assertFalse( $this->instance->get_cached_events() );
+
+		remove_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
+	}
+
+	/**
+	 * Simulate an HTTP response with a body that does not have the required properties.
+	 *
+	 * @return array
+	 */
+	public function _http_request_invalid_response() {
 		return array(
 			'headers'  => '',
 			'body'     => wp_json_encode( array() ),
 			'response' => array(
-				'code' => 200
+				'code' => 200,
 			),
 			'cookies'  => '',
 			'filename' => '',
 		);
 	}
 
+	/**
+	 * Test: With a valid response, `get_events()` should return an associated array containing a location array and
+	 * an events array with individual events that have formatted time and date.
+	 */
 	public function test_get_events_valid_response() {
-		add_filter( 'pre_http_request', array( $this, 'http_request_valid_response' ) );
+		add_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
 
 		$response = $this->instance->get_events();
 
@@ -69,10 +136,34 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 		$this->assertEquals( 'Sunday, Apr 16, 2017', $response['events'][0]['formatted_date'] );
 		$this->assertEquals( '1:00 pm', $response['events'][0]['formatted_time'] );
 
-		remove_filter( 'pre_http_request', array( $this, 'http_request_valid_response' ) );
+		remove_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
 	}
 
-	public function http_request_valid_response() {
+	/**
+	 * Test: `get_cached_events()` should return the same data as `get_events()`, including formatted time
+	 * and date values for each event.
+	 */
+	public function test_get_cached_events_valid_response() {
+		add_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
+
+		$this->instance->get_events();
+
+		$cached_events = $this->instance->get_cached_events();
+
+		$this->assertNotWPError( $cached_events );
+		$this->assertEqualSetsWithIndex( $this->get_user_location(), $cached_events['location'] );
+		$this->assertEquals( 'Sunday, Apr 16, 2017', $cached_events['events'][0]['formatted_date'] );
+		$this->assertEquals( '1:00 pm', $cached_events['events'][0]['formatted_time'] );
+
+		remove_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
+	}
+
+	/**
+	 * Simulate an HTTP response with valid location and event data.
+	 *
+	 * @return array
+	 */
+	public function _http_request_valid_response() {
 		return array(
 			'headers'  => '',
 			'body'     => wp_json_encode( array(
@@ -123,54 +214,10 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 				),
 			) ),
 			'response' => array(
-				'code' => 200
+				'code' => 200,
 			),
 			'cookies'  => '',
 			'filename' => '',
 		);
-	}
-
-
-	public function test_build_api_request_url() {
-		// @todo
-	}
-
-
-	public function test_get_events_transient_key() {
-		// @todo
-	}
-
-
-	public function test_cache_events() {
-		// @todo
-	}
-
-
-	public function test_get_cached_events() {
-		// @todo
-	}
-
-
-	public function test_format_event_data_time() {
-		// @todo
-	}
-
-	/**
-	 * Call protected/private method of a class.
-	 *
-	 * @link https://jtreminio.com/2013/03/unit-testing-tutorial-part-3-testing-protected-private-methods-coverage-reports-and-crap/
-	 *
-	 * @param object &$object    Instantiated object that we will run method on.
-	 * @param string $methodName Method name to call
-	 * @param array  $parameters Array of parameters to pass into method.
-	 *
-	 * @return mixed Method return.
-	 */
-	private function invokeMethod( &$object, $methodName, array $parameters = array() ) {
-		$reflection = new ReflectionClass( get_class( $object ) );
-		$method = $reflection->getMethod( $methodName );
-		$method->setAccessible( true );
-
-		return $method->invokeArgs( $object, $parameters );
 	}
 }

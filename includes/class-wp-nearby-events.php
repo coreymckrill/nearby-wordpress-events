@@ -66,7 +66,7 @@ class WP_Nearby_Events {
 				array(
 					'request_url'   => $request_url,
 					'response_code' => $response_code,
-					'events'        => $response_body['events']
+					'response_body' => $response_body,
 				) // @todo remove this during merge to Core
 			);
 		}
@@ -78,7 +78,7 @@ class WP_Nearby_Events {
 				array(
 					'request_url'   => $request_url,
 					'response_code' => $response_code,
-					'events'        => $response_body['events']
+					'response_body' => $response_body,
 				) // @todo remove this during merge to Core
 			);
 		}

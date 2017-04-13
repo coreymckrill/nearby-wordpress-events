@@ -1,34 +1,34 @@
-<?php
-
-	$core_tests_base_url = 'http://wp-develop.dev';
-	$core_qunit_base_url = $core_tests_base_url . '/tests/qunit';
-
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
+	<!--
+	 !-- To run these, install the plugin into a checkout of develop.git.wordpress.org,
+	 !-- and then browse to /src/wp-content/plugins/nearby-wp-events/tests/qunit/
+	 -->
+
 	<title>Nearby WordPress Events QUnit Test Suite</title>
 
 	<!-- Dependencies -->
-	<script src="<?php echo $core_tests_base_url; ?>/src/wp-includes/js/jquery/jquery.js"></script>
-	<script src="<?php echo $core_tests_base_url; ?>/src/wp-includes/js/jquery/ui/core.js"></script>
-	<script src="<?php echo $core_tests_base_url; ?>/src/wp-includes/js/underscore.min.js"></script>
-	<script src="<?php echo $core_tests_base_url; ?>/src/wp-includes/js/backbone.min.js"></script>
-	<script src="<?php echo $core_tests_base_url; ?>/src/wp-includes/js/wp-backbone.js"></script>\
+	<script src="/src/wp-includes/js/jquery/jquery.js"></script>
+	<script src="/src/wp-includes/js/jquery/ui/core.js"></script>
+	<script src="/src/wp-includes/js/underscore.min.js"></script>
+	<script src="/src/wp-includes/js/backbone.min.js"></script>
+	<script src="/src/wp-includes/js/wp-backbone.js"></script>
 	<script>
 		window._wpUtilSettings = {
 			'ajax' : {
-				'url' : '\/wp-admin\/admin-ajax.php'
+				'url' : '\/src\/wp-admin\/admin-ajax.php'
 			}
 		};
 	</script>
-	<script src="<?php echo $core_tests_base_url; ?>/src/wp-includes/js/wp-util.js"></script>
-	<script src="<?php echo $core_tests_base_url; ?>/src/wp-includes/js/wp-a11y.js"></script>
+	<script src="/src/wp-includes/js/wp-util.js"></script>
+	<script src="/src/wp-includes/js/wp-a11y.js"></script>
 
 	<!-- QUnit -->
-	<link rel="stylesheet" href="<?php echo $core_qunit_base_url; ?>/vendor/qunit.css" type="text/css" media="screen" />
-	<script src="<?php echo $core_qunit_base_url; ?>/vendor/qunit.js"></script>
-	<script src="<?php echo $core_qunit_base_url; ?>/vendor/sinon.js"></script>
-	<script src="<?php echo $core_qunit_base_url; ?>/vendor/sinon-qunit.js"></script>
+	<link rel="stylesheet" href="/tests/qunit/vendor/qunit.css" type="text/css" media="screen" />
+	<script src="/tests/qunit/vendor/qunit.js"></script>
+	<script src="/tests/qunit/vendor/sinon.js"></script>
+	<script src="/tests/qunit/vendor/sinon-qunit.js"></script>
 	<script>QUnit.config.hidepassed = false;</script>
 </head>
 

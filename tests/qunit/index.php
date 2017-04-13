@@ -36,13 +36,9 @@
 	<div id="qunit"></div>
 
 	<!-- Tested files -->
-	<script src="../../js/common.js"></script>
 	<script src="../../js/dashboard.js"></script>
-	<script src="../../js/front-end.js"></script>
 
 	<!-- Unit tests -->
-	<script src="test-common.js"></script>
 	<script src="test-dashboard.js"></script>
-	<script src="test-front-end.js"></script>
 </body>
 </html>

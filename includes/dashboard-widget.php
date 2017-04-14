@@ -131,7 +131,9 @@ function nearbywp_render_js_templates() {
                             </div>
                             <div class="event-date-time">
                                 <span class="event-date">{{ event.formatted_date }}</span>
-                                <span class="event-time">{{ event.formatted_time }}</span>
+                                <# if ( 'meetup' === event.type ) { #>
+                                    <span class="event-time">{{ event.formatted_time }}</span>
+                                <# } #>
                             </div>
                             <div class="clear"></div>
 						</li>

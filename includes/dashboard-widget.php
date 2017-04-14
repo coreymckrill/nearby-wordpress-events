@@ -122,20 +122,20 @@ function nearbywp_render_js_templates() {
 
 					<# _.each( data.events, function( event ) { #>
 						<li class="event event-{{ event.type }}">
-                            <div class="event-info">
-                                <div class="dashicons event-icon" aria-hidden="true"></div>
-                                <div class="event-info-inner">
-                                    <a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
-                                    <span class="event-city">{{ event.location.location }}</span>
-                                </div>
-                            </div>
-                            <div class="event-date-time">
-                                <span class="event-date">{{ event.formatted_date }}</span>
-                                <# if ( 'meetup' === event.type ) { #>
-                                    <span class="event-time">{{ event.formatted_time }}</span>
-                                <# } #>
-                            </div>
-                            <div class="clear"></div>
+							<div class="event-info">
+								<div class="dashicons event-icon" aria-hidden="true"></div>
+								<div class="event-info-inner">
+									<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
+									<span class="event-city">{{ event.location.location }}</span>
+								</div>
+							</div>
+							<div class="event-date-time">
+								<span class="event-date">{{ event.formatted_date }}</span>
+								<# if ( 'meetup' === event.type ) { #>
+									<span class="event-time">{{ event.formatted_time }}</span>
+								<# } #>
+							</div>
+							<div class="clear"></div>
 						</li>
 					<# } ) #>
 

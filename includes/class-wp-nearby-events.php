@@ -1,20 +1,28 @@
 <?php
 /**
+ * A class to handle locations and events.
+ *
  * @package Nearby WordPress Events
  */
 
-defined( 'WPINC' ) or die();
+defined( 'WPINC' ) || die();
 
 /**
  * Class WP_Nearby_Events
+ *
+ * A client for api.wordpress.org/events.
  */
 class WP_Nearby_Events {
 	/**
+	 * WP user ID.
+	 *
 	 * @var int
 	 */
 	private $user_id = 0;
 
 	/**
+	 * Stored location data for the user.
+	 *
 	 * @var bool|array
 	 */
 	private $user_location = false;
@@ -22,8 +30,8 @@ class WP_Nearby_Events {
 	/**
 	 * WP_Nearby_Events constructor.
 	 *
-	 * @param int        $user_id
-	 * @param bool|array $user_location
+	 * @param int        $user_id       WP user ID.
+	 * @param bool|array $user_location Stored location data for the user.
 	 */
 	public function __construct( $user_id, $user_location = false ) {
 		$this->user_id       = absint( $user_id );
@@ -61,7 +69,7 @@ class WP_Nearby_Events {
 		if ( 200 !== $response_code ) {
 			return new WP_Error(
 				'api-error',
-				// translators: %s is a numeric HTTP status code; e.g., 400, 403, 500, 504, etc
+				/* translators: %s is a numeric HTTP status code; e.g., 400, 403, 500, 504, etc. */
 				esc_html( sprintf( __( 'Invalid API response code (%s)', 'nearby-wp-events' ), $response_code ) ),
 				array(
 					'request_url'   => $request_url,
@@ -94,8 +102,8 @@ class WP_Nearby_Events {
 	/**
 	 * Build a URL for requests to the Events API
 	 *
-	 * @param string $search
-	 * @param string $timezone
+	 * @param string $search   City search string.
+	 * @param string $timezone Timezone string.
 	 *
 	 * @return string
 	 */
@@ -114,8 +122,8 @@ class WP_Nearby_Events {
 
 		if ( $search ) {
 			$args['location'] = wp_unslash( $search );
-		} else if ( isset( $this->user_location['latitude'], $this->user_location['longitude'] ) ) {
-			// Send pre-determined location
+		} elseif ( isset( $this->user_location['latitude'], $this->user_location['longitude'] ) ) {
+			// Send pre-determined location.
 			$args['latitude']  = $this->user_location['latitude'];
 			$args['longitude'] = $this->user_location['longitude'];
 		}
@@ -142,7 +150,7 @@ class WP_Nearby_Events {
 	private function get_unsafe_client_ip() {
 		$client_ip = false;
 
-		// In order of preference, with the best ones for this purpose first
+		// In order of preference, with the best ones for this purpose first.
 		$address_headers = array(
 			'HTTP_CLIENT_IP',
 			'HTTP_X_FORWARDED_FOR',
@@ -176,7 +184,7 @@ class WP_Nearby_Events {
 	 * locations, and having it abstracted keeps the logic consistent and DRY,
 	 * which is less prone to errors.
 	 *
-	 * @param array $location Should contain 'latitude' and 'longitude' indexes
+	 * @param array $location Should contain 'latitude' and 'longitude' indexes.
 	 *
 	 * @return bool|string `false` on failure, or a string on success
 	 */
@@ -193,7 +201,7 @@ class WP_Nearby_Events {
 	/**
 	 * Cache an array of events data from the Events API.
 	 *
-	 * @param array $events
+	 * @param array $events Response body from the API request.
 	 *
 	 * @return bool
 	 */
@@ -229,7 +237,7 @@ class WP_Nearby_Events {
 	 * the cache, then all users would see the events in the localized data/time
 	 * of the user who triggered the cache refresh, rather than their own.
 	 *
-	 * @param array $response_body The response which contains the events
+	 * @param array $response_body The response which contains the events.
 	 *
 	 * @return array
 	 */
@@ -238,10 +246,10 @@ class WP_Nearby_Events {
 			foreach ( $response_body['events'] as $key => $event ) {
 				$timestamp = strtotime( $event['date'] );
 
-				// translators: date format for upcoming events on the dashboard, see https://secure.php.net/date
+				/* translators: date format for upcoming events on the dashboard, see https://secure.php.net/date */
 				$response_body['events'][ $key ]['formatted_date'] = date_i18n( __( 'l, M j, Y', 'nearby-wp-events' ), $timestamp );
 
-				// translators: time format for upcoming events on the dashboard, see https://secure.php.net/date
+				/* translators: time format for upcoming events on the dashboard, see https://secure.php.net/date */
 				$response_body['events'][ $key ]['formatted_time'] = date_i18n( __( 'g:i a', 'nearby-wp-events' ), $timestamp );
 			}
 		}

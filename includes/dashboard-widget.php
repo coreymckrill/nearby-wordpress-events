@@ -1,6 +1,11 @@
 <?php
+/**
+ * Templates for the Dashboard widget.
+ *
+ * @package Nearby WordPress Events
+ */
 
-defined( 'WPINC' ) or die();
+defined( 'WPINC' ) || die();
 
 /**
  * Render callback for the Dashboard widget
@@ -56,9 +61,9 @@ function nearbywp_render_js_templates() {
 			<# if ( data.location.description ) { #>
 
 				<p>
-					<?php // translators: %s is the name of a city ?>
 					<?php printf(
 						wp_kses(
+							/* translators: %s is the name of a city. */
 							__( 'Attend an upcoming event near %s', 'nearby-wp-events' ),
 							wp_kses_allowed_html( 'data' )
 						),
@@ -74,6 +79,7 @@ function nearbywp_render_js_templates() {
 				<p>
 					<?php printf(
 						wp_kses(
+							/* translators: %s is a city search string. */
 							__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city, or your closest airport code.", 'nearby-wp-events' ),
 							wp_kses_allowed_html( 'data' )
 						),
@@ -86,8 +92,8 @@ function nearbywp_render_js_templates() {
 				<p>
 					<?php printf(
 						wp_kses(
-							// translators: %s is the detailed error message
-							__( "An error occured while trying to retrieve events. Please try again. <code>[%s]</code>", 'nearby-wp-events' ),
+							/* translators: %s is the detailed error message. */
+							__( 'An error occured while trying to retrieve events. Please try again. <code>[%s]</code>', 'nearby-wp-events' ),
 							wp_kses_allowed_html( 'data' )
 						),
 						'{{data.error}}'

@@ -1,17 +1,18 @@
 <?php
+/**
+ * Plugin Name: Nearby WordPress Events
+ * Plugin URI:  https://wordpress.org/plugins/nearby-wp-events/
+ * Description: Shows the current user a list of nearby WordPress events via a Dashboard widget.
+ * Version:     0.4
+ * Author:      WordPress Meta Team
+ * Author URI:  https://make.wordpress.org/meta
+ * Text Domain: nearby-wp-events
+ * License:     GPL2
+ *
+ * @package Nearby WordPress Events
+ */
 
-/*
-Plugin Name: Nearby WordPress Events
-Plugin URI:  https://wordpress.org/plugins/nearby-wp-events/
-Description: Shows the current user a list of nearby WordPress events via a Dashboard widget.
-Version:     0.4
-Author:      WordPress Meta Team
-Author URI:  https://make.wordpress.org/meta
-Text Domain: nearby-wp-events
-License:     GPL2
-*/
-
-defined( 'WPINC' ) or die();
+defined( 'WPINC' ) || die();
 
 define( 'NEARBYWP_VERSION', '0.4' );
 
@@ -43,7 +44,7 @@ function nearbywp_register_dashboard_widgets() {
 		'nearbywp_render_dashboard_widget'
 	);
 
-	// Remove WordPress News because we'll incorporate its contents into the new widget
+	// Remove WordPress News because we'll incorporate its contents into the new widget.
 	remove_meta_box( 'dashboard_primary', get_current_screen(), 'side' );
 }
 
@@ -104,7 +105,7 @@ function nearbywp_ajax_get_events() {
 	}
 
 	if ( isset( $events['location'] ) && ( $search || ! $user_location ) ) {
-		// Store the location network-wide, so the user doesn't have to set it on each site
+		// Store the location network-wide, so the user doesn't have to set it on each site.
 		update_user_option( $user_id, 'nearbywp-location', $events['location'], true );
 	}
 

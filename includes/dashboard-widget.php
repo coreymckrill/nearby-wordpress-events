@@ -127,7 +127,7 @@ function nearbywp_render_js_templates() {
 				<# if ( data.events.length ) { #>
 
 					<# _.each( data.events, function( event ) { #>
-						<li class="event event-{{ event.type }}">
+						<li class="event event-{{ event.type }} wp-clearfix">
 							<div class="event-info">
 								<div class="dashicons event-icon" aria-hidden="true"></div>
 								<div class="event-info-inner">
@@ -141,7 +141,6 @@ function nearbywp_render_js_templates() {
 									<span class="event-time">{{ event.formatted_time }}</span>
 								<# } #>
 							</div>
-							<div class="clear"></div>
 						</li>
 					<# } ) #>
 

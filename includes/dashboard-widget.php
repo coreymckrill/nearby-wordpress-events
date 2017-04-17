@@ -68,7 +68,7 @@ function nearbywp_render_js_templates() {
 							wp_kses_allowed_html( 'data' )
 						),
 						'<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
-							<strong>{{{ data.location.description }}}</strong>
+							<strong>{{ data.location.description }}</strong>
 							<span class="dashicons dashicons-edit" aria-hidden="true"></span>
 						</button>'
 					); ?>

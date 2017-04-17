@@ -80,7 +80,7 @@ function nearbywp_render_js_templates() {
 					<?php printf(
 						wp_kses(
 							/* translators: %s is a city search string. */
-							__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city, or your closest airport code.", 'nearby-wp-events' ),
+							__( "We couldn't locate <strong><em>%s</em></strong>. Please try typing only the city name, or try another nearby city.", 'nearby-wp-events' ),
 							wp_kses_allowed_html( 'data' )
 						),
 						'{{data.unknown_city}}'

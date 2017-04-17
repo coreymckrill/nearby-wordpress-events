@@ -107,10 +107,11 @@ function nearbywp_render_js_templates() {
 			<# } #>
 
 			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
-				<label for="nearbywp-location" class="screen-reader-text">
-					<?php esc_html_e( 'Enter a nearby city name', 'nearby-wp-events' ); ?>
+				<label for="nearbywp-location" >
+					<?php _e( 'City name:', 'nearby-wp-events' ); ?>
 				</label>
-				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'City name', 'nearby-wp-events' ); ?>" />
+				<?php /* translators: Replace with the name of a city in your locale. Use only the city name itself, without any region or country. Use the endonym instead of the English name. */ ?>
+				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'Cincinnati', 'nearby-wp-events' ); ?>" />
 
 				<?php submit_button( __( 'Submit', 'nearby-wp-events' ), 'primary', 'nearbywp-submit', false ); ?>
 

@@ -49,6 +49,7 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 = 0.5 (2017-??????????????????) =
 * [SECURITY] Harden the city display name against a theoretical cross-site scripting attack.
+* [FIX] Add a label to the city input field, instead of relying on the placeholder.
 
 = 0.4 (2017-04-11) =
 * [FIX] Improved the layout on mobile devices.
@@ -72,7 +73,7 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 == Upgrade Notice ==
 
 = 0.5 =
-This version ?????????????????, and protects against a theoretical security vulnerability.
+This version fixes several accessibility bugs, and protects against a theoretical security vulnerability.
 
 = 0.4 =
 This version displays the event time and day of the week, and fixes a few small bugs.

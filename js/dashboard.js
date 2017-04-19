@@ -23,12 +23,14 @@ jQuery( function( $ ) {
 			}
 
 			$container.on( 'click', '#nearbywp-toggle', function() {
-				$( '#nearbywp-form' ).removeClass( 'hide' );
+				$( '#nearbywp-toggle' ).attr( 'aria-expanded', true );
+				$( '#nearbywp-form' ).attr( 'aria-hidden', false );
 				$( '#nearbywp-location' ).focus();
 			});
 
 			$container.on( 'click', '#nearbywp-cancel', function() {
-				$( '#nearbywp-form' ).addClass( 'hide' );
+				$( '#nearbywp-toggle' ).attr( 'aria-expanded', false );
+				$( '#nearbywp-form' ).attr( 'aria-hidden', true );
 			});
 
 			$container.on( 'submit', '#nearbywp-form', function( event ) {

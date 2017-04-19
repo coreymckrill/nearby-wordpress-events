@@ -1,7 +1,8 @@
 .nearbywp {
 	margin-bottom: 6px;
 }
-.nearbywp .hide {
+
+.nearbywp-form[aria-hidden="true"] {
 	display: none;
 }
 

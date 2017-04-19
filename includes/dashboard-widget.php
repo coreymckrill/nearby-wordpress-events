@@ -67,7 +67,7 @@ function nearbywp_render_js_templates() {
 							__( 'Attend an upcoming event near %s', 'nearby-wp-events' ),
 							wp_kses_allowed_html( 'data' )
 						),
-						'<button id="nearbywp-toggle" class="button-link nearbywp-toggle">
+						'<button id="nearbywp-toggle" class="button-link nearbywp-toggle" aria-expanded="false">
 							<strong>{{ data.location.description }}</strong>
 							<span class="dashicons dashicons-edit" aria-hidden="true"></span>
 						</button>'
@@ -106,7 +106,7 @@ function nearbywp_render_js_templates() {
 
 			<# } #>
 
-			<form id="nearbywp-form" class="nearbywp-form <# if ( data.location.description ) print( 'hide' ) #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
+			<form id="nearbywp-form" class="nearbywp-form" aria-hidden="<# print( data.location.description ? 'true' : 'false' ); #>" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
 				<label for="nearbywp-location" >
 					<?php _e( 'City name:', 'nearby-wp-events' ); ?>
 				</label>

@@ -150,11 +150,11 @@ function nearbywp_render_js_templates() {
 					<li class="event-none">
 						<?php printf(
 							wp_kses(
-								__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="%s">organize one</a>?', 'nearby-wp-events' ),
+								/* translators: Replace the URL if a locale-specific one exists */
+								__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="https://make.wordpress.org/community/handbook/meetup-organizer/welcome/">organize one</a>?', 'nearby-wp-events' ),
 								wp_kses_allowed_html( 'data' )
 							),
-							'{{data.location.description}}',
-							'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/'
+							'{{data.location.description}}'
 						); ?>
 					</li>
 

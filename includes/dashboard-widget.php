@@ -115,10 +115,6 @@ function nearbywp_render_js_templates() {
 
 				<?php submit_button( __( 'Submit', 'nearby-wp-events' ), 'primary', 'nearbywp-submit', false ); ?>
 
-				<button id="nearbywp-cancel" class="button button-secondary <# if ( ! data.location.description ) print( 'hide' ) #>" type="button">
-					<?php esc_html_e( 'Cancel', 'nearby-wp-events' ); ?>
-				</button>
-
 				<span class="spinner"></span>
 			</form>
 		</div>

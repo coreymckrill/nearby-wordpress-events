@@ -23,14 +23,17 @@ jQuery( function( $ ) {
 			}
 
 			$container.on( 'click', '#nearbywp-toggle', function() {
-				$( '#nearbywp-toggle' ).attr( 'aria-expanded', true );
-				$( '#nearbywp-form' ).attr( 'aria-hidden', false );
-				$( '#nearbywp-location' ).focus();
-			});
+				var $toggle  = $( '#nearbywp-toggle' ),
+					$form    = $( '#nearbywp-form' ),
+					expanded = $toggle.attr( 'aria-expanded' );
 
-			$container.on( 'click', '#nearbywp-cancel', function() {
-				$( '#nearbywp-toggle' ).attr( 'aria-expanded', false );
-				$( '#nearbywp-form' ).attr( 'aria-hidden', true );
+				if ( 'true' == expanded ) { // Strict comparison doesn't work in this case.
+					$toggle.attr( 'aria-expanded', false );
+					$form.attr( 'aria-hidden', true );
+				} else {
+					$toggle.attr( 'aria-expanded', true );
+					$form.attr( 'aria-hidden', false );
+				}
 			});
 
 			$container.on( 'submit', '#nearbywp-form', function( event ) {

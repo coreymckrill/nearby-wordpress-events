@@ -20,6 +20,13 @@ if ( ! is_admin() ) {
 	return;
 }
 
+// Prevent the plugin from loading if this has been merged to Core
+require_once( ABSPATH . '/wp-admin/includes/dashboard.php'    );
+require_once( ABSPATH . '/wp-admin/includes/ajax-actions.php' );
+if ( function_exists( 'wp_fetch_nearby_events' ) || function_exists( 'wp_ajax_fetch_nearby_events' ) ) {
+	return;
+}
+
 require_once( dirname( __FILE__ ) . '/includes/class-wp-nearby-events.php' );
 require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
 
@@ -84,6 +91,10 @@ function nearbywp_enqueue_scripts() {
 
 /**
  * Ajax handler for fetching widget events
+ *
+ * @todo during the merge to Core, this function -- or possibly WP_Nearby_Events::get_events() -- must be renamed
+ *       to `wp_fetch_nearby_events` or `wp_ajax_fetch_nearby_events` to preserve back-compat with the early
+ *       return at the start of this file. Otherwise, sites with the plugin installed could break.
  */
 function nearbywp_ajax_get_events() {
 	check_ajax_referer( 'nearbywp_events' );

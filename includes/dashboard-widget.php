@@ -63,15 +63,15 @@ function nearbywp_render_js_templates() {
 				<p>
 					<?php printf(
 						wp_kses(
-							/* translators: %s is the name of a city. */
-							__( 'Attend an upcoming event near %s', 'nearby-wp-events' ),
+							/* translators: %s is a placeholder for the name of a city. */
+							__( 'Attend an upcoming event near <strong>%s</strong>', 'nearby-wp-events' ),
 							wp_kses_allowed_html( 'data' )
 						),
-						'<button id="nearbywp-toggle" class="button-link nearbywp-toggle" aria-expanded="false">
-							<strong>{{ data.location.description }}</strong>
-							<span class="dashicons dashicons-edit" aria-hidden="true"></span>
-						</button>'
+						'{{ data.location.description }}'
 					); ?>
+					<button id="nearbywp-toggle" class="button-link nearbywp-toggle" aria-label="<?php esc_attr_e( 'Edit location', 'nearby-wp-events' ); ?>" aria-expanded="false">
+						<span class="dashicons dashicons-edit" aria-hidden="true"></span>
+					</button>
 				</p>
 
 			<# } else if ( data.unknown_city ) { #>

@@ -36,6 +36,11 @@
 	width: 40%;
 }
 
+.nearbywp-form label {
+	display: inline-block;
+	padding-bottom: 3px;
+}
+
 .nearbywp .activity-block > p {
 	margin-bottom: 0;
 	display: inline;

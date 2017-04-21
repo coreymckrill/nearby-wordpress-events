@@ -24,7 +24,7 @@ if ( ! is_admin() ) {
 require_once( ABSPATH . '/wp-admin/includes/dashboard.php'    );
 require_once( ABSPATH . '/wp-admin/includes/ajax-actions.php' );
 require_once( ABSPATH . '/wp-admin/includes/deprecated.php'   );
-if ( function_exists( 'wp_fetch_nearby_events' ) || function_exists( 'wp_ajax_fetch_nearby_events' ) ) {
+if ( function_exists( 'wp_get_nearby_events' ) || function_exists( 'wp_ajax_get_nearby_events' ) ) {
 	return;
 }
 
@@ -94,7 +94,7 @@ function nearbywp_enqueue_scripts() {
  * Ajax handler for fetching widget events
  *
  * @todo during the merge to Core, this function -- or possibly WP_Nearby_Events::get_events() -- must be renamed
- *       to `wp_fetch_nearby_events` or `wp_ajax_fetch_nearby_events` to preserve back-compat with the early
+ *       to `wp_get_nearby_events` or `wp_ajax_get_nearby_events` to preserve back-compat with the early
  *       return at the start of this file. Otherwise, sites with the plugin installed could break.
  *       If neither of those names is desired then, worse case, we can just put a stub for one of them in
  *       `wp-admin/includes/deprecated.php`.

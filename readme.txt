@@ -4,7 +4,7 @@ Donate link:       https://eff.org
 Tags:              meetup, wordcamp, events, dashboard widget
 Requires at least: 4.7
 Tested up to:      4.7
-Stable tag:        0.4
+Stable tag:        0.5
 License:           GPL2
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,7 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 * [SECURITY] Harden the city display name against a theoretical cross-site scripting attack.
 * [FIX] Add a label to the city input field, instead of relying on the placeholder.
 * [FIX] Handled AJAX error more gracefully
+* [FIX] Events older than 24 hours are no longer shown
 * [NEW] The location icon can now be clicked on to close the location form
 * [NEW] The plugin will disable itself if it detects that the functionality has been merged into Core
 

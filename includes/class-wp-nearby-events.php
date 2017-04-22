@@ -269,9 +269,10 @@ class WP_Nearby_Events {
 	 */
 	protected function trim_events( $response_body ) {
 		if ( isset( $response_body['events'] ) ) {
-			$current_timestamp = time();
+			$current_timestamp = current_time('timestamp' );
 
 			foreach ( $response_body['events'] as $key => $event ) {
+				// Skip WordCamps, because they might be multi-day events
 				if ( 'meetup' !== $event['type'] ) {
 					continue;
 				}

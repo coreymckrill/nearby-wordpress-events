@@ -47,9 +47,12 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 == Changelog ==
 
-= 0.5 (2017-??????????????????) =
+= 0.5 (2017-04-21) =
 * [SECURITY] Harden the city display name against a theoretical cross-site scripting attack.
 * [FIX] Add a label to the city input field, instead of relying on the placeholder.
+* [FIX] Handled AJAX error more gracefully
+* [NEW] The location icon can now be clicked on to close the location form
+* [NEW] The plugin will disable itself if it detects that the functionality has been merged into Core
 
 = 0.4 (2017-04-11) =
 * [FIX] Improved the layout on mobile devices.
@@ -73,7 +76,7 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 == Upgrade Notice ==
 
 = 0.5 =
-This version fixes several accessibility bugs, and protects against a theoretical security vulnerability.
+This version fixes several bugs and accessibility issues, and protects against a theoretical security vulnerability.
 
 = 0.4 =
 This version displays the event time and day of the week, and fixes a few small bugs.

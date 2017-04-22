@@ -93,7 +93,9 @@ class WP_Nearby_Events {
 
 		$this->cache_events( $response_body );
 
+		$response_body = $this->trim_events( $response_body );
 		$response_body = $this->format_event_data_time( $response_body );
+
 		$response_body['api_request_info'] = compact( 'request_url', 'response_code' ); // @todo remove this during merge to Core
 
 		return $response_body;
@@ -111,7 +113,7 @@ class WP_Nearby_Events {
 		$api_url = 'https://api.wordpress.org/events/1.0/';
 
 		$args = array(
-			'number' => 3,
+			'number' => 5, // Get more than three in case some get trimmed out.
 			'ip'     => $this->get_unsafe_client_ip(),
 			'locale' => get_user_locale( $this->user_id ),
 		);
@@ -225,6 +227,7 @@ class WP_Nearby_Events {
 	 */
 	public function get_cached_events() {
 		$cached_response = get_site_transient( $this->get_events_transient_key( $this->user_location ) );
+		$cached_response = $this->trim_events( $cached_response );
 
 		return $this->format_event_data_time( $cached_response );
 	}
@@ -252,6 +255,35 @@ class WP_Nearby_Events {
 				/* translators: time format for upcoming events on the dashboard, see https://secure.php.net/date */
 				$response_body['events'][ $key ]['formatted_time'] = date_i18n( __( 'g:i a', 'nearby-wp-events' ), $timestamp );
 			}
+		}
+
+		return $response_body;
+	}
+
+	/**
+	 * Discard events that occurred more than 24 hours ago, then reduce the remaining list down to three items.
+	 *
+	 * @param array $response_body The response which contains the events.
+	 *
+	 * @return array
+	 */
+	protected function trim_events( $response_body ) {
+		if ( isset( $response_body['events'] ) ) {
+			$current_timestamp = time();
+
+			foreach ( $response_body['events'] as $key => $event ) {
+				if ( 'meetup' !== $event['type'] ) {
+					continue;
+				}
+
+				$event_timestamp = strtotime( $event['date'] );
+
+				if ( $current_timestamp > $event_timestamp && ( $current_timestamp - $event_timestamp ) > DAY_IN_SECONDS ) {
+					unset( $response_body['events'][ $key ] );
+				}
+			}
+
+			$response_body['events'] = array_slice( $response_body['events'], 0, 3 );
 		}
 
 		return $response_body;

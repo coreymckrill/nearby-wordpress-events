@@ -72,9 +72,18 @@ jQuery( function( $ ) {
 
 					app.renderEventsTemplate( events );
 				})
-				.fail( function( error ) {
-					error.location = false;
-					app.renderEventsTemplate( error );
+				.fail( function( failedResponse ) {
+					var events = { 'location' : false };
+
+					if ( 'string' === typeof failedResponse ) {
+						events.error = failedResponse;
+					} else if ( failedResponse.hasOwnProperty( 'statusText' ) ) {
+						events.error = failedResponse.statusText;
+					} else {
+						events.error = 'Unknown error';
+					}
+
+					app.renderEventsTemplate( events );
 				});
 		},
 

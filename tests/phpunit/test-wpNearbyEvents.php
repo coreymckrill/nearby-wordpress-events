@@ -133,7 +133,7 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 
 		$this->assertNotWPError( $response );
 		$this->assertEqualSetsWithIndex( $this->get_user_location(), $response['location'] );
-		$this->assertEquals( 'Sunday, Apr 16, 2017', $response['events'][0]['formatted_date'] );
+		$this->assertEquals( date( 'l, M j, Y', strtotime( 'next Sunday 1pm' ) ), $response['events'][0]['formatted_date'] );
 		$this->assertEquals( '1:00 pm', $response['events'][0]['formatted_time'] );
 
 		remove_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
@@ -152,7 +152,7 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 
 		$this->assertNotWPError( $cached_events );
 		$this->assertEqualSetsWithIndex( $this->get_user_location(), $cached_events['location'] );
-		$this->assertEquals( 'Sunday, Apr 16, 2017', $cached_events['events'][0]['formatted_date'] );
+		$this->assertEquals( date( 'l, M j, Y', strtotime( 'next Sunday 1pm' ) ), $cached_events['events'][0]['formatted_date'] );
 		$this->assertEquals( '1:00 pm', $cached_events['events'][0]['formatted_time'] );
 
 		remove_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
@@ -175,7 +175,7 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 						'url'            => 'https://www.meetup.com/Eastbay-WordPress-Meetup/events/236031233/',
 						'meetup'         => 'The East Bay WordPress Meetup Group',
 						'meetup_url'     => 'https://www.meetup.com/Eastbay-WordPress-Meetup/',
-						'date'           => '2017-04-16 13:00:00',
+						'date'           => date( 'Y-m-d H:i:s', strtotime( 'next Sunday 1pm' ) ),
 						'location'       => array(
 							'location'  => 'Oakland, CA, USA',
 							'country'   => 'us',
@@ -189,7 +189,7 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 						'url'            => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
 						'meetup'         => 'WordPress Bay Area Foothills Group',
 						'meetup_url'     => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
-						'date'           => '2017-04-26 13:30:00',
+						'date'           => date( 'Y-m-d H:i:s', strtotime( 'next Wednesday 1:30pm' ) ),
 						'location'       => array(
 							'location'  => 'Milpitas, CA, USA',
 							'country'   => 'us',
@@ -203,7 +203,7 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 						'url'            => 'https://2017.kansascity.wordcamp.org',
 						'meetup'         => null,
 						'meetup_url'     => null,
-						'date'           => '2017-04-28 00:00:00',
+						'date'           => date( 'Y-m-d H:i:s', strtotime( 'next Saturday' ) ),
 						'location'       => array(
 							'location'  => 'Kansas City, MO',
 							'country'   => 'US',

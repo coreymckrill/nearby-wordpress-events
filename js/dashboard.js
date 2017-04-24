@@ -33,6 +33,7 @@ jQuery( function( $ ) {
 				} else {
 					$toggle.attr( 'aria-expanded', true );
 					$form.attr( 'aria-hidden', false );
+					$form.find( 'input[name="nearbywp-location"]' ).focus();
 				}
 			});
 

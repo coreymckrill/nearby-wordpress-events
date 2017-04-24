@@ -4,7 +4,7 @@ Donate link:       https://eff.org
 Tags:              meetup, wordcamp, events, dashboard widget
 Requires at least: 4.7
 Tested up to:      4.7
-Stable tag:        0.5
+Stable tag:        0.6
 License:           GPL2
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,10 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 == Changelog ==
 
+= 0.6 (2017-04-24) =
+* [FIX] Fixed fatal conflict with asynchronous uploads by restricting the bootstrap process to only the contexts where it's necessary.
+* [FIX] Restore the behavior that automatically focuses the input on the city field when toggling the location form.
+
 = 0.5 (2017-04-21) =
 * [SECURITY] Harden the city display name against a theoretical cross-site scripting attack.
 * [FIX] Add a label to the city input field, instead of relying on the placeholder.
@@ -75,6 +79,9 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 
 == Upgrade Notice ==
+
+= 0.6 =
+This version fixes a critical bug in 0.5 that caused file uploads to break in certain situations.
 
 = 0.5 =
 This version fixes several bugs and accessibility issues, and protects against a theoretical security vulnerability.

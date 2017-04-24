@@ -20,10 +20,12 @@ require_once( dirname( dirname( $core_tests_directory ) ) . '/src/wp-admin/inclu
  * Load the plugins that we'll need to be active for the tests
  */
 function manually_load_plugin() {
-	$_SERVER['PHP_SELF'] = admin_url();
+	// Setup request so that nearby-wp-events.php will bootstrap the plugin
+	define( 'WP_ADMIN',   true );
+	define( 'DOING_AJAX', true );
 
-	// Defining WP_ADMIN is so that nearby-wp-events/bootstrap.php will load the dashboard-widgets.php files
-	define( 'WP_ADMIN', true );
+	$_SERVER['PHP_SELF'] = admin_url();
+	$_REQUEST['action']  = 'nearbywp_get_events';
 
 	require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/nearby-wordpress-events.php' );
 }

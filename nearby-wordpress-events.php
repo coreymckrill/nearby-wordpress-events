@@ -14,116 +14,61 @@
 
 defined( 'WPINC' ) || die();
 
-define( 'NEARBYWP_VERSION', '0.5' );
-
-if ( ! is_admin() ) {
-	return;
-}
-
-// Prevent the plugin from loading if this has been merged to Core
-require_once( ABSPATH . '/wp-admin/includes/dashboard.php'    );
-require_once( ABSPATH . '/wp-admin/includes/ajax-actions.php' );
-require_once( ABSPATH . '/wp-admin/includes/deprecated.php'   );
-if ( function_exists( 'wp_get_nearby_events' ) || function_exists( 'wp_ajax_get_nearby_events' ) ) {
-	return;
-}
-
-require_once( dirname( __FILE__ ) . '/includes/class-wp-nearby-events.php' );
-require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
+nearbywp_bootstrap();
 
 /**
- * Initialize widget functionality
+ * Bootstrap the plugin
  */
-function nearbywp_init() {
-	add_action( 'wp_dashboard_setup', 'nearbywp_register_dashboard_widgets' );
-	add_action( 'wp_network_dashboard_setup',    'nearbywp_register_dashboard_widgets' );
-	add_action( 'admin_print_scripts-index.php', 'nearbywp_enqueue_scripts' );
-}
+function nearbywp_bootstrap() {
+	$is_dashboard_request  = '/wp-admin/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -19 );
+	$is_event_ajax_request = defined( 'DOING_AJAX' ) && DOING_AJAX &&
+	                         isset( $_REQUEST['action'] ) && 'nearbywp_get_events' === $_REQUEST['action'];
 
-add_action( 'load-index.php', 'nearbywp_init' );
+	if ( ! $is_dashboard_request && ! $is_event_ajax_request ) {
+		return;
+	}
 
-/**
- * Register Dashboard widget
- */
-function nearbywp_register_dashboard_widgets() {
-	wp_add_dashboard_widget(
-		'nearbywp_dashboard_events',
-		esc_html__( 'WordPress Events and News', 'nearby-wp-events' ),
-		'nearbywp_render_dashboard_widget'
-	);
+	if ( nearbywp_merge_detected() ) {
+		return;
+	}
 
-	// Remove WordPress News because we'll incorporate its contents into the new widget.
-	remove_meta_box( 'dashboard_primary', get_current_screen(), 'side' );
-}
+	define( 'NEARBYWP_VERSION', '0.5' );
 
-/**
- * Enqueue dashboard widget scripts and styles
- */
-function nearbywp_enqueue_scripts() {
-	$user_id       = get_current_user_id();
-	$user_location = get_user_option( 'nearbywp-location', $user_id );
-	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
+	require_once( dirname( __FILE__ ) . '/includes/main-controller.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-wp-nearby-events.php' );
+	require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
 
-	$inline_script_data = array(
-		'nonce'      => wp_create_nonce( 'nearbywp_events' ),
-		'cachedData' => $nearby_events->get_cached_events(),
-	);
-
-	wp_enqueue_style(
-		'nearbywp',
-		plugins_url( 'css/dashboard.css', __FILE__ ),
-		array(),
-		NEARBYWP_VERSION
-	);
-
-	wp_enqueue_script(
-		'nearbywp',
-		plugins_url( 'js/dashboard.js', __FILE__ ),
-		array( 'wp-util' ),
-		NEARBYWP_VERSION,
-		true
-	);
-
-	wp_add_inline_script(
-		'nearbywp',
-		sprintf( 'var nearbyWPData = %s;', wp_json_encode( $inline_script_data ), 'before' )
-	);
+	add_action( 'load-index.php', 'nearbywp_init' );
+	add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_ajax_get_events' );
 }
 
 /**
- * Ajax handler for fetching widget events
+ * Detect whether or not this plugin has been merged into Core
  *
- * @todo during the merge to Core, this function -- or possibly WP_Nearby_Events::get_events() -- must be renamed
- *       to `wp_get_nearby_events` or `wp_ajax_get_nearby_events` to preserve back-compat with the early
- *       return at the start of this file. Otherwise, sites with the plugin installed could break.
- *       If neither of those names is desired then, worse case, we can just put a stub for one of them in
+ * @todo During the merge to Core, `nearbywp_ajax_get_events()` or
+ *       `WP_Nearby_Events::get_events()`  must be renamed to
+ *       `wp_get_nearby_events` or `wp_ajax_get_nearby_events` to preserve
+ *       back-compat with this function. Otherwise, sites with the plugin
+ *       installed could break. If neither of those names is desired then,
+ *       hopefully we can just put a stub for one of them in
  *       `wp-admin/includes/deprecated.php`.
+ *
+ * @todo Remove this during the merge to Core
+ *
+ * @return bool
  */
-function nearbywp_ajax_get_events() {
-	check_ajax_referer( 'nearbywp_events' );
-
-	$search   = isset( $_POST['location'] ) ? $_POST['location'] : '';
-	$timezone = isset( $_POST['timezone'] ) ? $_POST['timezone'] : '';
-
-	$user_id       = get_current_user_id();
-	$user_location = get_user_option( 'nearbywp-location', $user_id );
-
-	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
-	$events        = $nearby_events->get_events( $search, $timezone );
-
-	if ( is_wp_error( $events ) ) {
-		wp_send_json_error( array(
-			'error' => $events->get_error_message(),
-			'api_request_info' => $events->get_error_data(), // @todo remove this during merge to Core
-		) );
+function nearbywp_merge_detected() {
+	/*
+	 * `async-upload.php` includes `ajax-actions.php` in an unsafe manner --
+	 * with `include()` instead of `include_once()` -- so we have to be careful
+	 * not to cause fatal errors because of re-defined functions.
+	 */
+	if ( 'async-upload.php' !== $_SERVER['SCRIPT_FILENAME'] ) {
+		require_once( ABSPATH . '/wp-admin/includes/ajax-actions.php' );
 	}
 
-	if ( isset( $events['location'] ) && ( $search || ! $user_location ) ) {
-		// Store the location network-wide, so the user doesn't have to set it on each site.
-		update_user_option( $user_id, 'nearbywp-location', $events['location'], true );
-	}
+	require_once( ABSPATH . '/wp-admin/includes/dashboard.php'  );
+	require_once( ABSPATH . '/wp-admin/includes/deprecated.php' );
 
-	wp_send_json_success( $events );
+	return function_exists( 'wp_get_nearby_events' ) || function_exists( 'wp_ajax_get_nearby_events' );
 }
-
-add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_ajax_get_events' );

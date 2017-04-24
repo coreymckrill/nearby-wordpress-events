@@ -13,13 +13,13 @@ defined( 'WPINC' ) || die();
 function nearbywp_render_dashboard_widget() {
 	?>
 
+	<div class="hide-if-js notice notice-error notice-alt inline">
+		<p><?php esc_html_e( 'This widget requires JavaScript.', 'nearby-wp-events' ); ?></p>
+	</div>
+
 	<div id="nearbywp" class="hide-if-no-js nearbywp">
 		<span class="spinner is-active"></span>
 		<?php esc_html_e( 'Loading&hellip;', 'nearby-wp-events' ); ?>
-	</div>
-
-	<div class="hide-if-js">
-		<?php esc_html_e( 'This widget requires JavaScript.', 'nearby-wp-events' ); ?>
 	</div>
 
 	<div id="dashboard_primary">

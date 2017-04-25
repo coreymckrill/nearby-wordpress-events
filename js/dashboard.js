@@ -16,12 +16,6 @@ jQuery( function( $ ) {
 
 			var $container = $( '#nearbywp' );
 
-			if ( nearbyWPData.cachedData.hasOwnProperty( 'location' ) && nearbyWPData.cachedData.hasOwnProperty( 'events' ) ) {
-				app.renderEventsTemplate( nearbyWPData.cachedData );
-			} else {
-				app.getEvents();
-			}
-
 			$container.on( 'click', '#nearbywp-toggle', function() {
 				var $toggle  = $( '#nearbywp-toggle' ),
 					$form    = $( '#nearbywp-form' ),
@@ -44,6 +38,12 @@ jQuery( function( $ ) {
 					location: $( '#nearbywp-location' ).val()
 				} )
 			});
+
+			if ( nearbyWPData.cachedData.hasOwnProperty( 'location' ) && nearbyWPData.cachedData.hasOwnProperty( 'events' ) ) {
+				app.renderEventsTemplate( nearbyWPData.cachedData );
+			} else {
+				app.getEvents();
+			}
 
 			app.initialized = true;
 		},
@@ -94,9 +94,18 @@ jQuery( function( $ ) {
 		 * @param {Object} data
 		 */
 		renderEventsTemplate : function( data ) {
-			var template = wp.template( 'nearbywp' );
+			var locationTemplate = wp.template( 'nearbywp-location' ),
+				eventsTemplate   = wp.template( 'nearbywp-events' ),
+				$toggle          = $( '#nearbywp-toggle' );
 
-			$( '#nearbywp' ).html( template( data ) );
+			$toggle.removeClass( 'hidden' );
+
+			$( '#nearbywp-location-message' ).html( locationTemplate( data ) );
+			$( '#nearbywp-results' ).html( eventsTemplate( data ) );
+
+			if ( ! data.location.description ) {
+				$toggle.trigger( 'click' );
+			}
 		}
 	};
 

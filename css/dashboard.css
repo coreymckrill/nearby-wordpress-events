@@ -2,6 +2,12 @@
 	margin-bottom: 6px;
 }
 
+.nearbywp .spinner {
+	float: none;
+	margin: 0;
+	padding-bottom: 3px;
+}
+
 .nearbywp-form[aria-hidden="true"] {
 	display: none;
 }
@@ -59,15 +65,19 @@
 	color: #72777c;
 }
 .nearbywp li:first-child {
-	padding-top: 0;
+	border-top: 1px solid #eee;
 }
 
 .nearbywp li ~ li {
 	border-top: 1px solid #eee;
 }
 
+.nearbywp .activity-block {
+	border-bottom: 0;
+}
 .nearbywp .activity-block.last {
 	border-bottom: 1px solid #eee;
+	padding-top: 0;
 }
 
 .nearbywp .event-info {

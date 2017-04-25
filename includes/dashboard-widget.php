@@ -74,7 +74,10 @@ function nearbywp_render_dashboard_widget() {
  * JS templates for the Dashboard widget
  */
 function nearbywp_render_js_templates() {
+	$inline_script_data = nearbywp_get_inline_script_data();
+
 	?>
+
 	<script id="tmpl-nearbywp-location" type="text/template">
 
 		<# if ( data.location.description ) { #>
@@ -88,20 +91,8 @@ function nearbywp_render_js_templates() {
 			); ?>
 		<# } else if ( data.unknown_city ) { #>
 			<?php printf(
-
-				/*
-				 * The Events API works for most city names, but there are a lot of edge cases that are
-				 * difficult to solve, especially with ideographic languages. We can't give generic
-				 * instructions to the user very well, because the edge cases are different for each
-				 * locale. The translator is in the best position to determine appropriate examples for
-				 * their locale.
-				 *
-				 * We should encourage the use of endonyms as much as possible, to provide the best
-				 * experience for the majority of users, for whom English is not their first language.
-				 */
 				wp_kses(
-					/* translators: %s is the name of the city we couldn't locate. Replace the examples with variations of cities in your locale that return results. Use endonyms whenever possible. */
-					__( 'We couldn\'t locate <strong><em>%1$s</em></strong>. Please try another nearby city, or try different variations of <strong><em>%2$s</em></strong>. For example: <em>Cincinnati; Cincinnati, OH; Ohio</em>.', 'nearby-wp-events' ),
+					$inline_script_data['i18n']['couldNotLocateCity'],
 					wp_kses_allowed_html( 'data' )
 				),
 				'{{data.unknown_city}}',
@@ -110,8 +101,7 @@ function nearbywp_render_js_templates() {
 		<# } else if ( data.error ) { #>
 			<?php printf(
 				wp_kses(
-					/* translators: %s is the detailed error message. */
-					__( 'An error occured while trying to retrieve events. Please try again. <code>[%s]</code>', 'nearby-wp-events' ),
+					$inline_script_data['i18n']['errorOccurredPleaseTryAgain'],
 					wp_kses_allowed_html( 'data' )
 				),
 				'{{data.error}}'

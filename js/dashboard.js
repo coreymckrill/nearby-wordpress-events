@@ -72,6 +72,11 @@ jQuery( function( $ ) {
 					}
 
 					app.renderEventsTemplate( events );
+
+					// Speak the error after the template has been rendered
+					if ( events.hasOwnProperty( 'unknown_city' ) ) {
+						wp.a11y.speak( nearbyWPData.i18n.couldNotLocateCity.replace( /%\d\$s/g, events.unknown_city ) );
+					}
 				})
 				.fail( function( failedResponse ) {
 					var events = { 'location' : false };
@@ -85,6 +90,7 @@ jQuery( function( $ ) {
 					}
 
 					app.renderEventsTemplate( events );
+					wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain.replace( /%s/, events.error ) );
 				});
 		},
 

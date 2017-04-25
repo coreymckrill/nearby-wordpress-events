@@ -29,15 +29,6 @@ function nearbywp_register_dashboard_widgets() {
  * Enqueue dashboard widget scripts and styles
  */
 function nearbywp_enqueue_scripts() {
-	$user_id       = get_current_user_id();
-	$user_location = get_user_option( 'nearbywp-location', $user_id );
-	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
-
-	$inline_script_data = array(
-		'nonce'      => wp_create_nonce( 'nearbywp_events' ),
-		'cachedData' => $nearby_events->get_cached_events(),
-	);
-
 	wp_enqueue_style(
 		'nearbywp',
 		plugins_url( 'css/dashboard.css', dirname( __FILE__ ) ),
@@ -55,8 +46,44 @@ function nearbywp_enqueue_scripts() {
 
 	wp_add_inline_script(
 		'nearbywp',
-		sprintf( 'var nearbyWPData = %s;', wp_json_encode( $inline_script_data ), 'before' )
+		sprintf( 'var nearbyWPData = %s;', wp_json_encode( nearbywp_get_inline_script_data() ), 'before' )
 	);
+}
+
+/**
+ * Get the data that should be passed to JavaScript
+ *
+ * @return array
+ */
+function nearbywp_get_inline_script_data() {
+	$user_id       = get_current_user_id();
+	$user_location = get_user_option( 'nearbywp-location', $user_id );
+	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
+
+	$inline_script_data = array(
+		'nonce'      => wp_create_nonce( 'nearbywp_events' ),
+		'cachedData' => $nearby_events->get_cached_events(),
+
+		'i18n' => array(
+			/* translators: %s is the detailed error message. */
+			'errorOccurredPleaseTryAgain' => __( 'An error occured while trying to retrieve events. Please try again. <code>[%s]</code>', 'nearby-wp-events' ),
+
+			/*
+			 * The Events API works for most city names, but there are a lot of edge cases that are
+			 * difficult to solve, especially with ideographic languages. We can't give generic
+			 * instructions to the user very well, because the edge cases are different for each
+			 * locale. The translator is in the best position to determine appropriate examples for
+			 * their locale.
+			 *
+			 * We should encourage the use of endonyms as much as possible, to provide the best
+			 * experience for the majority of users, for whom English is not their first language.
+			 */
+			/* translators: %s is the name of the city we couldn't locate. Replace the examples with variations of cities in your locale that return results. Use endonyms whenever possible. */
+			'couldNotLocateCity' => __( 'We couldn\'t locate <strong><em>%1$s</em></strong>. Please try another nearby city, or try different variations of <strong><em>%2$s</em></strong>. For example: <em>Cincinnati; Cincinnati, OH; Ohio</em>.', 'nearby-wp-events' ),
+		)
+	);
+
+	return $inline_script_data;
 }
 
 /**

@@ -89,15 +89,16 @@ function nearbywp_render_js_templates() {
 				),
 				'{{ data.location.description }}'
 			); ?>
+
 		<# } else if ( data.unknownCity ) { #>
 			<?php printf(
 				wp_kses(
 					$inline_script_data['i18n']['couldNotLocateCity'],
 					wp_kses_allowed_html( 'data' )
 				),
-				'{{data.unknownCity}}',
 				'{{data.unknownCity}}'
 			); ?>
+
 		<# } else if ( data.error ) { #>
 			<?php printf(
 				wp_kses(
@@ -106,6 +107,7 @@ function nearbywp_render_js_templates() {
 				),
 				'{{data.error}}'
 			); ?>
+
 		<# } else { #>
 			<?php esc_html_e( 'Enter your closest city name to find nearby events', 'nearby-wp-events' ); ?>
 		<# } #>

@@ -68,18 +68,8 @@ function nearbywp_get_inline_script_data() {
 			/* translators: %s is the detailed error message. */
 			'errorOccurredPleaseTryAgain' => __( 'An error occured while trying to retrieve events. Please try again. <code>[%s]</code>', 'nearby-wp-events' ),
 
-			/*
-			 * The Events API works for most city names, but there are a lot of edge cases that are
-			 * difficult to solve, especially with ideographic languages. We can't give generic
-			 * instructions to the user very well, because the edge cases are different for each
-			 * locale. The translator is in the best position to determine appropriate examples for
-			 * their locale.
-			 *
-			 * We should encourage the use of endonyms as much as possible, to provide the best
-			 * experience for the majority of users, for whom English is not their first language.
-			 */
-			/* translators: %s is the name of the city we couldn't locate. Replace the examples with variations of cities in your locale that return results. Use endonyms whenever possible. */
-			'couldNotLocateCity' => __( 'We couldn\'t locate <strong><em>%1$s</em></strong>. Please try another nearby city, or try different variations of <strong><em>%2$s</em></strong>. For example: <em>Cincinnati; Cincinnati, OH; Ohio</em>.', 'nearby-wp-events' ),
+			/* translators: %s is the name of the city we couldn't locate. Replace the examples with cities in your locale, but test that they match the expected location before including them. Use endonyms (native locale names) whenever possible. */
+			'couldNotLocateCity' => __( 'We couldn\'t locate <strong><em>%1$s</em></strong>. Please try another nearby city. For example: <em>Kansas City; Springfield; Portland<em>.', 'nearby-wp-events' ),
 		)
 	);
 

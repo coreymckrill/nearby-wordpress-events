@@ -61,38 +61,33 @@ class WP_Nearby_Events {
 		}
 
 		$request_url   = $this->build_api_request_url( $location_search, $timezone );
-
 		$response      = wp_remote_get( $request_url );
 		$response_code = wp_remote_retrieve_response_code( $response );
 		$response_body = json_decode( wp_remote_retrieve_body( $response ), true );
 
-		// @todo remove this during merge to Core
-		$debugging_info = array(
-			'request_url'   => $request_url,
-			'response_code' => $response_code,
-			'response_body' => $response_body,
-		);
+		$response_error = null;
+		$debugging_info = compact( 'request_url', 'response_code', 'response_body' );
 
 		if ( is_wp_error( $response ) ) {
-			$response->add_data( $debugging_info );
-			return $response;
-		}
-
-		if ( 200 !== $response_code ) {
-			return new WP_Error(
+			$response_error = $response;
+		} elseif ( 200 !== $response_code ) {
+			$response_error = new WP_Error(
 				'api-error',
 				/* translators: %s is a numeric HTTP status code; e.g., 400, 403, 500, 504, etc. */
-				esc_html( sprintf( __( 'Invalid API response code (%d)', 'nearby-wp-events' ), $response_code ) ),
-				$debugging_info
+				esc_html( sprintf( __( 'Invalid API response code (%d)', 'nearby-wp-events' ), $response_code ) )
+			);
+		} elseif ( ! isset( $response_body['location'], $response_body['events'] ) ) {
+			$response_error = new WP_Error(
+				'api-invalid-response',
+				isset( $response_body['error'] ) ? $response_body['error'] : __( 'Unknown API error.', 'nearby-wp-events' )
 			);
 		}
 
-		if ( ! isset( $response_body['location'], $response_body['events'] ) ) {
-			return new WP_Error(
-				'api-invalid-response',
-				isset( $response_body['error'] ) ? $response_body['error'] : __( 'Unknown API error.', 'nearby-wp-events' ),
-				$debugging_info
-			);
+		if ( is_wp_error( $response_error ) ) {
+			$response_error->add_data( $debugging_info );
+			$this->maybe_log_events_response( $response_error );
+
+			return $response_error;
 		}
 
 		$this->cache_events( $response_body );
@@ -100,7 +95,9 @@ class WP_Nearby_Events {
 		$response_body = $this->trim_events( $response_body );
 		$response_body = $this->format_event_data_time( $response_body );
 
-		$response_body['api_request_info'] = compact( 'request_url', 'response_code' ); // @todo remove this during merge to Core
+		$response_body['api_request_info'] = $debugging_info;
+
+		$this->maybe_log_events_response( $response_body );
 
 		return $response_body;
 	}
@@ -292,5 +289,50 @@ class WP_Nearby_Events {
 		}
 
 		return $response_body;
+	}
+
+
+	/**
+	 * Log responses to Events API requests
+	 *
+	 * All responses are logged when debugging, even if they're not WP_Errors. See
+	 * `WP_Nearby_Events::get_events()` for details.
+	 *
+	 * Errors are logged instead of being triggered, to avoid breaking the JSON
+	 * response when called from AJAX handlers and `display_errors` is enabled.
+	 *
+	 * Debugging info is still needed for "successful" responses, because
+	 * the API might have returned a different location than the one the user
+	 * intended to receive. In those cases, knowing the exact `request_url` is
+	 * critical.
+	 *
+	 * @param array|WP_Error $events A WP_Error object for failed requests;
+	 *                               An array with debugging info on successful requests
+	 */
+	protected function maybe_log_events_response( $events ) {
+		if ( ! WP_DEBUG_LOG ) {
+			return;
+		}
+
+		if ( is_wp_error( $events ) ) {
+			$type    = 'error';
+			$message = trim( $events->get_error_message(), '.' );
+			$details = $events->get_error_data();
+		} else {
+			$type    = 'info';
+			$message = 'Received response';
+			$details = $events['api_request_info'];
+
+			// Avoid bloating the log with all the event data
+			unset( $details['response_body'] );
+		}
+
+		error_log( sprintf(
+			'%s %s: %s. Details: %s',
+			__METHOD__,
+			$type,
+			$message,
+			wp_json_encode( $details )
+		) );
 	}
 }

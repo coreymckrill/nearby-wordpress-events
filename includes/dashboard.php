@@ -109,13 +109,7 @@ function nearbywp_render_js_templates() {
 			); ?>
 
 		<# } else if ( data.error ) { #>
-			<?php printf(
-				wp_kses(
-					$inline_script_data['i18n']['errorOccurredPleaseTryAgain'],
-					wp_kses_allowed_html( 'data' )
-				),
-				'{{data.error}}'
-			); ?>
+			<?php echo esc_html( $inline_script_data['i18n']['errorOccurredPleaseTryAgain'] ); ?>
 
 		<# } else { #>
 			<?php esc_html_e( 'Enter your closest city name to find nearby events', 'nearby-wp-events' ); ?>

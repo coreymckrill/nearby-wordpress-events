@@ -79,20 +79,12 @@ jQuery( function( $ ) {
 					}
 				})
 				.fail( function( failedResponse ) {
-					var events = { 'location' : false };
+					app.renderEventsTemplate( {
+						'location' : false,
+						'error'    : true
+					} );
 
-					if ( 'string' === typeof failedResponse ) {
-						events.error = failedResponse;
-					} else if ( failedResponse.hasOwnProperty( 'statusText' ) ) {
-						events.error = failedResponse.statusText;
-					} else if ( failedResponse.hasOwnProperty( 'error' ) && 'string' === typeof failedResponse.error ) {
-						events.error = failedResponse.error;
-					} else {
-						events.error = 'Unknown error';
-					}
-
-					app.renderEventsTemplate( events );
-					wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain.replace( /%s/, events.error ) );
+					wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain );
 				});
 		},
 

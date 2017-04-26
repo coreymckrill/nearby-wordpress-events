@@ -88,18 +88,18 @@ class WP_Nearby_Events {
 			$this->maybe_log_events_response( $response_error );
 
 			return $response_error;
+		} else {
+			$this->cache_events( $response_body );
+
+			$response_body = $this->trim_events( $response_body );
+			$response_body = $this->format_event_data_time( $response_body );
+
+			$response_body['api_request_info'] = $debugging_info;
+
+			$this->maybe_log_events_response( $response_body );
+
+			return $response_body;
 		}
-
-		$this->cache_events( $response_body );
-
-		$response_body = $this->trim_events( $response_body );
-		$response_body = $this->format_event_data_time( $response_body );
-
-		$response_body['api_request_info'] = $debugging_info;
-
-		$this->maybe_log_events_response( $response_body );
-
-		return $response_body;
 	}
 
 	/**

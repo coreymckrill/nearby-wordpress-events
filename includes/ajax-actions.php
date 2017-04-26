@@ -21,12 +21,12 @@ function nearbywp_ajax_get_events() {
 		wp_send_json_error( array(
 			'error' => $events->get_error_message(),
 		) );
-	}
+	} else {
+		if ( isset( $events['location'] ) && ( $search || ! $user_location ) ) {
+			// Store the location network-wide, so the user doesn't have to set it on each site.
+			update_user_option( $user_id, 'nearbywp-location', $events['location'], true );
+		}
 
-	if ( isset( $events['location'] ) && ( $search || ! $user_location ) ) {
-		// Store the location network-wide, so the user doesn't have to set it on each site.
-		update_user_option( $user_id, 'nearbywp-location', $events['location'], true );
+		wp_send_json_success( $events );
 	}
-
-	wp_send_json_success( $events );
 }

@@ -82,7 +82,7 @@ class WP_Nearby_Events {
 			return new WP_Error(
 				'api-error',
 				/* translators: %s is a numeric HTTP status code; e.g., 400, 403, 500, 504, etc. */
-				esc_html( sprintf( __( 'Invalid API response code (%s)', 'nearby-wp-events' ), $response_code ) ),
+				esc_html( sprintf( __( 'Invalid API response code (%d)', 'nearby-wp-events' ), $response_code ) ),
 				$debugging_info
 			);
 		}

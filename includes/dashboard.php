@@ -1,11 +1,20 @@
 <?php
-/**
- * Templates for the Dashboard widget.
- *
- * @package Nearby WordPress Events
- */
 
 defined( 'WPINC' ) || die();
+
+/**
+ * Register Dashboard widget
+ */
+function nearbywp_register_dashboard_widgets() {
+	wp_add_dashboard_widget(
+		'nearbywp_dashboard_events',
+		esc_html__( 'WordPress Events and News', 'nearby-wp-events' ),
+		'nearbywp_render_dashboard_widget'
+	);
+
+	// Remove WordPress News because we'll incorporate its contents into the new widget.
+	remove_meta_box( 'dashboard_primary', get_current_screen(), 'side' );
+}
 
 /**
  * Render callback for the Dashboard widget
@@ -157,4 +166,3 @@ function nearbywp_render_js_templates() {
 
 	<?php
 }
-add_action( 'admin_print_footer_scripts-index.php', 'nearbywp_render_js_templates' );

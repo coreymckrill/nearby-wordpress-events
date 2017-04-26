@@ -34,12 +34,25 @@ function nearbywp_bootstrap() {
 
 	define( 'NEARBYWP_VERSION', '0.6' );
 
-	require_once( dirname( __FILE__ ) . '/includes/main-controller.php' );
+	require_once( dirname( __FILE__ ) . '/includes/ajax-actions.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-wp-nearby-events.php' );
-	require_once( dirname( __FILE__ ) . '/includes/dashboard-widget.php' );
+	require_once( dirname( __FILE__ ) . '/includes/dashboard.php' );
+	require_once( dirname( __FILE__ ) . '/includes/index.php' );
+	require_once( dirname( __FILE__ ) . '/includes/script-loader.php' );
 
 	add_action( 'load-index.php', 'nearbywp_init' );
 	add_action( 'wp_ajax_nearbywp_get_events', 'nearbywp_ajax_get_events' );
+}
+
+/**
+ * Initialize widget functionality
+ */
+function nearbywp_init() {
+	add_action( 'wp_dashboard_setup',                   'nearbywp_register_dashboard_widgets' );
+	add_action( 'wp_network_dashboard_setup',           'nearbywp_register_dashboard_widgets' );
+	add_action( 'admin_print_scripts-index.php',        'nearbywp_register_scripts', 9 );  // before nearbywp_enqueue_scripts() gets called
+	add_action( 'admin_print_scripts-index.php',        'nearbywp_enqueue_scripts' );
+	add_action( 'admin_print_footer_scripts-index.php', 'nearbywp_render_js_templates' );
 }
 
 /**

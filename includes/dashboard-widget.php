@@ -89,14 +89,14 @@ function nearbywp_render_js_templates() {
 				),
 				'{{ data.location.description }}'
 			); ?>
-		<# } else if ( data.unknown_city ) { #>
+		<# } else if ( data.unknownCity ) { #>
 			<?php printf(
 				wp_kses(
 					$inline_script_data['i18n']['couldNotLocateCity'],
 					wp_kses_allowed_html( 'data' )
 				),
-				'{{data.unknown_city}}',
-				'{{data.unknown_city}}'
+				'{{data.unknownCity}}',
+				'{{data.unknownCity}}'
 			); ?>
 		<# } else if ( data.error ) { #>
 			<?php printf(

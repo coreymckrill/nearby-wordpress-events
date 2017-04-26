@@ -68,7 +68,7 @@ jQuery( function( $ ) {
 				})
 				.done( function( events ) {
 					if ( events.hasOwnProperty( 'error' ) && 'no_location_available' === events.error ) {
-						events.unknown_city = data.location;
+						events.unknownCity = data.location;
 					}
 
 					app.renderEventsTemplate( events );

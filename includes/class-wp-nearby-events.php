@@ -73,6 +73,11 @@ class WP_Nearby_Events {
 			'response_body' => $response_body,
 		);
 
+		if ( is_wp_error( $response ) ) {
+			$response->add_data( $debugging_info );
+			return $response;
+		}
+
 		if ( 200 !== $response_code ) {
 			return new WP_Error(
 				'api-error',

@@ -12,6 +12,10 @@
 	display: none;
 }
 
+#nearbywp_dashboard_events .inside .notice {
+	margin: 0;
+}
+
 .inside .activity-block:first-child,
 .inside .nearbywp h2 {
 	padding-top: 0;

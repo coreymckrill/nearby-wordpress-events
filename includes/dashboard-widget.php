@@ -13,7 +13,7 @@ defined( 'WPINC' ) || die();
 function nearbywp_render_dashboard_widget() {
 	?>
 
-	<div class="hide-if-js notice notice-error notice-alt inline">
+	<div class="hide-if-js notice notice-error inline">
 		<p><?php esc_html_e( 'This widget requires JavaScript.', 'nearby-wp-events' ); ?></p>
 	</div>
 
@@ -42,7 +42,7 @@ function nearbywp_render_dashboard_widget() {
 		<ul id="nearbywp-results" class="activity-block last"></ul>
 	</div>
 
-	<div id="dashboard_primary">
+	<div id="dashboard_primary" class="hide-if-no-js">
 		<div class="inside">
 			<?php wp_dashboard_primary(); ?>
 		</div>

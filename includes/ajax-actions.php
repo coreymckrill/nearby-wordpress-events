@@ -8,8 +8,8 @@ defined( 'WPINC' ) || die();
 function nearbywp_ajax_get_events() {
 	check_ajax_referer( 'nearbywp_events' );
 
-	$search   = isset( $_POST['location'] ) ? $_POST['location'] : '';
-	$timezone = isset( $_POST['timezone'] ) ? $_POST['timezone'] : '';
+	$search   = isset( $_POST['location'] ) ? wp_unslash( $_POST['location'] ) : '';
+	$timezone = isset( $_POST['timezone'] ) ? wp_unslash( $_POST['timezone'] ) : '';
 
 	$user_id       = get_current_user_id();
 	$user_location = get_user_option( 'nearbywp-location', $user_id );

@@ -120,11 +120,11 @@ class WP_Nearby_Events {
 		);
 
 		if ( $timezone ) {
-			$args['timezone'] = wp_unslash( $timezone );
+			$args['timezone'] = $timezone;
 		}
 
 		if ( $search ) {
-			$args['location'] = wp_unslash( $search );
+			$args['location'] = $search;
 		} elseif ( isset( $this->user_location['latitude'], $this->user_location['longitude'] ) ) {
 			// Send pre-determined location.
 			$args['latitude']  = $this->user_location['latitude'];

@@ -83,10 +83,10 @@ jQuery( function( $ ) {
 
 					if ( 'string' === typeof failedResponse ) {
 						events.error = failedResponse;
-					} else if ( failedResponse.hasOwnProperty( 'error' ) ) {
-						events.error = failedResponse.error;
 					} else if ( failedResponse.hasOwnProperty( 'statusText' ) ) {
 						events.error = failedResponse.statusText;
+					} else if ( failedResponse.hasOwnProperty( 'error' ) && 'string' === typeof failedResponse.error ) {
+						events.error = failedResponse.error;
 					} else {
 						events.error = 'Unknown error';
 					}

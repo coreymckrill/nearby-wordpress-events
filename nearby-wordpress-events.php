@@ -20,7 +20,8 @@ nearbywp_bootstrap();
  * Bootstrap the plugin
  */
 function nearbywp_bootstrap() {
-	$is_dashboard_request  = '/wp-admin/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -19 );
+	$is_dashboard_request  = '/wp-admin/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -19 ) ||
+	                         '/wp-admin/network/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -27 );
 	$is_event_ajax_request = wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'nearbywp_get_events' === $_REQUEST['action'];
 
 	if ( ! $is_dashboard_request && ! $is_event_ajax_request ) {

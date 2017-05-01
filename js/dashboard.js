@@ -67,8 +67,18 @@ jQuery( function( $ ) {
 					$spinner.removeClass( 'is-active' );
 				})
 				.done( function( events ) {
-					if ( events.hasOwnProperty( 'error' ) && 'no_location_available' === events.error ) {
-						events.unknownCity = data.location;
+					if ( 'no_location_available' === events.error ) {
+						if ( data.location ) {
+							events.unknownCity = data.location;
+						} else {
+							/*
+							 * No location was passed, which means that this was an automatic query
+							 * based on IP, locale, and timezone. Since the user didn't initiate it,
+							 * it should fail silently. Otherwise, the error could confuse and/or
+							 * annoy them.
+							 */
+							delete events.error;
+						}
 					}
 
 					app.renderEventsTemplate( events );

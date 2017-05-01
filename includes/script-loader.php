@@ -44,6 +44,8 @@ function nearbywp_get_inline_script_data() {
 		'cachedData' => $nearby_events->get_cached_events(),
 
 		'i18n' => array(
+			'enterClosestCity' => __( 'Enter your closest city name to find nearby events', 'nearby-wp-events' ),
+
 			/* translators: %s is the detailed error message. */
 			'errorOccurredPleaseTryAgain' => __( 'An error occured while trying to retrieve events. Please try again.', 'nearby-wp-events' ),
 

@@ -16,20 +16,10 @@ jQuery( function( $ ) {
 
 			var $container = $( '#nearbywp' );
 
-			$container.on( 'click', '#nearbywp-toggle', function() {
-				var $toggle  = $( '#nearbywp-toggle' ),
-					$form    = $( '#nearbywp-form' ),
-					expanded = $toggle.attr( 'aria-expanded' );
+			$( '.nearbywp-errors' ).attr( 'aria-hidden', true );
+			$( '.nearbywp-errors' ).removeClass( 'hide-if-js' );
 
-				if ( 'true' == expanded ) { // Strict comparison doesn't work in this case.
-					$toggle.attr( 'aria-expanded', false );
-					$form.attr( 'aria-hidden', true );
-				} else {
-					$toggle.attr( 'aria-expanded', true );
-					$form.attr( 'aria-hidden', false );
-					$form.find( 'input[name="nearbywp-location"]' ).focus();
-				}
-			});
+			$container.on( 'click', '#nearbywp-toggle', app.toggleLocationForm );
 
 			$container.on( 'submit', '#nearbywp-form', function( event ) {
 				event.preventDefault();
@@ -46,6 +36,31 @@ jQuery( function( $ ) {
 			}
 
 			app.initialized = true;
+		},
+
+		/**
+		 * Toggle the visibility of the Edit Location form
+		 *
+		 * @param {event|string} action 'show' or 'hide' to specify a state;
+		 *                              Or an event object to flip between states
+		 */
+		toggleLocationForm : function( action ) {
+			var $toggleButton = $( '#nearbywp-toggle' ),
+			    $form         = $( '#nearbywp-form' );
+
+			if ( 'object' === typeof action ) {
+				// Strict comparison doesn't work in this case.
+				action = 'true' == $toggleButton.attr( 'aria-expanded' ) ? 'hide' : 'show';
+			}
+
+			if ( 'hide' === action ) {
+				$toggleButton.attr( 'aria-expanded', false );
+				$form.attr( 'aria-hidden', true );
+			} else {
+				$toggleButton.attr( 'aria-expanded', true );
+				$form.attr( 'aria-hidden', false );
+				$form.find( 'input[name="nearbywp-location"]' ).focus();
+			}
 		},
 
 		/**
@@ -104,22 +119,81 @@ jQuery( function( $ ) {
 		 * @param {Object} data
 		 */
 		renderEventsTemplate : function( data ) {
-			var locationTemplate = wp.template( 'nearbywp-location' ),
-				eventsTemplate   = wp.template( 'nearbywp-events' ),
-				$toggle          = $( '#nearbywp-toggle' );
+			var template,
+			    elementVisibility,
+			    searchHasFocus   = 'nearbywp-location' === document.activeElement.getAttribute( 'name' ),
+			    $locationMessage = $( '#nearbywp-location-message' ),
+			    $results         = $( '#nearbywp-results' );
 
-			$toggle.removeClass( 'hidden' );
+			/*
+			 * Hide all toggleable elements by default, to keep the logic simple.
+			 * Otherwise, each block below would have to turn hide everything that
+			 * could have been shown at an earlier point.
+			 */
+			elementVisibility = {
+				'.nearbywp'                  : true,  // This is off when the page first loads, because the content isn't ready yet
+				'.nearbywp-loading'          : false,
+				'.nearbywp-errors'           : false,
+				'.nearbywp-error-occurred'   : false,
+				'.nearbywp-could-not-locate' : false,
+				'#nearbywp-location-message' : false,
+				'#nearbywp-toggle'           : false,
+				'#nearbywp-results'          : false
+			};
 
-			$( '#nearbywp-location-message' ).html( locationTemplate( data ) );
-			$( '#nearbywp-results' ).html( eventsTemplate( data ) );
+			if ( data.location.description ) {
+				template = wp.template( 'nearbywp-attend-event-near' );
+				$locationMessage.html( template( data ) );
 
-			if ( ! data.location.description ) {
-				$toggle.trigger( 'click' );
+				if ( data.events.length ) {
+					template = wp.template( 'nearbywp-event-list' );
+					$results.html( template( data ) );
+				} else {
+					template = wp.template( 'nearbywp-no-upcoming-events' );
+					$results.html( template( data ) );
+				}
+
+				elementVisibility['#nearbywp-location-message'] = true;
+				elementVisibility['#nearbywp-toggle']           = true;
+				elementVisibility['#nearbywp-results']          = true;
+
+			} else if ( data.unknownCity ) {
+				template = wp.template( 'nearbywp-could-not-locate' );
+				$( '.nearbywp-could-not-locate' ).html( template( data ) );
+
+				elementVisibility['.nearbywp-errors']           = true;
+				elementVisibility['.nearbywp-could-not-locate'] = true;
+
+			} else if ( data.error && searchHasFocus ) {
+				// Only show this error if it was a user-initiated request (i.e., if it has a location).
+				// Don't show it for automatic requests (when no location is saved)
+
+				elementVisibility['.nearbywp-errors']         = true;
+				elementVisibility['.nearbywp-error-occurred'] = true;
+
+			} else {
+				$locationMessage.text( nearbyWPData.i18n.enterClosestCity );
+
+				elementVisibility['#nearbywp-location-message'] = true;
+				elementVisibility['#nearbywp-toggle']           = true;
+			}
+
+			// Set the visibility of toggleable elements
+			_.each( elementVisibility, function( isVisible, element ) {
+				$( element ).attr( 'aria-hidden', ! isVisible );
+			} );
+
+			$( '#nearbywp-toggle' ).attr( 'aria-expanded', elementVisibility['toggle'] );
+
+			if ( ! searchHasFocus && data.location.description ) {
+				app.toggleLocationForm( 'hide' );
+			} else {
+				app.toggleLocationForm( 'show' );
 			}
 		}
 	};
 
-	if ( $( '#nearbywp' ).is( ':visible' ) ) {
+	if ( $( '#nearbywp_dashboard_events' ).is( ':visible' ) ) {
 		app.init();
 	} else {
 		$( document ).on( 'postbox-toggled', function( event, postbox ) {

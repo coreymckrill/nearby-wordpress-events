@@ -20,18 +20,42 @@ function nearbywp_register_dashboard_widgets() {
  * Render callback for the Dashboard widget
  */
 function nearbywp_render_dashboard_widget() {
+	$inline_script_data = nearbywp_get_inline_script_data();
+
 	?>
 
-	<div class="hide-if-js notice notice-error inline">
-		<p><?php esc_html_e( 'This widget requires JavaScript.', 'nearby-wp-events' ); ?></p>
+	<div class="nearbywp-errors notice notice-error inline hide-if-js">
+		<p class="hide-if-js">
+			<?php esc_html_e( 'This widget requires JavaScript.', 'nearby-wp-events' ); ?>
+		</p>
+
+		<p class="nearbywp-error-occurred" aria-hidden="true">
+			<?php echo esc_html( $inline_script_data['i18n']['errorOccurredPleaseTryAgain'] ); ?>
+		</p>
+
+		<p class="nearbywp-could-not-locate" aria-hidden="true"></p>
 	</div>
 
-	<div id="nearbywp" class="hide-if-no-js nearbywp">
+	<span class="nearbywp-loading hide-if-no-js">
+		<?php esc_html_e( 'Loading&hellip;', 'nearby-wp-events' ); ?>
+	</span>
+
+	<?php
+	/*
+	 * Hide the main element when the page first loads, because the content
+	 * won't be ready until wp.NearbyWP.Dashboard.renderEventsTemplate() has
+	 * run.
+	 *
+	 * @todo update the name of the class if it changes during the merge to Core
+	 */
+	?>
+	<div id="nearbywp" class="nearbywp" aria-hidden="true">
 		<div class="activity-block">
 			<p>
-				<span id="nearbywp-location-message"><?php esc_html_e( 'Loading&hellip;', 'nearby-wp-events' ); ?></span>
-				<button id="nearbywp-toggle" class="button-link nearbywp-toggle hidden" aria-label="<?php esc_attr_e( 'Edit location', 'nearby-wp-events' ); ?>" aria-expanded="false">
-					<span class="dashicons dashicons-edit" aria-hidden="true"></span>
+				<span id="nearbywp-location-message"></span>
+
+				<button id="nearbywp-toggle" class="button-link nearbywp-toggle" aria-label="<?php esc_attr_e( 'Edit location', 'nearby-wp-events' ); ?>" aria-expanded="false">
+					<span class="dashicons dashicons-edit"></span>
 				</button>
 			</p>
 
@@ -87,75 +111,59 @@ function nearbywp_render_js_templates() {
 
 	?>
 
-	<script id="tmpl-nearbywp-location" type="text/template">
-
-		<# if ( data.location.description ) { #>
-			<?php printf(
-				wp_kses(
-					/* translators: %s is a placeholder for the name of a city. */
-					__( 'Attend an upcoming event near <strong>%s</strong>', 'nearby-wp-events' ),
-					wp_kses_allowed_html( 'data' )
-				),
-				'{{ data.location.description }}'
-			); ?>
-
-		<# } else if ( data.unknownCity ) { #>
-			<?php printf(
-				wp_kses(
-					$inline_script_data['i18n']['couldNotLocateCity'],
-					wp_kses_allowed_html( 'data' )
-				),
-				'{{data.unknownCity}}'
-			); ?>
-
-		<# } else if ( data.error ) { #>
-			<?php echo esc_html( $inline_script_data['i18n']['errorOccurredPleaseTryAgain'] ); ?>
-
-		<# } else { #>
-			<?php esc_html_e( 'Enter your closest city name to find nearby events', 'nearby-wp-events' ); ?>
-		<# } #>
-
+	<script id="tmpl-nearbywp-attend-event-near" type="text/template">
+		<?php printf(
+			wp_kses(
+				/* translators: %s is a placeholder for the name of a city. */
+				__( 'Attend an upcoming event near <strong>%s</strong>', 'nearby-wp-events' ),
+				wp_kses_allowed_html( 'data' )
+			),
+			'{{ data.location.description }}'
+		); ?>
 	</script>
 
-	<script id="tmpl-nearbywp-events" type="text/template">
+	<script id="tmpl-nearbywp-could-not-locate" type="text/template">
+		<?php printf(
+			wp_kses(
+				$inline_script_data['i18n']['couldNotLocateCity'],
+				wp_kses_allowed_html( 'data' )
+			),
+			'{{data.unknownCity}}'
+		); ?>
+	</script>
 
-		<# if ( data.location.description ) { #>
-			<# if ( data.events.length ) { #>
+	<script id="tmpl-nearbywp-event-list" type="text/template">
+		<# _.each( data.events, function( event ) { #>
+			<li class="event event-{{ event.type }} wp-clearfix">
+				<div class="event-info">
+					<div class="dashicons event-icon" aria-hidden="true"></div>
+					<div class="event-info-inner">
+						<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
+						<span class="event-city">{{ event.location.location }}</span>
+					</div>
+				</div>
 
-				<# _.each( data.events, function( event ) { #>
-					<li class="event event-{{ event.type }} wp-clearfix">
-						<div class="event-info">
-							<div class="dashicons event-icon" aria-hidden="true"></div>
-							<div class="event-info-inner">
-								<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
-								<span class="event-city">{{ event.location.location }}</span>
-							</div>
-						</div>
-						<div class="event-date-time">
-							<span class="event-date">{{ event.formatted_date }}</span>
-							<# if ( 'meetup' === event.type ) { #>
-								<span class="event-time">{{ event.formatted_time }}</span>
-							<# } #>
-						</div>
-					</li>
-				<# } ) #>
+				<div class="event-date-time">
+					<span class="event-date">{{ event.formatted_date }}</span>
+					<# if ( 'meetup' === event.type ) { #>
+						<span class="event-time">{{ event.formatted_time }}</span>
+					<# } #>
+				</div>
+			</li>
+		<# } ) #>
+	</script>
 
-			<# } else { #>
-
-				<li class="event-none">
-					<?php printf(
-						wp_kses(
-							/* translators: Replace the URL if a locale-specific one exists */
-							__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="https://make.wordpress.org/community/handbook/meetup-organizer/welcome/">organize one</a>?', 'nearby-wp-events' ),
-							wp_kses_allowed_html( 'data' )
-						),
-						'{{data.location.description}}'
-					); ?>
-				</li>
-
-			<# } #>
-		<# } #>
-
+	<script id="tmpl-nearbywp-no-upcoming-events" type="text/template">
+		<li class="event-none">
+			<?php printf(
+				wp_kses(
+					/* translators: Replace the URL if a locale-specific one exists */
+					__( 'There aren\'t any events scheduled near %s at the moment. Would you like to <a href="https://make.wordpress.org/community/handbook/meetup-organizer/welcome/">organize one</a>?', 'nearby-wp-events' ),
+					wp_kses_allowed_html( 'data' )
+				),
+				'{{data.location.description}}'
+			); ?>
+		</li>
 	</script>
 
 	<?php

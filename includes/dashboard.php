@@ -36,10 +36,10 @@ function nearbywp_render_dashboard_widget() {
 			</p>
 
 			<form id="nearbywp-form" class="nearbywp-form" aria-hidden="true" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
-				<label for="nearbywp-location" >
+				<label for="nearbywp-location">
 					<?php esc_html_e( 'City name:', 'nearby-wp-events' ); ?>
 				</label>
-				<?php /* translators: Replace with the name of a city in your locale. Use only the city name itself, without any region or country. Use the endonym instead of the English name. */ ?>
+				<?php /* translators: Replace with the name of a city in your locale that shows events. Use only the city name itself, without any region or country. Use the endonym instead of the English name. */ ?>
 				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'Cincinnati', 'nearby-wp-events' ); ?>" />
 
 				<?php submit_button( esc_html__( 'Submit', 'nearby-wp-events' ), 'primary', 'nearbywp-submit', false ); ?>

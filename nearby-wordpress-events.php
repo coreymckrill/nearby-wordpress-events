@@ -21,8 +21,7 @@ nearbywp_bootstrap();
  */
 function nearbywp_bootstrap() {
 	$is_dashboard_request  = '/wp-admin/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -19 );
-	$is_event_ajax_request = defined( 'DOING_AJAX' ) && DOING_AJAX &&
-	                         isset( $_REQUEST['action'] ) && 'nearbywp_get_events' === $_REQUEST['action'];
+	$is_event_ajax_request = wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'nearbywp_get_events' === $_REQUEST['action'];
 
 	if ( ! $is_dashboard_request && ! $is_event_ajax_request ) {
 		return;

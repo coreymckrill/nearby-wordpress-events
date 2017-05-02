@@ -127,9 +127,13 @@ jQuery( function( $ ) {
 			 * Hide all toggleable elements by default, to keep the logic simple.
 			 * Otherwise, each block below would have to turn hide everything that
 			 * could have been shown at an earlier point.
+			 *
+			 * The exception to that is that the .nearbywp container. It's hidden
+			 * when the page is first loaded, because the content isn't ready yet,
+			 * but once we've reached this point, it should always be shown.
 			 */
 			elementVisibility = {
-				'.nearbywp'                  : true,  // This is off when the page first loads, because the content isn't ready yet
+				'.nearbywp'                  : true,
 				'.nearbywp-loading'          : false,
 				'.nearbywp-errors'           : false,
 				'.nearbywp-error-occurred'   : false,

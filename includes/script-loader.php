@@ -45,7 +45,6 @@ function nearbywp_get_inline_script_data() {
 
 		'i18n' => array(
 			'enterClosestCity'            => __( 'Enter your closest city name to find nearby events', 'nearby-wp-events' ),
-
 			'errorOccurredPleaseTryAgain' => __( 'An error occured while trying to retrieve events. Please try again.', 'nearby-wp-events' ),
 
 			/*

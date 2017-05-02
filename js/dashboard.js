@@ -67,25 +67,25 @@ jQuery( function( $ ) {
 		/**
 		 * Send Ajax request to fetch events for the widget
 		 *
-		 * @param data
+		 * @param {object} requestParams
 		 */
-		getEvents: function( data ) {
+		getEvents: function( requestParams ) {
 			var $spinner = $( '#nearbywp-form' ).children( '.spinner' );
 
-			data          = data || {};
-			data._wpnonce = nearbyWPData.nonce;
-			data.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+			requestParams          = requestParams || {};
+			requestParams._wpnonce = nearbyWPData.nonce;
+			requestParams.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
 
 			$spinner.addClass( 'is-active' );
 
-			wp.ajax.post( 'nearbywp_get_events', data )
+			wp.ajax.post( 'nearbywp_get_events', requestParams )
 				.always( function() {
 					$spinner.removeClass( 'is-active' );
 				})
-				.done( function( events ) {
-					if ( 'no_location_available' === events.error ) {
-						if ( data.location ) {
-							events.unknownCity = data.location;
+				.done( function( successfulResponse ) {
+					if ( 'no_location_available' === successfulResponse.error ) {
+						if ( requestParams.location ) {
+							successfulResponse.unknownCity = requestParams.location;
 						} else {
 							/*
 							 * No location was passed, which means that this was an automatic query
@@ -93,11 +93,11 @@ jQuery( function( $ ) {
 							 * it should fail silently. Otherwise, the error could confuse and/or
 							 * annoy them.
 							 */
-							delete events.error;
+							delete successfulResponse.error;
 						}
 					}
 
-					app.renderEventsTemplate( events );
+					app.renderEventsTemplate( successfulResponse );
 				})
 				.fail( function( failedResponse ) {
 					app.renderEventsTemplate( {
@@ -110,9 +110,9 @@ jQuery( function( $ ) {
 		/**
 		 * Render the template for the Events section of the Events & News widget
 		 *
-		 * @param {Object} data
+		 * @param {Object} templateParams
 		 */
-		renderEventsTemplate : function( data ) {
+		renderEventsTemplate : function( templateParams ) {
 			var template,
 			    elementVisibility,
 			    searchHasFocus   = 'nearbywp-location' === document.activeElement.getAttribute( 'name' ),
@@ -135,32 +135,32 @@ jQuery( function( $ ) {
 				'#nearbywp-results'          : false
 			};
 
-			if ( data.location.description ) {
+			if ( templateParams.location.description ) {
 				template = wp.template( 'nearbywp-attend-event-near' );
-				$locationMessage.html( template( data ) );
+				$locationMessage.html( template( templateParams ) );
 
-				if ( data.events.length ) {
+				if ( templateParams.events.length ) {
 					template = wp.template( 'nearbywp-event-list' );
-					$results.html( template( data ) );
+					$results.html( template( templateParams ) );
 				} else {
 					template = wp.template( 'nearbywp-no-upcoming-events' );
-					$results.html( template( data ) );
+					$results.html( template( templateParams ) );
 				}
-				wp.a11y.speak( nearbyWPData.i18n.cityUpdated.replace( /%s/g, data.location.description ) );
+				wp.a11y.speak( nearbyWPData.i18n.cityUpdated.replace( /%s/g, templateParams.location.description ) );
 
 				elementVisibility['#nearbywp-location-message'] = true;
 				elementVisibility['#nearbywp-toggle']           = true;
 				elementVisibility['#nearbywp-results']          = true;
 
-			} else if ( data.unknownCity ) {
+			} else if ( templateParams.unknownCity ) {
 				template = wp.template( 'nearbywp-could-not-locate' );
-				$( '.nearbywp-could-not-locate' ).html( template( data ) );
-				wp.a11y.speak( nearbyWPData.i18n.couldNotLocateCity.replace( /%s/g, data.unknownCity ) );
+				$( '.nearbywp-could-not-locate' ).html( template( templateParams ) );
+				wp.a11y.speak( nearbyWPData.i18n.couldNotLocateCity.replace( /%s/g, templateParams.unknownCity ) );
 
 				elementVisibility['.nearbywp-errors']           = true;
 				elementVisibility['.nearbywp-could-not-locate'] = true;
 
-			} else if ( data.error && searchHasFocus ) {
+			} else if ( templateParams.error && searchHasFocus ) {
 				// Only show this error if it was a user-initiated request (i.e., if it has a location).
 				// Don't show it for automatic requests (when no location is saved)
 				wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain );
@@ -182,7 +182,7 @@ jQuery( function( $ ) {
 
 			$( '#nearbywp-toggle' ).attr( 'aria-expanded', elementVisibility['toggle'] );
 
-			if ( ! searchHasFocus && data.location.description ) {
+			if ( ! searchHasFocus && templateParams.location.description ) {
 				app.toggleLocationForm( 'hide' );
 			} else {
 				app.toggleLocationForm( 'show' );

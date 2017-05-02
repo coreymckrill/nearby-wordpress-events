@@ -16,8 +16,9 @@ jQuery( function( $ ) {
 
 			var $container = $( '#nearbywp' );
 
-			$( '.nearbywp-errors' ).attr( 'aria-hidden', true );
-			$( '.nearbywp-errors' ).removeClass( 'hide-if-js' );
+			$( '.nearbywp-errors' )
+				.attr( 'aria-hidden', true )
+				.removeClass( 'hide-if-js' );
 
 			$container.on( 'click', '#nearbywp-toggle', app.toggleLocationForm );
 
@@ -97,19 +98,12 @@ jQuery( function( $ ) {
 					}
 
 					app.renderEventsTemplate( events );
-
-					// Speak the error after the template has been rendered
-					if ( events.hasOwnProperty( 'unknown_city' ) ) {
-						wp.a11y.speak( nearbyWPData.i18n.couldNotLocateCity.replace( /%\d\$s/g, events.unknown_city ) );
-					}
 				})
 				.fail( function( failedResponse ) {
 					app.renderEventsTemplate( {
 						'location' : false,
 						'error'    : true
 					} );
-
-					wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain );
 				});
 		},
 
@@ -152,6 +146,7 @@ jQuery( function( $ ) {
 					template = wp.template( 'nearbywp-no-upcoming-events' );
 					$results.html( template( data ) );
 				}
+				wp.a11y.speak( nearbyWPData.i18n.cityUpdated.replace( /%s/g, data.location.description ) );
 
 				elementVisibility['#nearbywp-location-message'] = true;
 				elementVisibility['#nearbywp-toggle']           = true;
@@ -160,6 +155,7 @@ jQuery( function( $ ) {
 			} else if ( data.unknownCity ) {
 				template = wp.template( 'nearbywp-could-not-locate' );
 				$( '.nearbywp-could-not-locate' ).html( template( data ) );
+				wp.a11y.speak( nearbyWPData.i18n.couldNotLocateCity.replace( /%s/g, data.unknownCity ) );
 
 				elementVisibility['.nearbywp-errors']           = true;
 				elementVisibility['.nearbywp-could-not-locate'] = true;
@@ -167,6 +163,7 @@ jQuery( function( $ ) {
 			} else if ( data.error && searchHasFocus ) {
 				// Only show this error if it was a user-initiated request (i.e., if it has a location).
 				// Don't show it for automatic requests (when no location is saved)
+				wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain );
 
 				elementVisibility['.nearbywp-errors']         = true;
 				elementVisibility['.nearbywp-error-occurred'] = true;

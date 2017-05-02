@@ -31,7 +31,7 @@ jQuery( function( $ ) {
 			});
 
 			if ( nearbyWPData.cachedData.location && nearbyWPData.cachedData.events ) {
-				app.renderEventsTemplate( nearbyWPData.cachedData );
+				app.renderEventsTemplate( nearbyWPData.cachedData, 'app' );
 			} else {
 				app.getEvents();
 			}
@@ -70,11 +70,14 @@ jQuery( function( $ ) {
 		 * @param {object} requestParams
 		 */
 		getEvents: function( requestParams ) {
-			var $spinner = $( '#nearbywp-form' ).children( '.spinner' );
+			var initiatedBy,
+			    $spinner = $( '#nearbywp-form' ).children( '.spinner' );
 
 			requestParams          = requestParams || {};
 			requestParams._wpnonce = nearbyWPData.nonce;
 			requestParams.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+
+			initiatedBy = requestParams.location ? 'user' : 'app';
 
 			$spinner.addClass( 'is-active' );
 
@@ -97,25 +100,26 @@ jQuery( function( $ ) {
 						}
 					}
 
-					app.renderEventsTemplate( successfulResponse );
+					app.renderEventsTemplate( successfulResponse, initiatedBy );
 				})
 				.fail( function( failedResponse ) {
 					app.renderEventsTemplate( {
 						'location' : false,
 						'error'    : true
-					} );
+					}, initiatedBy );
 				});
 		},
 
 		/**
 		 * Render the template for the Events section of the Events & News widget
 		 *
-		 * @param {Object} templateParams
+		 * @param {Object} templateParams The various parameters that will get passed to wp.template
+		 * @param {string} initiatedBy    'user' to indicate that this was triggered manually by the user;
+		 *                                'app' to indicate it was triggered automatically by the app itself.
 		 */
-		renderEventsTemplate : function( templateParams ) {
+		renderEventsTemplate : function( templateParams, initiatedBy ) {
 			var template,
 			    elementVisibility,
-			    searchHasFocus   = 'nearbywp-location' === document.activeElement.getAttribute( 'name' ),
 			    $locationMessage = $( '#nearbywp-location-message' ),
 			    $results         = $( '#nearbywp-results' );
 
@@ -160,9 +164,13 @@ jQuery( function( $ ) {
 				elementVisibility['.nearbywp-errors']           = true;
 				elementVisibility['.nearbywp-could-not-locate'] = true;
 
-			} else if ( templateParams.error && searchHasFocus ) {
-				// Only show this error if it was a user-initiated request (i.e., if it has a location).
-				// Don't show it for automatic requests (when no location is saved)
+			} else if ( templateParams.error && 'user' === initiatedBy ) {
+				/*
+				 * Errors messages are only shown for requests that were initiated
+				 * by the user, not for ones that were initiated by the app itself.
+				 * Showing error messages for an event that user isn't aware of
+				 * could be confusing or unnecessarily distracting.
+				 */
 				wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain );
 
 				elementVisibility['.nearbywp-errors']         = true;
@@ -182,7 +190,14 @@ jQuery( function( $ ) {
 
 			$( '#nearbywp-toggle' ).attr( 'aria-expanded', elementVisibility['toggle'] );
 
-			if ( ! searchHasFocus && templateParams.location.description ) {
+			/*
+			 * During the initial page load, the location form should be hidden
+			 * by default if the user has saved a valid location during a previous
+			 * session. It's safe to assume that they want to continue using that
+			 * location, and displaying the form would unnecessarily clutter the
+			 * widget.
+			 */
+			if ( 'app' === initiatedBy && templateParams.location.description ) {
 				app.toggleLocationForm( 'hide' );
 			} else {
 				app.toggleLocationForm( 'show' );

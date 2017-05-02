@@ -30,7 +30,7 @@ jQuery( function( $ ) {
 				} )
 			});
 
-			if ( nearbyWPData.cachedData.hasOwnProperty( 'location' ) && nearbyWPData.cachedData.hasOwnProperty( 'events' ) ) {
+			if ( nearbyWPData.cachedData.location && nearbyWPData.cachedData.events ) {
 				app.renderEventsTemplate( nearbyWPData.cachedData );
 			} else {
 				app.getEvents();

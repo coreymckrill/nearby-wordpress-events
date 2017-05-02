@@ -16,6 +16,22 @@ jQuery( function( $ ) {
 
 			var $container = $( '#nearbywp' );
 
+			/*
+			 * When JavaScript is disabled, the errors container is shown, so
+			 * that "This widget requires Javascript" message can be seen.
+			 *
+			 * When JS is enabled, the container is hidden at first, and then
+			 * revealed during the template rendering, if there actually are
+			 * errors to show.
+			 *
+			 * The display indicator switches from `hide-if-js` to `aria-hidden`
+			 * here in order to maintain consistency with all the other fields
+			 * that key off of `aria-hidden` to determine their visibility.
+			 * `aria-hidden` can't be used initially, because there would be no
+			 * way to set it to false when JavaScript is disabled, which would
+			 * prevent people from seeing the "This widget requires JavaScript"
+			 * message.
+			 */
 			$( '.nearbywp-errors' )
 				.attr( 'aria-hidden', true )
 				.removeClass( 'hide-if-js' );
@@ -143,6 +159,10 @@ jQuery( function( $ ) {
 				'#nearbywp-results'          : false
 			};
 
+			/*
+			 * Determine which templates should be rendered and which elements
+			 * should be displayed
+			 */
 			if ( templateParams.location.description ) {
 				template = wp.template( 'nearbywp-attend-event-near' );
 				$locationMessage.html( template( templateParams ) );

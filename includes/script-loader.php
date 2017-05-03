@@ -45,7 +45,7 @@ function nearbywp_get_inline_script_data() {
 
 		'i18n' => array(
 			'enterClosestCity'            => __( 'Enter your closest city name to find nearby events', 'nearby-wp-events' ),
-			'errorOccurredPleaseTryAgain' => __( 'An error occured while trying to retrieve events. Please try again.', 'nearby-wp-events' ),
+			'errorOccurredPleaseTryAgain' => __( 'An error occured. Please try again.', 'nearby-wp-events' ),
 
 			/*
 			 * These specific examples were chosen to highlight the fact that a
@@ -56,8 +56,9 @@ function nearbywp_get_inline_script_data() {
 			/* translators: %s is the name of the city we couldn't locate. Replace the examples with cities in your locale, but test that they match the expected location before including them. Use endonyms (native locale names) whenever possible. */
 			'couldNotLocateCity'          => __( 'We couldn\'t locate <strong><em>%s</em></strong>. Please try another nearby city. For example: <em>Kansas City; Springfield; Portland<em>.', 'nearby-wp-events' ),
 
+			// This one is only used with wp.a11y.speak(), so it can/should be more brief
 			/* translators: %s is the name of a city. */
-			'cityUpdated'                 => __( 'The city was updated. Now listing upcoming events near %s.', 'nearby-wp-events' ),
+			'cityUpdated'                 => __( 'City updated. Listing events near %s.', 'nearby-wp-events' ),
 		)
 	);
 

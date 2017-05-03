@@ -54,7 +54,7 @@ function nearbywp_render_dashboard_widget() {
 			<p>
 				<span id="nearbywp-location-message"></span>
 
-				<button id="nearbywp-toggle-location" class="button-link nearbywp-toggle-location" aria-label="<?php esc_attr_e( 'Edit location', 'nearby-wp-events' ); ?>" aria-expanded="false">
+				<button id="nearbywp-toggle-location" class="button-link nearbywp-toggle-location" aria-label="<?php esc_attr_e( 'Edit city', 'nearby-wp-events' ); ?>" aria-expanded="false">
 					<span class="dashicons dashicons-edit"></span>
 				</button>
 			</p>

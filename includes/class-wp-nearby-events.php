@@ -84,8 +84,7 @@ class WP_Nearby_Events {
 		}
 
 		if ( is_wp_error( $response_error ) ) {
-			$response_error->add_data( $debugging_info );
-			$this->maybe_log_events_response( $response_error );
+			$this->maybe_log_events_response( $response->get_error_message(), $debugging_info );
 
 			return $response_error;
 		} else {
@@ -94,9 +93,10 @@ class WP_Nearby_Events {
 			$response_body = $this->trim_events( $response_body );
 			$response_body = $this->format_event_data_time( $response_body );
 
-			$response_body['api_request_info'] = $debugging_info;
+			// Avoid bloating the log with all the event data, but keep the count
+			$debugging_info['response_body']['events'] = count( $debugging_info['response_body']['events'] ) . ' events trimmed.';
 
-			$this->maybe_log_events_response( $response_body );
+			$this->maybe_log_events_response( 'Valid response received', $debugging_info );
 
 			return $response_body;
 		}
@@ -306,32 +306,19 @@ class WP_Nearby_Events {
 	 * intended to receive. In those cases, knowing the exact `request_url` is
 	 * critical.
 	 *
-	 * @param array|WP_Error $events A WP_Error object for failed requests;
-	 *                               An array with debugging info on successful requests
+	 * @param string $message        A description of what occurred
+	 * @param array  $debugging_info Details that provide more context for the
+	 *                               log entry
 	 */
-	protected function maybe_log_events_response( $events ) {
+	protected function maybe_log_events_response( $message, $details ) {
 		if ( ! WP_DEBUG_LOG ) {
 			return;
 		}
 
-		if ( is_wp_error( $events ) ) {
-			$type    = 'error';
-			$message = trim( $events->get_error_message(), '.' );
-			$details = $events->get_error_data();
-		} else {
-			$type    = 'info';
-			$message = 'Received response';
-			$details = $events['api_request_info'];
-
-			// Avoid bloating the log with all the event data
-			unset( $details['response_body'] );
-		}
-
 		error_log( sprintf(
-			'%s %s: %s. Details: %s',
+			'%s: %s. Details: %s',
 			__METHOD__,
-			$type,
-			$message,
+			trim( $message, '.' ),
 			wp_json_encode( $details )
 		) );
 	}

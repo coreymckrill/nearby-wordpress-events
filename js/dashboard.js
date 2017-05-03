@@ -36,7 +36,7 @@ jQuery( function( $ ) {
 				.attr( 'aria-hidden', true )
 				.removeClass( 'hide-if-js' );
 
-			$container.on( 'click', '#nearbywp-toggle', app.toggleLocationForm );
+			$container.on( 'click', '#nearbywp-toggle-location', app.toggleLocationForm );
 
 			$container.on( 'submit', '#nearbywp-form', function( event ) {
 				event.preventDefault();
@@ -62,7 +62,7 @@ jQuery( function( $ ) {
 		 *                              Or an event object to flip between states
 		 */
 		toggleLocationForm : function( action ) {
-			var $toggleButton = $( '#nearbywp-toggle' ),
+			var $toggleButton = $( '#nearbywp-toggle-location' ),
 			    $form         = $( '#nearbywp-form' );
 
 			if ( 'object' === typeof action ) {
@@ -155,7 +155,7 @@ jQuery( function( $ ) {
 				'.nearbywp-error-occurred'   : false,
 				'.nearbywp-could-not-locate' : false,
 				'#nearbywp-location-message' : false,
-				'#nearbywp-toggle'           : false,
+				'#nearbywp-toggle-location'  : false,
 				'#nearbywp-results'          : false
 			};
 
@@ -177,7 +177,7 @@ jQuery( function( $ ) {
 				wp.a11y.speak( nearbyWPData.i18n.cityUpdated.replace( /%s/g, templateParams.location.description ) );
 
 				elementVisibility['#nearbywp-location-message'] = true;
-				elementVisibility['#nearbywp-toggle']           = true;
+				elementVisibility['#nearbywp-toggle-location']  = true;
 				elementVisibility['#nearbywp-results']          = true;
 
 			} else if ( templateParams.unknownCity ) {
@@ -204,7 +204,7 @@ jQuery( function( $ ) {
 				$locationMessage.text( nearbyWPData.i18n.enterClosestCity );
 
 				elementVisibility['#nearbywp-location-message'] = true;
-				elementVisibility['#nearbywp-toggle']           = true;
+				elementVisibility['#nearbywp-toggle-location']  = true;
 			}
 
 			// Set the visibility of toggleable elements
@@ -212,7 +212,7 @@ jQuery( function( $ ) {
 				$( element ).attr( 'aria-hidden', ! isVisible );
 			} );
 
-			$( '#nearbywp-toggle' ).attr( 'aria-expanded', elementVisibility['toggle'] );
+			$( '#nearbywp-toggle-location' ).attr( 'aria-expanded', elementVisibility['#nearbywp-toggle-location'] );
 
 			/*
 			 * During the initial page load, the location form should be hidden

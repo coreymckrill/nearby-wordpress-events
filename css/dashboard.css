@@ -22,12 +22,12 @@
 	padding-bottom: 10px;
 }
 
-.nearbywp .nearbywp-toggle {
+.nearbywp .nearbywp-toggle-location {
 	color: #0073aa;
 	position: relative;
 }
 @media screen and (max-width: 782px) {
-	.nearbywp .nearbywp-toggle {
+	.nearbywp .nearbywp-toggle-location {
 		height: 38px;
 	}
 }

@@ -76,7 +76,6 @@ jQuery( function( $ ) {
 			} else {
 				$toggleButton.attr( 'aria-expanded', true );
 				$form.attr( 'aria-hidden', false );
-				$form.find( 'input[name="nearbywp-location"]' ).focus();
 			}
 		},
 

@@ -66,7 +66,7 @@ function nearbywp_render_dashboard_widget() {
 				<?php /* translators: Replace with the name of a city in your locale that shows events. Use only the city name itself, without any region or country. Use the endonym instead of the English name. */ ?>
 				<input id="nearbywp-location" class="regular-text" type="text" name="nearbywp-location" placeholder="<?php esc_attr_e( 'Cincinnati', 'nearby-wp-events' ); ?>" />
 
-				<?php submit_button( esc_html__( 'Submit', 'nearby-wp-events' ), 'primary', 'nearbywp-submit', false ); ?>
+				<?php submit_button( esc_html__( 'Submit', 'nearby-wp-events' ), 'secondary', 'nearbywp-submit', false ); ?>
 
 				<span class="spinner"></span>
 			</form>

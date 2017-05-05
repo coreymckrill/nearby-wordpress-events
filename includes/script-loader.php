@@ -23,11 +23,7 @@ function nearbywp_register_scripts() {
 		true
 	);
 
-	wp_add_inline_script(
-		'nearbywp',
-		sprintf( 'var nearbyWPData = %s;', wp_json_encode( nearbywp_get_inline_script_data() ) ),
-		'before'
-	);
+	wp_localize_script( 'nearbywp', 'nearbyWPData', nearbywp_get_inline_script_data() );
 }
 
 /**

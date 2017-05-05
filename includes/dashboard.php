@@ -68,7 +68,7 @@ function nearbywp_render_dashboard_widget() {
 
 				<?php submit_button( esc_html__( 'Submit', 'nearby-wp-events' ), 'secondary', 'nearbywp-submit', false ); ?>
 
-				<button id="nearbywp-cancel" class="button button-link" type="button" aria-expanded="false">
+				<button class="nearbywp-cancel button button-link" type="button" aria-expanded="false">
 					<?php esc_html_e( 'Cancel', 'nearby-wp-events' ); ?>
 				</button>
 

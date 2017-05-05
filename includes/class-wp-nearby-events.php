@@ -293,11 +293,14 @@ class WP_Nearby_Events {
 			foreach ( $response_body['events'] as $key => $event ) {
 				$timestamp = strtotime( $event['date'] );
 
-				/* translators: date format for upcoming events on the dashboard, see https://secure.php.net/date */
+				/*
+				 * It's important to keep the day of the week in the formatted date,
+				 * so that users can tell at a glance if the event is on a day they
+				 * are available, without having to open the link.
+				 */
+				/* translators: Date format for upcoming events on the dashboard. Include the day of the week. See https://secure.php.net/date. */
 				$response_body['events'][ $key ]['formatted_date'] = date_i18n( __( 'l, M j, Y', 'nearby-wp-events' ), $timestamp );
-
-				/* translators: time format for upcoming events on the dashboard, see https://secure.php.net/date */
-				$response_body['events'][ $key ]['formatted_time'] = date_i18n( __( 'g:i a', 'nearby-wp-events' ), $timestamp );
+				$response_body['events'][ $key ]['formatted_time'] = date_i18n( get_option( 'time_format' ), $timestamp );
 			}
 		}
 

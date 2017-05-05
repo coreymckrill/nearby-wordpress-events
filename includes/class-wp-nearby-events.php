@@ -18,14 +18,14 @@ class WP_Nearby_Events {
 	 *
 	 * @var int
 	 */
-	private $user_id = 0;
+	protected $user_id = 0;
 
 	/**
 	 * Stored location data for the user.
 	 *
 	 * @var bool|array
 	 */
-	private $user_location = false;
+	protected $user_location = false;
 
 	/**
 	 * WP_Nearby_Events constructor.
@@ -110,7 +110,7 @@ class WP_Nearby_Events {
 	 *
 	 * @return string
 	 */
-	private function build_api_request_url( $search = '', $timezone = '' ) {
+	protected function build_api_request_url( $search = '', $timezone = '' ) {
 		$api_url = 'https://api.wordpress.org/events/1.0/';
 
 		$args = array(
@@ -150,7 +150,7 @@ class WP_Nearby_Events {
 	 *
 	 * @return false|string `false` on failure, the `string` address on success
 	 */
-	private function get_unsafe_client_ip() {
+	protected function get_unsafe_client_ip() {
 		$client_ip = false;
 
 		// In order of preference, with the best ones for this purpose first.
@@ -191,7 +191,7 @@ class WP_Nearby_Events {
 	 *
 	 * @return bool|string `false` on failure, or a string on success
 	 */
-	private function get_events_transient_key( $location ) {
+	protected function get_events_transient_key( $location ) {
 		$key = false;
 
 		if ( isset( $location['latitude'], $location['longitude'] ) ) {
@@ -208,7 +208,7 @@ class WP_Nearby_Events {
 	 *
 	 * @return bool
 	 */
-	private function cache_events( $events ) {
+	protected function cache_events( $events ) {
 		$set              = false;
 		$transient_key    = $this->get_events_transient_key( $events['location'] );
 		$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;

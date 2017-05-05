@@ -2,15 +2,22 @@
 /**
  * Unit tests for methods in WP_Nearby_Events.
  *
- * @package Nearby WordPress Events
+ * @package WordPress
+ * @subpackage UnitTests
+ * @since 4.8.0
  */
 
 /**
  * Class Test_WP_Nearby_Events.
+ *
+ * @since 4.8.0
  */
 class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * An instance of the class to test.
+	 *
+	 * @access private
+	 * @since 4.8.0
 	 *
 	 * @var WP_Nearby_Events
 	 */
@@ -18,6 +25,9 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 
 	/**
 	 * Perform for every test.
+	 *
+	 * @access public
+	 * @since 4.8.0
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -28,7 +38,10 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * Simulate a stored user location.
 	 *
-	 * @return array
+	 * @access private
+	 * @since 4.8.0
+	 *
+	 * @return array The mock location.
 	 */
 	private function get_user_location() {
 		return array(
@@ -41,6 +54,9 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 
 	/**
 	 * Test: `get_events()` should return an instance of WP_Error if the response code is not 200.
+	 *
+	 * @access public
+	 * @since 4.8.0
 	 */
 	public function test_get_events_bad_response_code() {
 		add_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
@@ -52,6 +68,9 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 
 	/**
 	 * Test: The response body should not be cached if the response code is not 200.
+	 *
+	 * @access public
+	 * @since 4.8.0
 	 */
 	public function test_get_cached_events_bad_response_code() {
 		add_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
@@ -66,7 +85,10 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * Simulate an HTTP response with a non-200 response code.
 	 *
-	 * @return array
+	 * @access public
+	 * @since 4.8.0
+	 *
+	 * @return array A mock response with a 404 HTTP status code
 	 */
 	public function _http_request_bad_response_code() {
 		return array(
@@ -83,6 +105,9 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * Test: `get_events()` should return an instance of WP_Error if the response body does not have
 	 * the required properties.
+	 *
+	 * @access public
+	 * @since 4.8.0
 	 */
 	public function test_get_events_invalid_response() {
 		add_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
@@ -94,6 +119,9 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 
 	/**
 	 * Test: The response body should not be cached if it does not have the required properties.
+	 *
+	 * @access public
+	 * @since 4.8.0
 	 */
 	public function test_get_cached_events_invalid_response() {
 		add_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
@@ -108,7 +136,10 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * Simulate an HTTP response with a body that does not have the required properties.
 	 *
-	 * @return array
+	 * @access public
+	 * @since 4.8.0
+	 *
+	 * @return array A mock response that's missing required properties.
 	 */
 	public function _http_request_invalid_response() {
 		return array(
@@ -125,6 +156,9 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * Test: With a valid response, `get_events()` should return an associated array containing a location array and
 	 * an events array with individual events that have formatted time and date.
+	 *
+	 * @access public
+	 * @since 4.8.0
 	 */
 	public function test_get_events_valid_response() {
 		add_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
@@ -142,6 +176,9 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * Test: `get_cached_events()` should return the same data as `get_events()`, including formatted time
 	 * and date values for each event.
+	 *
+	 * @access public
+	 * @since 4.8.0
 	 */
 	public function test_get_cached_events_valid_response() {
 		add_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
@@ -161,7 +198,10 @@ class Test_WP_Nearby_Events extends WP_UnitTestCase {
 	/**
 	 * Simulate an HTTP response with valid location and event data.
 	 *
-	 * @return array
+	 * @access public
+	 * @since 4.8.0
+	 *
+	 * @return array A mock HTTP response with valid data.
 	 */
 	public function _http_request_valid_response() {
 		return array(

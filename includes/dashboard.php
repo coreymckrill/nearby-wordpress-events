@@ -18,6 +18,8 @@ function nearbywp_register_dashboard_widgets() {
 
 /**
  * Render callback for the Dashboard widget
+ *
+ * @since 4.8.0
  */
 function nearbywp_render_dashboard_widget() {
 	$inline_script_data = nearbywp_get_inline_script_data();
@@ -109,6 +111,8 @@ function nearbywp_render_dashboard_widget() {
 
 /**
  * JS templates for the Dashboard widget
+ *
+ * @since 4.8.0
  */
 function nearbywp_render_js_templates() {
 	$inline_script_data = nearbywp_get_inline_script_data();

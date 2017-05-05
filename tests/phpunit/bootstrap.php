@@ -20,7 +20,7 @@ require_once( dirname( dirname( $core_tests_directory ) ) . '/src/wp-admin/inclu
  * Load the plugins that we'll need to be active for the tests
  */
 function manually_load_plugin() {
-	// Setup request so that nearby-wp-events.php will bootstrap the plugin
+	// Setup request so that nearby-wp-events.php will bootstrap the plugin.
 	define( 'WP_ADMIN',   true );
 	define( 'DOING_AJAX', true );
 

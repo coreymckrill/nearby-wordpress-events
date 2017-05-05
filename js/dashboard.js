@@ -8,6 +8,8 @@ jQuery( function( $ ) {
 
 		/**
 		 * Main entry point
+		 *
+		 * @since 4.8.0
 		 */
 		init: function() {
 			if ( app.initialized ) {
@@ -59,6 +61,8 @@ jQuery( function( $ ) {
 		/**
 		 * Toggle the visibility of the Edit Location form
 		 *
+		 * @since 4.8.0
+		 *
 		 * @param {event|string} action 'show' or 'hide' to specify a state;
 		 *                              Or an event object to flip between states
 		 */
@@ -85,6 +89,8 @@ jQuery( function( $ ) {
 
 		/**
 		 * Send Ajax request to fetch events for the widget
+		 *
+		 * @since 4.8.0
 		 *
 		 * @param {object} requestParams
 		 */
@@ -131,6 +137,8 @@ jQuery( function( $ ) {
 
 		/**
 		 * Render the template for the Events section of the Events & News widget
+		 *
+		 * @since 4.8.0
 		 *
 		 * @param {Object} templateParams The various parameters that will get passed to wp.template
 		 * @param {string} initiatedBy    'user' to indicate that this was triggered manually by the user;
@@ -210,7 +218,7 @@ jQuery( function( $ ) {
 				elementVisibility['#nearbywp-toggle-location']  = true;
 			}
 
-			// Set the visibility of toggleable elements
+			// Set the visibility of toggleable elements.
 			_.each( elementVisibility, function( isVisible, element ) {
 				$( element ).attr( 'aria-hidden', ! isVisible );
 			} );

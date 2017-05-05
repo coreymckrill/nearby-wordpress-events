@@ -4,6 +4,8 @@ defined( 'WPINC' ) || die();
 
 /**
  * Ajax handler for fetching widget events
+ *
+ * @since 4.8.0
  */
 function nearbywp_ajax_get_events() {
 	check_ajax_referer( 'nearbywp_events' );

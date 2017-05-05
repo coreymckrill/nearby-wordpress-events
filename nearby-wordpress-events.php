@@ -50,7 +50,7 @@ function nearbywp_bootstrap() {
 function nearbywp_init() {
 	add_action( 'wp_dashboard_setup',                   'nearbywp_register_dashboard_widgets' );
 	add_action( 'wp_network_dashboard_setup',           'nearbywp_register_dashboard_widgets' );
-	add_action( 'admin_enqueue_scripts',                'nearbywp_register_scripts', 9 );  // before nearbywp_enqueue_scripts() gets called
+	add_action( 'admin_enqueue_scripts',                'nearbywp_register_scripts', 9 );  // before nearbywp_enqueue_scripts() gets called.
 	add_action( 'admin_enqueue_scripts',                'nearbywp_enqueue_scripts' );
 	add_action( 'admin_print_footer_scripts-index.php', 'nearbywp_render_js_templates' );
 }

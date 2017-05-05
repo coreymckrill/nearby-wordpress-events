@@ -33,7 +33,9 @@ function nearbywp_register_scripts() {
 /**
  * Get the data that should be passed to JavaScript
  *
- * @return array
+ * @since 4.8.0
+ *
+ * @return array The script data.
  */
 function nearbywp_get_inline_script_data() {
 	$user_id       = get_current_user_id();
@@ -57,7 +59,7 @@ function nearbywp_get_inline_script_data() {
 			/* translators: %s is the name of the city we couldn't locate. Replace the examples with cities in your locale, but test that they match the expected location before including them. Use endonyms (native locale names) whenever possible. */
 			'couldNotLocateCity'          => __( 'We couldn\'t locate <strong><em>%s</em></strong>. Please try another nearby city. For example: <em>Kansas City; Springfield; Portland<em>.', 'nearby-wp-events' ),
 
-			// This one is only used with wp.a11y.speak(), so it can/should be more brief
+			// This one is only used with wp.a11y.speak(), so it can/should be more brief.
 			/* translators: %s is the name of a city. */
 			'cityUpdated'                 => __( 'City updated. Listing events near %s.', 'nearby-wp-events' ),
 		)

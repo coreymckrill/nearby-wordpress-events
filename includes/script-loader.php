@@ -25,7 +25,8 @@ function nearbywp_register_scripts() {
 
 	wp_add_inline_script(
 		'nearbywp',
-		sprintf( 'var nearbyWPData = %s;', wp_json_encode( nearbywp_get_inline_script_data() ), 'before' )
+		sprintf( 'var nearbyWPData = %s;', wp_json_encode( nearbywp_get_inline_script_data() ) ),
+		'before'
 	);
 }
 

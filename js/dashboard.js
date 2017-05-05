@@ -185,7 +185,7 @@ jQuery( function( $ ) {
 					template = wp.template( 'nearbywp-no-upcoming-events' );
 					$results.html( template( templateParams ) );
 				}
-				wp.a11y.speak( nearbyWPData.i18n.cityUpdated.replace( /%s/g, templateParams.location.description ) );
+				wp.a11y.speak( nearbyWPData.l10n.city_updated.replace( /%s/g, templateParams.location.description ) );
 
 				elementVisibility['#nearbywp-location-message'] = true;
 				elementVisibility['#nearbywp-toggle-location']  = true;
@@ -194,7 +194,7 @@ jQuery( function( $ ) {
 			} else if ( templateParams.unknownCity ) {
 				template = wp.template( 'nearbywp-could-not-locate' );
 				$( '.nearbywp-could-not-locate' ).html( template( templateParams ) );
-				wp.a11y.speak( nearbyWPData.i18n.couldNotLocateCity.replace( /%s/g, templateParams.unknownCity ) );
+				wp.a11y.speak( nearbyWPData.l10n.could_not_locate_city.replace( /%s/g, templateParams.unknownCity ) );
 
 				elementVisibility['.nearbywp-errors']           = true;
 				elementVisibility['.nearbywp-could-not-locate'] = true;
@@ -206,13 +206,13 @@ jQuery( function( $ ) {
 				 * Showing error messages for an event that user isn't aware of
 				 * could be confusing or unnecessarily distracting.
 				 */
-				wp.a11y.speak( nearbyWPData.i18n.errorOccurredPleaseTryAgain );
+				wp.a11y.speak( nearbyWPData.l10n.error_occurred_please_try_again );
 
 				elementVisibility['.nearbywp-errors']         = true;
 				elementVisibility['.nearbywp-error-occurred'] = true;
 
 			} else {
-				$locationMessage.text( nearbyWPData.i18n.enterClosestCity );
+				$locationMessage.text( nearbyWPData.l10n.enter_closest_city );
 
 				elementVisibility['#nearbywp-location-message'] = true;
 				elementVisibility['#nearbywp-toggle-location']  = true;

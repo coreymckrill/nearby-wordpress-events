@@ -32,7 +32,7 @@ function nearbywp_render_dashboard_widget() {
 		</p>
 
 		<p class="nearbywp-error-occurred" aria-hidden="true">
-			<?php echo esc_html( $inline_script_data['i18n']['errorOccurredPleaseTryAgain'] ); ?>
+			<?php echo esc_html( $inline_script_data['l10n']['error_occurred_please_try_again'] ); ?>
 		</p>
 
 		<p class="nearbywp-could-not-locate" aria-hidden="true"></p>
@@ -133,7 +133,7 @@ function nearbywp_render_js_templates() {
 	<script id="tmpl-nearbywp-could-not-locate" type="text/template">
 		<?php printf(
 			wp_kses(
-				$inline_script_data['i18n']['couldNotLocateCity'],
+				$inline_script_data['l10n']['could_not_locate_city'],
 				wp_kses_allowed_html( 'data' )
 			),
 			'{{data.unknownCity}}'

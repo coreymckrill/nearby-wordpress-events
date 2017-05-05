@@ -82,20 +82,20 @@ function nearbywp_render_dashboard_widget() {
 	</div>
 
 	<p class="nearbywp-footer">
-		<a href="https://make.wordpress.org/community/meetups-landing-page">
+		<a href="https://make.wordpress.org/community/meetups-landing-page" target="_blank">
 			<?php esc_html_e( 'Meetups', 'nearby-wp-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 
 		|
 
-		<a href="https://central.wordcamp.org/schedule/">
+		<a href="https://central.wordcamp.org/schedule/" target="_blank">
 			<?php esc_html_e( 'WordCamps', 'nearby-wp-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 
 		|
 
 		<?php // translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. ?>
-		<a href="<?php esc_html_e( 'https://wordpress.org/news/', 'nearby-wp-events' ); ?>">
+		<a href="<?php esc_html_e( 'https://wordpress.org/news/', 'nearby-wp-events' ); ?>" target="_blank">
 			<?php esc_html_e( 'News', 'nearby-wp-events' ); ?> <span class="dashicons dashicons-external"></span>
 		</a>
 	</p>

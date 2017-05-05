@@ -87,7 +87,7 @@ class WP_Nearby_Events {
 			return $cached_events;
 		}
 
-		$request_url   = $this->build_api_request_url( $location_search, $timezone );
+		$request_url   = $this->get_request_url( $location_search, $timezone );
 		$response      = wp_remote_get( $request_url );
 		$response_code = wp_remote_retrieve_response_code( $response );
 		$response_body = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -139,7 +139,7 @@ class WP_Nearby_Events {
 	 * @param  string $timezone Timezone string. Default empty string.
 	 * @return string           The request URL.
 	 */
-	protected function build_api_request_url( $search = '', $timezone = '' ) {
+	protected function get_request_url( $search = '', $timezone = '' ) {
 		$api_url = 'https://api.wordpress.org/events/1.0/';
 
 		$args = array(

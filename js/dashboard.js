@@ -37,6 +37,7 @@ jQuery( function( $ ) {
 				.removeClass( 'hide-if-js' );
 
 			$container.on( 'click', '#nearbywp-toggle-location', app.toggleLocationForm );
+			$container.on( 'click', '#nearbywp-cancel', app.toggleLocationForm );
 
 			$container.on( 'submit', '#nearbywp-form', function( event ) {
 				event.preventDefault();
@@ -63,6 +64,7 @@ jQuery( function( $ ) {
 		 */
 		toggleLocationForm : function( action ) {
 			var $toggleButton = $( '#nearbywp-toggle-location' ),
+			    $cancelButton = $( '#nearbywp-cancel' ),
 			    $form         = $( '#nearbywp-form' );
 
 			if ( 'object' === typeof action ) {
@@ -72,9 +74,11 @@ jQuery( function( $ ) {
 
 			if ( 'hide' === action ) {
 				$toggleButton.attr( 'aria-expanded', false );
+				$cancelButton.attr( 'aria-expanded', false );
 				$form.attr( 'aria-hidden', true );
 			} else {
 				$toggleButton.attr( 'aria-expanded', true );
+				$cancelButton.attr( 'aria-expanded', true );
 				$form.attr( 'aria-hidden', false );
 			}
 		},

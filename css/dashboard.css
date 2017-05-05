@@ -56,6 +56,16 @@
 	display: inline;
 }
 
+#nearbywp-submit {
+	margin-left: 2px;
+}
+
+#nearbywp-cancel {
+	color: #0073aa;
+	text-decoration: underline;
+	margin-left: 2px;
+}
+
 .nearbywp ul {
 	background-color: #fafafa;
 	padding-left: 0;

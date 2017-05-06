@@ -115,7 +115,13 @@ class WP_Nearby_Events {
 
 			return $response_error;
 		} else {
-			$this->cache_events( $response_body );
+			$expiration = false;
+			if ( isset( $response_body['ttl'] ) ) {
+				$expiration = $response_body['ttl'];
+				unset( $response_body['ttl'] );
+			}
+
+			$this->cache_events( $response_body, $expiration );
 
 			$response_body = $this->trim_events( $response_body );
 			$response_body = $this->format_event_data_time( $response_body );
@@ -243,13 +249,14 @@ class WP_Nearby_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param array $events Response body from the API request.
+	 * @param array    $events        Response body from the API request.
+	 * @param int|bool $expiration Optional. Amount of time to cache the events. Defaults to false.
 	 * @return bool `true` if events were cached; `false` if not.
 	 */
-	protected function cache_events( $events ) {
+	protected function cache_events( $events, $expiration = false ) {
 		$set              = false;
 		$transient_key    = $this->get_events_transient_key( $events['location'] );
-		$cache_expiration = isset( $events['ttl'] ) ? absint( $events['ttl'] ) : HOUR_IN_SECONDS * 12;
+		$cache_expiration = $expiration ? absint( $expiration ) : HOUR_IN_SECONDS * 12;
 
 		if ( $transient_key ) {
 			$set = set_site_transient( $transient_key, $events, $cache_expiration );

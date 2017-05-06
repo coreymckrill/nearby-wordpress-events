@@ -20,22 +20,25 @@ nearbywp_bootstrap();
  * Bootstrap the plugin
  */
 function nearbywp_bootstrap() {
-	$is_dashboard_request  = '/wp-admin/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -19 ) ||
-	                         '/wp-admin/network/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -27 );
-	$is_event_ajax_request = wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'nearbywp_get_events' === $_REQUEST['action'];
-
-	if ( ! $is_dashboard_request && ! $is_event_ajax_request ) {
-		return;
-	}
-
 	if ( nearbywp_merge_detected() ) {
 		return;
 	}
 
 	define( 'NEARBYWP_VERSION', '0.7' );
 
-	require_once( dirname( __FILE__ ) . '/includes/ajax-actions.php' );
+	// Always load these since REST requests won't qualify as Dashboard requests.
+	// It appears that the REST_REQUEST constant gets defined too late to be of use here.
 	require_once( dirname( __FILE__ ) . '/includes/class-wp-nearby-events.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-wp-rest-nearby-events-controller.php' );
+	require_once( dirname( __FILE__ ) . '/includes/rest-api.php' );
+
+	$is_dashboard_request  = '/wp-admin/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -19 ) ||
+	                         '/wp-admin/network/index.php' === substr( $_SERVER['SCRIPT_FILENAME'], -27 );
+
+	if ( ! $is_dashboard_request ) {
+		return;
+	}
+
 	require_once( dirname( __FILE__ ) . '/includes/dashboard.php' );
 	require_once( dirname( __FILE__ ) . '/includes/index.php' );
 	require_once( dirname( __FILE__ ) . '/includes/script-loader.php' );

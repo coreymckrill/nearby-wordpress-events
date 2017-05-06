@@ -56,6 +56,8 @@ jQuery( function( $ ) {
 			}
 
 			app.initialized = true;
+
+			console.log(wp.api.endpoints);
 		},
 
 		/**
@@ -106,6 +108,7 @@ jQuery( function( $ ) {
 
 			$spinner.addClass( 'is-active' );
 
+			/*
 			wp.ajax.post( 'nearbywp_get_events', requestParams )
 				.always( function() {
 					$spinner.removeClass( 'is-active' );
@@ -120,7 +123,7 @@ jQuery( function( $ ) {
 							 * based on IP, locale, and timezone. Since the user didn't initiate it,
 							 * it should fail silently. Otherwise, the error could confuse and/or
 							 * annoy them.
-							 */
+							 *
 							delete successfulResponse.error;
 						}
 					}
@@ -133,6 +136,7 @@ jQuery( function( $ ) {
 						'error'    : true
 					}, initiatedBy );
 				});
+			*/
 		},
 
 		/**
@@ -240,15 +244,17 @@ jQuery( function( $ ) {
 		}
 	};
 
-	if ( $( '#nearbywp_dashboard_events' ).is( ':visible' ) ) {
-		app.init();
-	} else {
-		$( document ).on( 'postbox-toggled', function( event, postbox ) {
-			var $postbox = $( postbox );
+	wp.api.loadPromise.done( function() {
+		if ( $( '#nearbywp_dashboard_events' ).is( ':visible' ) ) {
+			app.init();
+		} else {
+			$( document ).on( 'postbox-toggled', function( event, postbox ) {
+				var $postbox = $( postbox );
 
-			if ( 'nearbywp_dashboard_events' === $postbox.attr( 'id' ) && $postbox.is( ':visible' ) ) {
-				app.init();
-			}
-		});
-	}
+				if ( 'nearbywp_dashboard_events' === $postbox.attr( 'id' ) && $postbox.is( ':visible' ) ) {
+					app.init();
+				}
+			});
+		}
+	});
 });

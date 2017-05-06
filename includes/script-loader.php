@@ -18,7 +18,7 @@ function nearbywp_register_scripts() {
 	wp_register_script(
 		'nearbywp',
 		plugins_url( 'js/dashboard.js', dirname( __FILE__ ) ),
-		array( 'wp-a11y', 'wp-util' ),
+		array( 'wp-a11y', 'wp-util', 'wp-api' ),
 		NEARBYWP_VERSION,
 		true
 	);

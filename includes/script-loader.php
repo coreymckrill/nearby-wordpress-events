@@ -39,7 +39,6 @@ function nearbywp_get_inline_script_data() {
 	$nearby_events = new WP_Nearby_Events( $user_id, $user_location );
 
 	$inline_script_data = array(
-		'nonce'      => wp_create_nonce( 'nearbywp_events' ),
 		'cachedData' => $nearby_events->get_cached_events(),
 
 		'l10n' => array(

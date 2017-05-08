@@ -176,7 +176,7 @@ jQuery( function( $ ) {
 			 * Determine which templates should be rendered and which elements
 			 * should be displayed
 			 */
-			if ( templateParams.location.description ) {
+			if ( templateParams.location && templateParams.location.description ) {
 				template = wp.template( 'nearbywp-attend-event-near' );
 				$locationMessage.html( template( templateParams ) );
 

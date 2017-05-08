@@ -54,7 +54,6 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
 		) );
-
 	}
 
 	/**
@@ -72,14 +71,14 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_not_logged_in', __( 'You are not currently logged in.' ), array( 'status' => 401 ) );
 		}
 
-		$user_location = get_user_option( 'nearby-events-location', $user_id );
+		$user_location = get_user_option( 'nearbywp-location', $user_id );
 
 		$this->events = new WP_Nearby_Events( $user_id, $user_location );
 		$events = $this->events->get_events( $request['location'], $request['timezone'] );
 
 		if ( isset( $events['location'] ) && ( $request['location'] || ! $user_location ) ) {
 			// Store the location network-wide, so the user doesn't have to set it on each site.
-			update_user_option( $user_id, 'nearby-events-location', $events['location'], true );
+			update_user_option( $user_id, 'nearbywp-location', $events['location'], true );
 		}
 
 		$response = $this->prepare_item_for_response( $events, $request );
@@ -134,7 +133,6 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 			$response = $item;
 		}
 
-		// Wrap the data in a response object.
 		$response = rest_ensure_response( $response );
 
 		return $response;
@@ -248,5 +246,4 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 
 		return $this->add_additional_fields_schema( $schema );
 	}
-
 }

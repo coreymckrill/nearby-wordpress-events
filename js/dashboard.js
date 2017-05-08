@@ -16,6 +16,8 @@ jQuery( function( $ ) {
 				return;
 			}
 
+			this.model = new wp.api.models.Nearby_eventsMe(); // todo Update this model name when the namespace is decided.
+
 			var $container = $( '#nearbywp' );
 
 			/*
@@ -56,8 +58,6 @@ jQuery( function( $ ) {
 			}
 
 			app.initialized = true;
-
-			console.log(wp.api.endpoints);
 		},
 
 		/**
@@ -97,19 +97,18 @@ jQuery( function( $ ) {
 		 * @param {object} requestParams
 		 */
 		getEvents: function( requestParams ) {
-			var initiatedBy,
+			var app = this,
+				initiatedBy,
 			    $spinner = $( '#nearbywp-form' ).children( '.spinner' );
 
 			requestParams          = requestParams || {};
-			requestParams._wpnonce = nearbyWPData.nonce;
 			requestParams.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
 
 			initiatedBy = requestParams.location ? 'user' : 'app';
 
 			$spinner.addClass( 'is-active' );
 
-			/*
-			wp.ajax.post( 'nearbywp_get_events', requestParams )
+			$.when( app.model.fetch( { data: requestParams } ) )
 				.always( function() {
 					$spinner.removeClass( 'is-active' );
 				})
@@ -123,20 +122,19 @@ jQuery( function( $ ) {
 							 * based on IP, locale, and timezone. Since the user didn't initiate it,
 							 * it should fail silently. Otherwise, the error could confuse and/or
 							 * annoy them.
-							 *
+							 */
 							delete successfulResponse.error;
 						}
 					}
 
 					app.renderEventsTemplate( successfulResponse, initiatedBy );
 				})
-				.fail( function( failedResponse ) {
+				.fail( function() {
 					app.renderEventsTemplate( {
 						'location' : false,
 						'error'    : true
 					}, initiatedBy );
 				});
-			*/
 		},
 
 		/**

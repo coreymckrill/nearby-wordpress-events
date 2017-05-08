@@ -46,30 +46,15 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 	 */
 	public function register_routes() {
 
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/me', array(
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_item' ),
-				'args'                => array(),
-				'permission_callback' => array( $this, 'get_item_permissions_check' ),
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_item' ),
+				'args'     => $this->get_item_args(),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
 		) );
 
-	}
-
-	/**
-	 * Checks if a given request has access to retrieve nearby events.
-	 *
-	 * @since 4.8.0
-	 * @access public
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 * @return bool True if the request has read access for the item, otherwise false.
-	 */
-	public function get_item_permissions_check( $request ) {
-		//return current_user_can( 'read' );
-		return true;
 	}
 
 	/**
@@ -83,16 +68,16 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 		$user_id       = get_current_user_id();
+		if ( empty( $user_id ) ) {
+			return new WP_Error( 'rest_not_logged_in', __( 'You are not currently logged in.' ), array( 'status' => 401 ) );
+		}
+
 		$user_location = get_user_option( 'nearby-events-location', $user_id );
 
 		$this->events = new WP_Nearby_Events( $user_id, $user_location );
+		$events = $this->events->get_events( $request['location'], $request['timezone'] );
 
-		$search   = isset( $request['location'] ) ? wp_unslash( $request['location'] ) : '';
-		$timezone = isset( $request['timezone'] ) ? wp_unslash( $request['timezone'] ) : '';
-
-		$events = $this->events->get_events( $search, $timezone );
-
-		if ( isset( $events['location'] ) && ( $search || ! $user_location ) ) {
+		if ( isset( $events['location'] ) && ( $request['location'] || ! $user_location ) ) {
 			// Store the location network-wide, so the user doesn't have to set it on each site.
 			update_user_option( $user_id, 'nearby-events-location', $events['location'], true );
 		}
@@ -100,6 +85,34 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 		$response = $this->prepare_item_for_response( $events, $request );
 
 		return $response;
+	}
+
+	/**
+	 * Retrieves the schema for valid arguments in a nearby events request.
+	 *
+	 * @since 4.8.0
+	 * @access public
+	 *
+	 * @return array Argument schema data.
+	 */
+	public function get_item_args() {
+		return array(
+			'location' => array(
+				'description'       => __( '', 'nearby-wp-events' ),
+				'type'              => 'string',
+				'default'           => '',
+				'sanitize_callback' => 'rest_sanitize_request_arg',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'timezone' => array(
+				'description'       => __( '', 'nearby-wp-events' ),
+				'type'              => 'string',
+				'default'           => '',
+				'sanitize_callback' => 'rest_sanitize_request_arg',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+		);
 	}
 
 	/**

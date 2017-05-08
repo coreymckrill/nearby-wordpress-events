@@ -76,7 +76,7 @@ class WP_REST_Nearby_Events_Controller extends WP_REST_Controller {
 		$this->events = new WP_Nearby_Events( $user_id, $user_location );
 		$events = $this->events->get_events( $request['location'], $request['timezone'] );
 
-		if ( isset( $events['location'] ) && ( $request['location'] || ! $user_location ) ) {
+		if ( ! $user_location && ! is_wp_error( $events ) && isset( $events['location'] ) ) {
 			// Store the location network-wide, so the user doesn't have to set it on each site.
 			update_user_option( $user_id, 'nearbywp-location', $events['location'], true );
 		}

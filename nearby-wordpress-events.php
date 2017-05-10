@@ -56,7 +56,7 @@ function nearbywp_init() {
 }
 
 /**
- * Detect whether or not this plugin has been merged into Core
+ * Detect whether or not this plugin has been merged into Core.
  *
  * @todo During the merge to Core, `nearbywp_ajax_get_events()` or
  *       `WP_Nearby_Events::get_events()`  must be renamed to
@@ -83,5 +83,22 @@ function nearbywp_merge_detected() {
 	require_once( ABSPATH . '/wp-admin/includes/dashboard.php'  );
 	require_once( ABSPATH . '/wp-admin/includes/deprecated.php' );
 
-	return function_exists( 'wp_get_nearby_events' ) || function_exists( 'wp_ajax_get_nearby_events' );
+	$funcs = array(
+		'wp_get_community_events_script_data',
+		'wp_dashboard_events_news',
+		'wp_print_community_events_markup',
+		'wp_ajax_get_community_events',
+		'rest_get_community_events',
+	);
+
+	$merged = false;
+
+	foreach ( $funcs as $func ) {
+		if ( function_exists( $func ) ) {
+			$merged = true;
+			break;
+		}
+	}
+
+	return $merged;
 }

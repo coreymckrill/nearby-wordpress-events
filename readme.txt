@@ -3,8 +3,8 @@ Contributors:      afercia, andreamiddleton, azaozz, camikaos, coreymckrill, cha
 Donate link:       https://eff.org
 Tags:              meetup, wordcamp, events, dashboard widget
 Requires at least: 4.7
-Tested up to:      4.7
-Stable tag:        0.7
+Tested up to:      4.7.4
+Stable tag:        0.8
 License:           GPL2
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,10 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 
 == Changelog ==
+= 0.8 (2017-05-10) =
+* [FIX] Update criteria plugin uses to detect if the functionality has been merged into Core.
+* [FIX] Bring back the Cancel button on the city search form.
+* [FIX] Minor UI tweaks and semantic code changes.
 
 = 0.7 (2017-05-03) =
 * [NEW] Dynamic content changes are announced to screenreaders.
@@ -85,8 +89,11 @@ For help installing this (or any other) WordPress plugin, please read the [Manag
 
 == Upgrade Notice ==
 
+= 0.8 =
+This version updates the check that disables the plugin if its functionality has been merged into Core.
+
 = 0.7 =
-This version improves makes several improvements for screenreaders and fixes minor bugs.
+This version makes several improvements for screenreaders and fixes minor bugs.
 
 = 0.6 =
 This version fixes a critical bug in 0.5 that caused file uploads to break in certain situations.

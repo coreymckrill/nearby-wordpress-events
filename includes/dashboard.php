@@ -146,7 +146,7 @@ function nearbywp_render_js_templates() {
 				<div class="event-info">
 					<div class="dashicons event-icon" aria-hidden="true"></div>
 					<div class="event-info-inner">
-						<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
+						<a class="event-title" href="{{ event.url }}"target="_blank">{{ event.title }}</a>
 						<span class="event-city">{{ event.location.location }}</span>
 					</div>
 				</div>
